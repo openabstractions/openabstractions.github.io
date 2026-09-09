@@ -3,6 +3,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Open Abstractions — adopt</title>
+<link rel="icon" href="brand/favicon.ico" sizes="any">
+<link rel="icon" href="brand/mark-32.png" type="image/png">
+<link rel="apple-touch-icon" href="brand/mark-180.png">
 <link rel="stylesheet" href="style.css">
 
 <main>
@@ -12,15 +15,16 @@
 
 <h1>Adopt</h1>
 <p class="lead">Four commands. Each was run before it was printed here, against the tag it names.</p>
-<p class="meta">Checked 2026-09-08 with Go 1.26.5 on Windows 11, in an empty module cache with no workspace. Commands 1, 3
-and 4 resolved from the Go proxy and were verified against <code>sum.golang.org</code>; a twelve-line program calling
-<code>Discover().Download().Get</code> compiled against the modules they fetched. Command 2 was run against a store in a
-scratch directory (<code>ABSTRACTION_STORE</code>): the transfer was killed by process id at 33.7 MiB of 87.6, the second
-run picked up at 33.7 MiB after the dead lease's thirty seconds, and the file's SHA-256 matched the one Hugging Face
-publishes for it. Windows and Linux are measured; macOS is <span class="unproven">UNPROVEN</span>.</p>
+<p class="meta">Commands 1, 3 and 4 checked 2026-09-09 against the tags they name, with Go 1.26.5 on Windows 11, in an
+empty module cache with no workspace: each resolved from the Go proxy and was verified against <code>sum.golang.org</code>,
+and the program in step 3 compiled against the modules it fetched. Command 2 was run 2026-09-08 against the tag before
+this one, in a store in a scratch directory (<code>ABSTRACTION_STORE</code>): the transfer was killed by process id at
+33.7 MiB of 87.6, the second run picked up at 33.7 MiB after the dead lease's thirty seconds, and the file's SHA-256
+matched the one Hugging Face publishes for it. Linux was last checked 2026-09-08, against the previous tags; macOS is
+<span class="unproven">UNPROVEN</span>.</p>
 
 <h2 id="run">1 · Run it</h2>
-<pre><code>go install github.com/openabstractions/abstraction-download/go/cmd/dl@v0.2.1</code></pre>
+<pre><code>go install github.com/openabstractions/abstraction-download/go/cmd/dl@v0.3.0</code></pre>
 <p>Go 1.26 or later. No file to download and no checksum to compare: Go builds <code>dl</code> from source and checks
 every module against <code>sum.golang.org</code>, which proves the bytes are the ones everyone else fetched and says
 nothing about who wrote them. Nine modules, eight of them ours and <code>golang.org/x/sys</code>. Nothing is signed.</p>
@@ -33,9 +37,10 @@ so and proceeds. Ctrl+C it halfway. <code>dl list</code> still shows the job and
 it resumes from the last byte it can <em>prove</em>, with no flag — after waiting out the dead run's thirty-second lease,
 which it does in silence. <code>dl watch</code> is the live view. <code>-o &lt;path&gt;</code> names the destination;
 <code>--digest sha256:…</code> makes a corrupt answer from the server a refusal rather than a file —
-<a href="evidence.html#lies">without it, <code>dl</code> corrupts exactly as <code>curl</code> does</a>. In
-<code>v0.2.1</code> a flag <code>dl</code> does not know is ignored without a word, and a flag with no value after it is
-too, so a mistyped <code>--digest</code> is an unverified file and exit 0.</p>
+<a href="evidence.html#lies">without it, <code>dl</code> corrupts exactly as <code>curl</code> does</a>. A flag
+<code>dl</code> does not know, or a flag with nothing after it, is refused with exit 2 before anything is fetched —
+measured at the tag step 1 names; at the tag before it both were ignored without a word, and a mistyped
+<code>--digest</code> was an unverified file and exit 0.</p>
 <p>What is on disk after the kill: the partial file beside the destination, and under the store a record naming the URL,
 the destination, the progress and the lease. Where the store is: <code>dl tiers</code> prints it, and prints
 <code>supervisor none</code> — downloads run in this process and stop when it does. The recording on the
@@ -44,7 +49,7 @@ the destination, the progress and the lease. Where the store is: <code>dl tiers<
 has the commands that set it up; they were not run for this page.</p>
 
 <h2 id="call">3 · Call it from a program</h2>
-<pre><code>go get github.com/openabstractions/abstraction-facade/go@v0.2.0</code></pre>
+<pre><code>go get github.com/openabstractions/abstraction-facade/go@v0.3.0</code></pre>
 <pre><code>package main
 
 import (
@@ -73,7 +78,7 @@ written against this interface was run against three providers in nine situation
 words are for step 4.</p>
 
 <h2 id="implement">4 · Implement it, or wrap a downloader an application already has</h2>
-<pre><code>go get github.com/openabstractions/abstraction-download/go@v0.2.1</code></pre>
+<pre><code>go get github.com/openabstractions/abstraction-download/go@v0.3.0</code></pre>
 <p>The download module carries the <code>Client</code> interface, the <code>Runner</code>, the fetchers, and the scenario
 corpus every implementation is replayed through. The worked example of such a wrapper is <code>dlc</code>: one C++
 header over <code>curl</code>, no dependency, sharing no transfer code with <code>dl</code>. It takes the same flags,

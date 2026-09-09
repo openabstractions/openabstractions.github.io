@@ -3,6 +3,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Open Abstractions — vocabulary and API</title>
+<link rel="icon" href="brand/favicon.ico" sizes="any">
+<link rel="icon" href="brand/mark-32.png" type="image/png">
+<link rel="apple-touch-icon" href="brand/mark-180.png">
 <link rel="stylesheet" href="style.css">
 <style>
 /* the language switch: a data-lang on <html> hides the others. no attribute — no script — shows all */
@@ -46,8 +49,7 @@ html[data-lang]:not([data-lang="all"]) .lang::before { display: none; }
 <p class="meta" style="margin-top:10px"><a href="#vocabulary">Vocabulary</a> · <a href="#paradigms">Paradigms</a> · <a href="#api">API</a> · <a href="#cli">Command line</a> · <a href="#undecided">Undecided</a> · <a href="#where">Where each rule lives</a> · <a href="schema.html">Schema</a></p>
 
 <h1>Vocabulary and API</h1>
-<p class="lead">A <strong>job</strong> is a record on disk that describes work, plus the rules for who may do it right now.
-The application holds an id; the work belongs to the machine. A lease that stops being renewed lapses, the next claim
+<p class="lead">The application holds an id; the work belongs to the machine. A lease that stops being renewed lapses, the next claim
 raises the epoch and inherits the checkpoint, and the successor resumes from the proven prefix and discards the rest —
 <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>
 records that between two processes, and
@@ -63,7 +65,7 @@ between two languages. Go, Python and C++ agree on the record and the rules. Eac
 </div>
 
 <h2 id="vocabulary">The words</h2>
-<p class="meta">Every term names its ancestor or says it has none. Where our name differs from the established one, the difference is stated — an adopter should not have to learn us before using us.</p>
+<p class="meta">Every term names its ancestor or says it has none; where our name or shape differs from the established one, the difference is stated.</p>
 <div class="wrap"><table class="words">
 <thead><tr><th>word</th><th>means</th><th>is, elsewhere</th></tr></thead>
 <tr><td><code>record</code></td><td>one job: an opaque <code>id</code> that outlives every process, and everything a stranger needs to continue the work</td><td>Google <code>longrunning.Operation</code> (AIP-151)</td></tr>
@@ -83,6 +85,7 @@ between two languages. Go, Python and C++ agree on the record and the rules. Eac
 <tr><td><code>terminal</code></td><td><code>complete</code>, <code>failed</code>, <code>cancelled</code>. No claim, no update, no intent. Nothing reopens it</td><td>—</td></tr>
 <tr><td><code>complete</code></td><td>delivery taken. <strong>Trap:</strong> BITS calls this <code>ACKNOWLEDGED</code>; a reader mapping <code>complete</code> onto "the transfer finished" is one state early</td><td>AMQP <code>basic.ack</code>; Kubernetes and Azure <code>Succeeded</code></td></tr>
 <tr><td><code>content</code> / <code>critical</code></td><td>the data models this record carries, and the subset a reader must understand or refuse the whole record</td><td>JOSE <code>crit</code> (<a href="https://www.rfc-editor.org/rfc/rfc7515">RFC 7515</a>); JSON Schema <code>$vocabulary</code>; X.509 critical extensions</td></tr>
+<tr><td><code>envelope</code></td><td>which schema the opaque halves follow (<code>schema</code>) and what may be asked of a job of this kind (<code>actions</code>); written once, and nothing dereferences either</td><td>the name: <code>google.protobuf.Any</code>'s <code>type_url</code> (<a href="https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/any.proto"><code>any.proto</code></a>: do not contact type URLs), <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md#dataschema">CloudEvents <code>dataschema</code></a> — <strong>diverging</strong>: ours is a grammar that cannot spell a URL. The list: Kubernetes <a href="https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/types.go"><code>APIResource.verbs</code></a>, the Windows Service Control Manager's <a href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/ns-winsvc-service_status"><code>dwControlsAccepted</code></a> — <strong>diverging</strong> from AIP-151, whose <code>Operations</code> service fixes five verbs where ours is open per kind. Primary text read 2026-09-09</td></tr>
 <tr><td><code>unavailable</code> · <code>forbidden</code> · <code>unknown</code></td><td>the three ways a request does not succeed, and they must never collapse: <em>nothing can do this now</em>, <em>something said no</em>, <em>no answer arrived</em></td><td>SMTP <code>4yz</code>/<code>5yz</code> for the first two. The third has no common ancestor; <code>xa_recover</code> in <a href="https://pubs.opengroup.org/onlinepubs/009680699/toc.pdf">X/Open XA</a> is the closest</td></tr>
 </table></div>
 
@@ -313,7 +316,7 @@ retry_after(rec)                   # POSIX timestamp; 0.0 when the record carrie
 
 <h3 id="declarations">10. Declarations, and what an older reader does</h3>
 <p>There is no version number and no negotiation. A record says which models it carries (<code>content</code>) and which a reader must understand (<code>critical</code>); both are derived from the record on every write, never remembered. An unknown name in <code>critical</code> is <code>unknown-model</code>: the record is fine, this reader is too old, leave it alone. <code>abstraction.job/terminal@1</code> and <code>recall@1</code> name <em>rules</em>, not fields — a shape can be ignored, a rule about writes cannot, because the reader that does not know it is precisely the reader that breaks it. Measured: a reader published one day earlier walked a <code>complete</code> record back to <code>pending</code> under an unchanged <code>base@1</code>.</p>
-<div class="warn">On the socket binding none of this runs: <code>content</code> and <code>critical</code> are stripped in both directions and an unknown field is dropped where the disk would refuse it. The socket ships to nobody today. Four combinations of a client and a service one day apart all connect, none refuses, and two finish the same script with the job in a different state (<code>research/skew/RESULTS.txt</code>).</div>
+<div class="warn">On the socket binding none of this runs: <code>content</code> and <code>critical</code> are stripped in both directions and an unknown field is dropped where the disk would refuse it. The socket ships to nobody today. Four combinations of a client and a service one day apart all connect, none refuses, and two finish the same script with the job in a different state (measured 2026-09-08; transcript not yet public).</div>
 
 <h3 id="delegation">11. Delegation — handing the work to something that outlives the caller</h3>
 <p>Two shapes, and each half is somebody's published interface; the pair is not, and is the one concept on these pages with no ancestor. A <strong>Fetcher</strong> streams bytes through us and dies with the process (http, a local file, an SMB path). A <strong>Delegator</strong> does the work under its own account and hands back a handle (BITS, a NAS daemon). A caller asks for <code>survives_process_exit</code>; which shape provides it is the machine's business. When delegated, the handle is <code>{system, external_id}</code>, the lease is released — holding it would stop anyone else verifying and delivering the finished file — and <code>progress</code> is a cache. A delegate's "success" is verified by hashing the delivered file: BITS guarantees size and timestamp, not content. A handle that stops resolving returns the job to <code>pending</code> with its sources and checkpoint intact.</p>

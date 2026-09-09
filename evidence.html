@@ -3,6 +3,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Open Abstractions — evidence</title>
+<link rel="icon" href="brand/favicon.ico" sizes="any">
+<link rel="icon" href="brand/mark-32.png" type="image/png">
+<link rel="apple-touch-icon" href="brand/mark-180.png">
 <link rel="stylesheet" href="style.css">
 <style>
 .verdict td:nth-child(3) { font-family: ui-monospace, Consolas, Menlo, monospace; font-size: 13px; }
@@ -43,10 +46,9 @@ and the cost of hashing on write and on read over 8 GiB (<code>B1</code>, <code>
 store that preceded <code>abstraction-storage</code>.</p>
 
 <h2 id="resume">Interrupted transfers, four tools</h2>
-<p class="state">2026-09-07. Laptop on AC, 79%, plan Balanced. Tools under test ran in WSL2 Ubuntu on ext4; Wi-Fi 7,
-wide-area ceiling measured at about 20 MB/s. Three other agents were working on the machine throughout; loopback runs
-with visible spread were repeated. <code>dl</code> built from that day's tree. Transcript
-<code>2026-09-07-against-the-field.txt</code>, not yet public.</p>
+<p class="state">2026-09-07. A laptop-class Windows 11 machine on mains; the tools under test ran in WSL2 Ubuntu on
+ext4, other work ran on the machine throughout, and loopback runs with visible spread were repeated. <code>dl</code>
+built from that day's tree. Transcript not yet public.</p>
 <p>8 GiB from a local origin, killed with <code>SIGKILL</code> at 3 GiB, restarted with the same command. The origin logs
 the bytes it serves, so what a tool re-fetched is counted at the server and needs no cooperation from the tool.</p>
 <div class="wrap"><table class="num">
@@ -73,11 +75,9 @@ machine, not a thing inside a dead process. <code>curl</code> and <code>wget</co
 what it is or where it came from. <code>aria2c</code> leaves a preallocated file whose size on disk is not what it holds.</p>
 
 <h2 id="lies">The server that lies</h2>
-<p class="state">2026-09-08. A Windows 11 laptop, AMD Ryzen AI MAX+ 395, 16 cores, on AC at 79% and not charging, on a
-vendor quiet power profile rather than Balanced; thirteen agent processes on the machine; not quiesced and could not be.
-Native Windows, not WSL. Origin on loopback, 512 MiB held in RAM, deterministic. <code>wget</code> and <code>aria2c</code>
-were not on this machine and were not installed for this. Transcript <code>2026-09-08-when-the-server-lies.txt</code>,
-not yet public.</p>
+<p class="state">2026-09-08. The same class of machine on mains, native Windows rather than WSL, other work running
+and not quiesced. Origin on loopback, 512 MiB held in RAM, deterministic. <code>wget</code> and <code>aria2c</code>
+were not on this machine and were not installed for this. Transcript not yet public.</p>
 <p>The run above measured against an honest origin, where every final file is correct because a server that answers
 <code>Range</code> correctly cannot produce anything else. This asks what lands on disk when the server answers a resume
 badly. Each tool was killed at about 135 MB as counted by the origin, then restarted; the result was hashed against the
@@ -119,10 +119,9 @@ whole artifact. It cost 149 MB and it was correct; <code>curl -C -</code> refuse
 needs a person to notice and retry. That is contract rule <code>DL-R7</code> firing over real HTTP.</p>
 
 <h2 id="twodl">Two downloaders, one vocabulary, no shared engine</h2>
-<p class="state">2026-09-08. The same laptop, on AC at 79%, quiet power profile; run in WSL2 Ubuntu, kernel 6.18, 32 CPUs,
-everything on tmpfs; load average 0.02 at the start, other agents working on the machine, rounds interleaved so any
-drift lands under every tool. g++ 15.2.0 at <code>-O2</code>, Go 1.26.0, curl 8.18.0. The origin counts every response
-where it leaves. Transcript <code>2026-09-08-two-downloaders.txt</code>, not yet public; the second tool,
+<p class="state">2026-09-08. The same class of machine on mains; run in WSL2 Ubuntu, kernel 6.18, everything on tmpfs,
+other work running, rounds interleaved so any drift lands under every tool. g++ 15.2.0 at <code>-O2</code>, Go 1.26.0,
+curl 8.18.0. The origin counts every response where it leaves. Transcript not yet public; the second tool,
 <code>dlc</code>, is a binding of the download vocabulary over <code>curl</code> — one C++ header, no dependency —
 and is not yet published either.</p>
 <p>Every other agreement on this site is between implementations written from one design. <code>dl</code> drives our
@@ -161,8 +160,10 @@ layer's. And the two endings — <em>try later</em> against <em>never</em> — a
 one keeping the distinction in a record, the other in an English word on stderr. The contract specifies the distinction
 and no way to observe it from outside the process. The same run found that <code>dl</code> accepted an unknown flag and
 its value silently and ignored the last argument on its command line — <code>dl &lt;url&gt; --verify sha256:…</code>
-downloaded, verified nothing, exited 0. Both stand in <code>v0.2.1</code>: a mistyped <code>--digest</code> is an
-unverified file with exit 0, and <a href="adopt.html#fetch">Adopt</a> says so beside the flag.</p>
+downloaded, verified nothing, exited 0. Both are refused at
+<a href="https://github.com/openabstractions/abstraction-download/releases/tag/go%2Fv0.3.0"><code>go/v0.3.0</code></a>,
+measured 2026-09-09 on Windows: <code>--verify</code> and a bare <code>--digest</code> each print the refusal, exit 2,
+and fetch nothing.</p>
 
 <h2 id="providers">One application, three providers, nine situations</h2>
 <p class="state">2026-09-08. Windows, native. One binary, <code>fetch</code>, written once against the
@@ -190,6 +191,88 @@ survive the <code>Client</code> boundary. A defect, described beside the demo's 
 differing in a single argument, and a job submitted through either appears to both. The first row is the other point: a
 provider that cannot give what was asked says <code>unavailable</code> rather than quietly doing the work somewhere else.</p>
 
+<h2 id="bus">The downloader and the supervisor, over one identified connection</h2>
+<p class="state">2026-09-09. A desktop-class Windows 11 machine on mains, other work building and testing on the same
+disk. Every number is a latency on a rate-limited local origin or a local pipe, never the network.
+Transcript not yet public; the code is in the tree and in no published tag.</p>
+<p><code>download</code> and <code>jobd</code> talk over the <code>identity</code> layer's own listener — the one
+<code>asks</code> and <code>rights</code> already use — and the supervisor answers nothing until the kernel has named the
+caller and the name meets the listener's stated need. The store stays the truth: the connection carries a request to
+sweep now, or a question, and no job. The supervisor's heartbeat names the connection; the heartbeat predicts and the
+connection decides, so a supervisor killed between two beats attracts no work.</p>
+<div class="wrap"><table>
+<tr><th>caller</th><th>what the supervisor answered</th></tr>
+<tr><td><code>jobd discover</code>, our own unsigned build</td><td>its path at <em>bound</em>, its account and integrity level at <em>kernel</em>, <code>code=no signature</code></td></tr>
+<tr><td>a Python client, standard library only</td><td>its image, its account, and <em>Python Software Foundation</em> as the publisher of its code signature; a note that the client granted identification and not impersonation</td></tr>
+<tr><td>the same Python client opening the pipe anonymously</td><td>refused, with the reason — <code>ERROR_CANT_OPEN_ANONYMOUS</code> — and no sweep, no owner, no tier</td></tr>
+<tr><td>a heartbeat with a fresh beat and a dead process behind it</td><td>nobody; the work is done in the asking process, where the previous rule would have handed it to a corpse for six more seconds</td></tr>
+</table></div>
+<p>Eight rules, each with a Go and a Python scenario, each shown red when its rule is deliberately broken and green
+again with the break reverted. What stayed file-based, on purpose: a supervisor announced on another host — a NAS
+supervising its export — and one whose kernel cannot name a caller are reached through the store alone, as before.
+Linux and macOS did not run: <span class="unproven">UNPROVEN</span>. C++ has a runner and no client, so nothing there
+makes this call.</p>
+
+<h2 id="outlives">A download that outlives the process that asked</h2>
+<p class="state">2026-09-09. The same machine and state as above; a 4 MiB file from a local origin held to 256 KiB/s;
+<code>jobd</code> running under the same account as the requester. Transcript not yet public.</p>
+<p>The requester is the ComfyUI node's two calls — submit a download to an absolute destination, then wait for delivery —
+made by a process that is then killed by PID mid-transfer, its child verified gone by PID. Sampled every few seconds:
+who holds the lease and how many bytes are proven.</p>
+<div class="wrap"><table>
+<tr><th></th><th>who held the job</th><th>after the kill</th><th>dead time</th><th>final file</th></tr>
+<tr><td>before</td><td>the requester, though a supervisor was watching</td><td>no movement until the dead lease lapsed, then <code>jobd</code> adopted it</td><td>about 27 s of a 30 s lease</td><td>correct</td></tr>
+<tr><td>after</td><td><code>jobd</code>, from the first sample</td><td>bytes kept arriving under the same owner to <code>complete</code></td><td>0 s</td><td>correct; digest matched</td></tr>
+</table></div>
+<p>What was wrong is stated because it was the headline claim: the Python facade, which is the one ComfyUI runs, handed
+no supervisor an absolute destination, so the transfer was worked in the requesting process however local the
+supervisor was. The rule now: a supervisor on this machine under this account is handed it; one under another account,
+one that does not say its account, or one on another machine is not, and the NAS still refuses a destination only the
+submitter's machine has. Five rules, pinned in Go and in Python, each shown red when broken. Windows only;
+<span class="unproven">UNPROVEN</span> elsewhere.</p>
+
+<h2 id="rungs">A rejected signature is not a verified one</h2>
+<p class="state">2026-09-09. An Apple silicon laptop, macOS 15.7.4, on mains and in interactive use throughout; and a
+laptop-class Windows 11 machine on mains, other work running. No timing was taken on either. Transcripts not yet
+public; in the tree, not yet in the <code>identity</code> tag.</p>
+<p>Each thing <code>identity</code> says about a peer — user, path, package, code signature — carries a rung saying how
+it was established. The ladder was six rungs, and a signature the platform rejected sat on the rung the binding
+had earned: on macOS an ad-hoc binary that failed <code>anchor apple</code> passed a policy asking for <em>pid</em>; on
+Windows an unsigned binary passed one asking for <em>bound</em>. A boolean said <em>untrusted</em> beside it, and nothing
+read the boolean.</p>
+<pre><code>none &lt; claimed &lt; invalid &lt; unsigned &lt; unmet &lt; pid &lt; bound &lt; kernel &lt; signed</code></pre>
+<p>Three verdict rungs sit below <em>pid</em>: a policy that asks for any rung implying verification refuses them by
+comparison alone, and a service that knowingly admits unverified code asks for the lower rung by name. The same peers,
+after: refused at <em>pid</em> and <em>bound</em>, admitted only at or below their own rung. A copy of <code>node.exe</code>
+with one byte changed lands at <em>invalid</em>; <code>node.exe</code> as shipped verifies at <em>bound</em>;
+<code>/usr/bin/nc</code> against <code>anchor apple</code> verifies at <em>pid</em> while the ad-hoc binary against the
+same requirement lands at <em>unmet</em>.</p>
+<p>Found on the way: under <code>WTD_SAFER_FLAG</code>, Windows reports a modified signed file as <em>no signature</em>
+in both the return value and <code>GetLastError</code>, so every tampered binary had been worded as unsigned since the
+verifier was written; without the flag the same file is <code>TRUST_E_BAD_DIGEST</code>. The flag is gone. Verified for
+one Windows build and one tampered file; the revocation path was not exercised. On Apple silicon no unsigned or tampered
+arm64 process can run to connect, so those two rungs are mapped by reading the SDK's error codes and are
+<span class="unproven">UNPROVEN</span> as running peers there; on Linux the code rung is permanently <em>none</em>.</p>
+
+<h2 id="idconf">The identity contract, tagged and tried</h2>
+<p class="state">2026-09-09. A desktop-class Windows 11 machine on mains; every number is a count. No implementation was changed.
+The tags are in the tree's contract page and not yet in the published one.</p>
+<p>Every rule on <code>identity</code>'s contract page now carries a tag, the way <code>job</code>'s and
+<code>download</code>'s do, and six scenarios cite them: the ladder in order, an attribute refused rather than built at
+<em>claimed</em>, a policy that names every shortfall and not the first, a listening end and a client end that each
+answer, a claim in the payload that never reaches the identity, and a signature the platform rejected that meets no
+policy asking for verification. Of 45 tagged rules the scenarios reach 17; the other 28 the runner names on every run,
+and where each sits is a fact about the rule: reachable by a driver alone, needing a hostile peer that hands off,
+pre-forks or recycles a pid, or measurable only on a platform this machine is not — an installed MSIX package, a
+Developer ID in an unlocked keychain, two kernels either side of Linux 6.5, an enforcing LSM, a second machine.</p>
+<p>Each cited rule was broken deliberately and the run went red on that rule and nothing else — against a script
+replaying the contract's own answers, which proves the scenarios can fail and proves nothing about an implementation.
+There is no identity driver in any language, so <code>abstraction-identity</code> is
+<span class="unproven">UNPROVEN</span> against its own scenarios on every platform. The scenario written red that
+morning — a rejected signature meeting a policy that asks for verification — was green by evening, once the ladder above
+landed. Found on the way: the runner compared an expectation's tokens as a set, so a rule about an <em>order</em>
+asserted nothing until the order was spelled as one token.</p>
+
 <h2 id="speed">Speed — withdrawn, no claim</h2>
 <p>The throughput tables that stood here came from one machine and no other platform: WSL2 for the wide-area run, native
 Windows for the loopback one. Two of our own loopback benchmarks on that machine disagree with each other by 2.7×, both
@@ -204,8 +287,8 @@ diagnosed, held open until the per-platform run lands.</p>
 <h2 id="languages">Read, not run: five languages</h2>
 <p class="state">2026-09-08. No toolchain for Rust, C#, Java, TypeScript or Swift was on the machine and none was
 installed. <strong>Every specimen is hand-written and judged by reading against each language's published rules and
-standard library. Nothing was compiled, nothing was run, no bytes were produced or compared.</strong> Transcript
-<code>native-shape/RESULTS.txt</code> and the five specimens, not yet public.</p>
+standard library. Nothing was compiled, nothing was run, no bytes were produced or compared.</strong> The five
+specimens are not yet public.</p>
 <p>The belief tested: the vocabulary is language-neutral, so a native binding in a new language is a naming exercise over
 the same shapes. The record from <code>job.thrift</code> and the three answers were written out as a native speaker of
 each language would expect to be handed them. <strong>The record's shapes travel. Two of its mechanisms do not, and both
@@ -256,10 +339,11 @@ byte comparison over them. The three shipped implementations type them as a stri
 collapse — is enforceable by the compiler in two languages we have not built and in none of the three we ship.</p>
 
 <h2 id="unpublished">Not yet public</h2>
-<p class="meta">Named above and linked nowhere, because the files are not yet in a public repository:
-<code>2026-09-07-against-the-field.txt</code>, <code>2026-09-08-when-the-server-lies.txt</code>,
-<code>2026-09-08-two-downloaders.txt</code> with the <code>dlc</code> binding it measures, the nine-situation provider
-transcript, and <code>native-shape/RESULTS.txt</code> with its five specimens. When they are, the links go here.</p>
+<p class="meta">Linked nowhere above, because the files are not yet in a public repository: the four-tool
+interruption run, the server that lies, the two downloaders with the <code>dlc</code> binding they measure, the
+nine-situation provider transcript, the five specimens, and the four 2026-09-09 runs — the identified connection, the
+download that outlives its requester, the ladder before and after, the identity scenarios. When they are, the links go
+here.</p>
 
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
