@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Abstractions</title>
+<link rel="stylesheet" href="style.css">
+
+<main>
+<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
+<a href="index.html" aria-current="page">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="adopt.html">Adopt</a>
+<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
+
+<h1>Open Abstractions</h1>
+<p class="lead">A <strong>job</strong> is a record on disk that describes work, plus the rules for who may do it right now.
+Go, Python and C++ read and write that record under the same rules: Go and Python finish each other's downloads in both
+directions (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a>),
+and a NAS finishes a PC's download after every process on the PC is killed
+(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a>).
+Two programs are built on it: the downloader <code>dl</code>, <code>v0.2.1</code>, and the supervisor <code>jobd</code>,
+<code>v0.2.0</code>.</p>
+
+<p>Built first for desktop applications that fetch multi-gigabyte model files — image generators, local language-model
+runners, and the tools that manage their models. One integration exists:
+<a href="https://github.com/openabstractions/adopter-comfyui"><code>adopter-comfyui</code></a> puts ComfyUI-Manager's
+model downloads behind a job record without forking ComfyUI, and has no release file yet. Nothing in the record mentions
+a model; those applications are the first users, not the subject
+(<a href="https://github.com/openabstractions/abstractions/blob/main/SCOPE.md"><code>SCOPE.md</code></a> §1).
+A program that fetches one file, on one machine, in one language, from a source that publishes a digest, and waits for
+it, does not need any of this. Each of <a href="#line">the four defects below</a> needed a second something before it
+became visible — a second writer, a second reader, a second implementation, or a server that lies.</p>
+
+<div class="demo"><img src="demo.gif" width="1460" height="320"
+  alt="terminal: a URL is dropped into the wanted folder, dl watch shows the transfer, the watcher is killed with Ctrl-C at 62%, dl list shows the same download complete"></div>
+<p class="caption">Real clock: the recording is 11.6 seconds and so was the download. The supervisor <code>jobd</code> is
+running; the request is a text file dropped into its <code>wanted/</code> folder; <code>dl watch</code> is killed at 62%
+and the file finishes, because the work was never inside the process that asked. Without the supervisor —
+<a href="adopt.html#fetch">Adopt</a>, step 2 — the killed process's work waits on disk and the next <code>dl</code> with
+the same line resumes it.</p>
+
+<h2 id="what">What is here</h2>
+<p>A <strong>layer</strong> is one contract — a page of tagged rules — with an implementation per language, in one
+repository. Go, Python and C++, with nothing from a package registry: Python is standard library only; Go adds the Go
+team's own <code>golang.org/x/sys</code>; C++ takes nothing, including a JSON library. Apache-2.0. Tags as of 2026-09-08.</p>
+<div class="wrap"><table>
+<tr><th>layer</th><th>what it is</th><th>languages</th><th>evidence</th></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job"><code>job</code></a></td>
+<td>the record and the rules: lease, epoch, checkpoint, intent. <a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md"><code>CONTRACT.md</code></a>, every rule tagged; <a href="https://github.com/openabstractions/abstraction-job/blob/main/job.thrift"><code>job.thrift</code></a>, the record in nobody's language</td>
+<td>Go <code>v0.2.0</code>, Python, C++</td>
+<td>three implementations replay <a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/scenarios">one scenario corpus</a> and their transcripts are diffed byte for byte: <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1</code></a>, <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/CONFORM1.txt"><code>CONFORM1</code></a></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download"><code>download</code></a></td>
+<td>a job whose work is bytes: artifact, sources, sink; resume from the proven prefix; verify; deliver. <code>dl</code> is its command line</td>
+<td>Go <code>v0.2.1</code>; Python fetches and adopts orphans; C++ fetches, no sweep</td>
+<td><a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a> Go and Python finish each other's downloads; <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>; <a href="evidence.html#resume">four downloaders, interrupted</a>; <a href="evidence.html#lies">a server that lies</a></td></tr>
+<tr><td><a href="https://github.com/openabstractions/service-jobd"><code>jobd</code></a></td>
+<td>the supervisor: finishes work nobody is watching, adopts orphans, verifies and delivers. Packaged for a Synology NAS (<a href="https://github.com/openabstractions/addon-synology"><code>addon-synology</code></a>) and as a container (<a href="https://github.com/openabstractions/docker-jobd"><code>docker-jobd</code></a>)</td>
+<td>Go <code>v0.2.0</code></td>
+<td><a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/SUPERVISOR1.txt"><code>SUPERVISOR1</code></a>; <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a> a NAS finishes a PC's download after every process on the PC is killed</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade"><code>facade</code></a></td>
+<td><code>Discover()</code> once; then <code>Download()</code>, <code>Jobs()</code>, <code>Storage()</code>, <code>Log()</code>. The application names no implementation</td>
+<td>Go <code>v0.2.0</code></td>
+<td><a href="evidence.html#providers">one program, three providers</a></td></tr>
+</table></div>
+<p class="meta">Earlier, each one repository, Go unless said:
+<a href="https://github.com/openabstractions/abstraction-cas"><code>cas</code></a> compare-and-set over a file, Go, Python and C++ — six writers in three languages, 600 changes, none lost (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/CAS-MIXED1.txt"><code>CAS-MIXED1</code></a>) ·
+<a href="https://github.com/openabstractions/abstraction-watch"><code>watch</code></a> change without polling, Go, Python and C++ ·
+<a href="https://github.com/openabstractions/abstraction-storage"><code>storage</code></a> bytes at rest, named by digest, Go and C++ ·
+<a href="https://github.com/openabstractions/abstraction-model"><code>model</code></a> <code>hf://org/repo#Q4_K_M</code> to a digest before a byte moves, Go and Python ·
+<a href="https://github.com/openabstractions/abstraction-config"><code>config</code></a> how a machine answers "which store" ·
+<a href="https://github.com/openabstractions/abstraction-logging"><code>logging</code></a> the part of a log line that leaves the process ·
+<a href="https://github.com/openabstractions/abstraction-asks"><code>asks</code></a> a question a machine may put to a person ·
+<a href="https://github.com/openabstractions/abstraction-identity"><code>identity</code></a> which program is on the other end of a connection, untagged ·
+<a href="https://github.com/openabstractions/abstraction-rights"><code>rights</code></a> who may hold the machine awake, untagged (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/AWAKE1.txt"><code>AWAKE1</code></a>, Windows) ·
+<a href="https://github.com/openabstractions/adopter-comfyui"><code>adopter-comfyui</code></a> ComfyUI-Manager's downloads behind a job record, unreleased ·
+<a href="https://github.com/openabstractions/polite-monitor"><code>polite-monitor</code></a> a Windows window listing what the machine is doing ·
+<a href="https://github.com/openabstractions/research"><code>research</code></a> the prior art read before drawing any of it ·
+<a href="https://github.com/openabstractions/abstractions"><code>abstractions</code></a> the charter: how an interface is drawn and which seats qualify — a <em>seat</em> being a question every platform answers its own way and no common interface answers, in the sense <code>SCOPE.md</code> §2 gives it.</p>
+
+<h2 id="line">Four defects, and the condition each needed to appear</h2>
+<p>Each was found in this project's own code by a second implementation, a second writer, a second reader, or a hostile
+server. Each is recorded where it was found: a tagged contract rule, a fixture that carries the case, a verdict table,
+or an entry under <a href="reference.html#undecided">Undecided</a>.</p>
+<div class="wrap"><table>
+<tr><th>the condition that failed</th><th>what was measured here</th></tr>
+<tr><td><strong>A server that lies</strong>, and no digest to catch it. The partial file's length is the resume point, and bytes on disk are taken as evidence of what was received</td>
+<td>Against a server that answers a resume with bytes from the wrong offset and a <code>Content-Range</code> that lies to match, <code>curl -C -</code> writes a complete, corrupt file and exits 0. So does <code>dl</code> without <code>--digest</code>. The record's checkpoint is the bytes <em>proven</em>, not the bytes written, so a successor resumes from what was hashed and discards the rest. <a href="evidence.html#lies">The verdicts.</a></td></tr>
+<tr><td><strong>A second implementation.</strong> The retry table — which HTTP statuses mean <em>never</em> and which mean <em>later</em> — written once, with nothing to disagree with it</td>
+<td>The Go and Python implementations disagreed on four of eighteen statuses for as long as both existed. A downloader written over <code>curl</code>, sharing no transfer code, was then measured against <code>dl</code>: all eighteen agreed, and 50 of 54 wire cases ended with the same verdict and the same bytes; the four that differed were the same case, a partial nothing could vouch for. <a href="evidence.html#twodl">The matrix.</a></td></tr>
+<tr><td><strong>A second writer.</strong> The application on launch and the service unit both resume the same partial</td>
+<td>The lease and epoch exist for this and still missed two things on one day: the same owner may claim its own live lease again and the epoch rises, and the store's <code>update</code> had no compare-and-set behind it. One process raced itself and reported a delivered download as a failed install, one run in eight; a red team erased 23 pauses in 40 rounds through the same hole. The compare-and-set is fixed; the re-claim is <a href="reference.html#undecided">undecided</a>. Without a lease there is no epoch to be wrong; the file is simply wrong.</td></tr>
+<tr><td><strong>A second reader.</strong> A state file with one reader; its format is whatever the writer does</td>
+<td>Three implementations passed sixty-one spec checks while escaping JSON three different ways, because no fixture held an ampersand or an accent. One ampersand in a URL produced three different records. Two days from found to declared, and one escaping rule with a fixture that carries the ampersand. <a href="reference.html#record">The rule.</a></td></tr>
+</table></div>
+<p><strong>Where none of those four is present — one writer, one reader, one implementation of the retry table, and a
+source that publishes a digest — a <code>Range</code> loop and a <code>sha256</code> at the end are correct, and this
+site does not argue with it.</strong> That hash is what defeats a lying server, and it is exactly what
+<code>dl --digest</code> applies: <a href="evidence.html#lies">the verdicts</a>, row <code>offset</code>.</p>
+<p><strong>What an application pays.</strong> <code>Get(url, path)</code> and <code>Wait</code>, and no word from the
+reference — the vocabulary is for whoever writes the thing that answers. <code>go install</code> of <code>dl</code>
+resolves nine modules, eight of them ours and <code>golang.org/x/sys</code>; Python and C++ are source only. The
+commands are on <a href="adopt.html">Adopt</a>.</p>
+
+<h2 id="terms">Five words</h2>
+<p class="meta">The whole vocabulary, each word with what it is called elsewhere, is on <a href="reference.html#vocabulary">the reference</a>.</p>
+<div class="wrap"><table>
+<tr><th>term</th><th>meaning</th><th>ancestor</th></tr>
+<tr><td><strong>job</strong></td><td>a record on disk describing work; it can outlive the process that asked, when the provider says so</td><td>long-running operation, <a href="https://google.aip.dev/151">AIP-151</a></td></tr>
+<tr><td><strong>lease</strong></td><td>the time-limited right to work on a job; lapses when the holder stops renewing</td><td><a href="https://research.google/pubs/the-chubby-lock-service-for-loosely-coupled-distributed-systems/">Chubby</a></td></tr>
+<tr><td><strong>epoch</strong></td><td>rises by one on every claim; a write carrying an old one is refused</td><td>fencing token (<a href="https://dataintensive.net/">Kleppmann</a>, ch. 8); <code>If-Match</code></td></tr>
+<tr><td><strong>checkpoint</strong></td><td>what a successor inherits — the bytes <em>proven</em>, not the bytes written</td><td><a href="https://docs.temporal.io/activities">Temporal</a>'s activity heartbeat</td></tr>
+<tr><td><strong>the three answers</strong></td><td><code>unavailable</code> · <code>forbidden</code> · <code>unknown</code>: <em>nothing can do this now</em>, <em>something said no</em>, <em>no answer arrived</em>. A provider that collapses them has told the caller nothing</td><td>SMTP <code>4yz</code>/<code>5yz</code> for the first two; the third has none</td></tr>
+</table></div>
+
+<h2 id="measured">Measured</h2>
+<p>Each with its transcript on <a href="evidence.html">Evidence</a>. <code>UNPROVEN</code> marks a platform not reached.</p>
+<ul>
+<li><strong><code>dl</code> is the only one of four downloaders that resumes without being told to, and it is not the one that resumes best.</strong> 8 GiB killed at 3 GiB and restarted with the same command: <code>dl</code> re-fetched 11.6 MB, <code>curl</code>, <code>wget</code> and <code>aria2c</code> the whole 8 GiB. Told to resume, <code>curl -C -</code> and <code>wget -c</code> waste less than we do. <a href="evidence.html#resume">The table.</a></li>
+<li><strong>No throughput claim is made.</strong> The comparison that stood here came from one machine and no other platform, and two of our own loopback benchmarks on it disagree by 2.7×. A per-platform measurement across Windows, Linux and macOS is in progress; nothing else on this site rests on a throughput number. <a href="evidence.html#speed">What was withdrawn and why.</a></li>
+<li><strong>Against a server that answers a resume from the wrong offset, <code>curl -C -</code> writes a complete, corrupt file and exits 0.</strong> <code>dl --digest</code> refuses it; <code>dl</code> without <code>--digest</code> corrupts exactly as <code>curl</code> does. <a href="evidence.html#lies">The verdicts.</a></li>
+</ul>
+
+<h2 id="stage">Stage</h2>
+<p><strong>0.x.</strong> Every module is versioned <code>0.y.z</code>, which under
+<a href="https://semver.org/#spec-item-4">Semantic Versioning §4</a> means the public API may change between releases.</p>
+<ul>
+<li><strong>Go:</strong> ten of the twelve layers carry a tag and <code>go install</code> resolves from a clean machine; <code>identity</code> and <code>rights</code> are untagged.</li>
+<li><strong>Python:</strong> source only, on no index. <strong>C++:</strong> source only, no tagged release.</li>
+<li><strong>Integrations:</strong> ComfyUI-Manager and a Synology package, both built here. Neither has a published release file yet.</li>
+<li><strong>Signing:</strong> nothing is signed. Go builds <code>dl</code> from source and checks every module against <code>sum.golang.org</code>, which proves the bytes are the ones everyone else fetched and says nothing about who wrote them.</li>
+<li><strong>Governance:</strong> one maintainer today, two organisation owners; the succession plan is written and needs nobody's permission (<a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md"><code>GOVERNANCE.md</code></a>). Faults go through <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md"><code>SECURITY.md</code></a>.</li>
+</ul>
+
+<footer>
+<p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
+<p><a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
+<a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md">Governance</a> ·
+<a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md">Security</a> ·
+<a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
+</footer>
+</main>
+</html>

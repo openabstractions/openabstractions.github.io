@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Abstractions — vocabulary and API</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* the language switch: a data-lang on <html> hides the others. no attribute — no script — shows all */
+.bar { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line);
+  padding: 8px 0; margin: 0 0 16px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.bar span { color: var(--dim); font-size: 14px; margin-right: 6px; }
+.bar button { font: inherit; font-size: 14px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--card); color: var(--ink); cursor: pointer; }
+.bar button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.bar { display: none; }
+html[data-js] .bar { display: flex; }
+.lang { margin: 6px 0 10px; }
+.lang::before { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 1px 7px; border-radius: 3px; margin-bottom: 2px; color: #fff; }
+.lang[data-lang="go"]::before { content: "Go"; background: var(--go); }
+.lang[data-lang="python"]::before { content: "Python"; background: var(--py); }
+.lang[data-lang="cpp"]::before { content: "C++"; background: var(--cpp); }
+html[data-lang="go"] .lang:not([data-lang="go"]),
+html[data-lang="python"] .lang:not([data-lang="python"]),
+html[data-lang="cpp"] .lang:not([data-lang="cpp"]) { display: none; }
+html[data-lang]:not([data-lang="all"]) .lang::before { display: none; }
+.sig td:first-child { white-space: nowrap; color: var(--dim); }
+.states { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin: 8px 0 12px; }
+.st { border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; font-size: 13px; background: var(--card); }
+.st b { display: block; font-family: ui-monospace, Consolas, Menlo, monospace; }
+.st.term { border-style: dashed; }
+@media (max-width: 600px) {
+  body { font-size: 15px; } h2 { font-size: 19px; } td, th { padding: 4px 6px; }
+  table.words tr { display: block; padding: 6px 0; border-bottom: 1px solid var(--line); }
+  table.words th, table.words td { display: block; border: 0; padding: 1px 0; }
+  table.words thead { display: none; }
+  table.words td:nth-child(3) { color: var(--dim); font-size: 13px; }
+  table.words td:nth-child(3)::before { content: "elsewhere: "; }
+}
+</style>
+
+<main>
+<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
+<a href="index.html">Overview</a> <a href="reference.html" aria-current="page">Reference</a> <a href="evidence.html">Evidence</a> <a href="adopt.html">Adopt</a>
+<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
+<p class="meta" style="margin-top:10px"><a href="#vocabulary">Vocabulary</a> · <a href="#paradigms">Paradigms</a> · <a href="#api">API</a> · <a href="#cli">Command line</a> · <a href="#undecided">Undecided</a> · <a href="#where">Where each rule lives</a> · <a href="schema.html">Schema</a></p>
+
+<h1>Vocabulary and API</h1>
+<p class="lead">A <strong>job</strong> is a record on disk that describes work, plus the rules for who may do it right now.
+The application holds an id; the work belongs to the machine. A lease that stops being renewed lapses, the next claim
+raises the epoch and inherits the checkpoint, and the successor resumes from the proven prefix and discards the rest —
+<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>
+records that between two processes, and
+<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a>
+between two languages. Go, Python and C++ agree on the record and the rules. Each binds them its own way.</p>
+
+<div class="bar" role="group" aria-label="language">
+  <span>Show</span>
+  <button type="button" data-set="all" aria-pressed="true">All three</button>
+  <button type="button" data-set="go">Go</button>
+  <button type="button" data-set="python">Python</button>
+  <button type="button" data-set="cpp">C++</button>
+</div>
+
+<h2 id="vocabulary">The words</h2>
+<p class="meta">Every term names its ancestor or says it has none. Where our name differs from the established one, the difference is stated — an adopter should not have to learn us before using us.</p>
+<div class="wrap"><table class="words">
+<thead><tr><th>word</th><th>means</th><th>is, elsewhere</th></tr></thead>
+<tr><td><code>record</code></td><td>one job: an opaque <code>id</code> that outlives every process, and everything a stranger needs to continue the work</td><td>Google <code>longrunning.Operation</code> (AIP-151)</td></tr>
+<tr><td><code>kind</code></td><td>what the job is, and therefore who may read <code>spec</code> and <code>checkpoint</code>. The job layer never does</td><td>—</td></tr>
+<tr><td><code>spec</code></td><td>the immutable description of the work. <strong>Opaque</strong> to the job layer</td><td><code>Operation.metadata</code>. <strong>Not</strong> Kubernetes' <code>spec</code>, which is mutable desired state — that seat is <code>intent</code> here</td></tr>
+<tr><td><code>checkpoint</code></td><td>what a successor needs to continue: the proven prefix, proven ranges, the validator the bytes came from. The <em>only</em> thing anybody resumes from</td><td><a href="https://docs.temporal.io/activities">Temporal</a> activity heartbeat details; <a href="https://tus.io/protocols/resumable-upload">tus</a> <code>Upload-Offset</code>; BitTorrent's piece bitfield</td></tr>
+<tr><td><code>progress</code></td><td>best-effort, explicitly non-monotonic, <strong>decide nothing on it</strong></td><td><code>BytesTransferred</code> in <a href="https://learn.microsoft.com/en-us/windows/win32/bits/about-bits">BITS</a>, Windows' Background Intelligent Transfer Service — the platform downloader every Windows machine already runs</td></tr>
+<tr><td><code>lease</code></td><td>time-bounded ownership, kept by renewing and lost by lapsing, never by being asked</td><td><a href="https://research.google/pubs/the-chubby-lock-service-for-loosely-coupled-distributed-systems/">Chubby</a>; <a href="https://kubernetes.io/docs/concepts/architecture/leases/">Kubernetes <code>Lease</code></a>; <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">SQS visibility timeout</a>; <a href="https://github.com/beanstalkd/beanstalkd/blob/master/doc/protocol.txt">beanstalkd</a> TTR</td></tr>
+<tr><td><code>epoch</code></td><td>rises by one on every claim. Every write presents the epoch it holds; a stale one is refused</td><td>Chubby's sequencer; the fencing token of <a href="https://dataintensive.net/"><em>Designing Data-Intensive Applications</em></a>, ch. 8; Kafka's leader epoch; <code>If-Match</code> with a strong ETag</td></tr>
+<tr><td><code>holder</code></td><td>the party whose <code>lease.owner</code> and <code>lease.epoch</code> the record carries while <code>expires_at</code> is in the future</td><td>Kubernetes <code>holderIdentity</code></td></tr>
+<tr><td><code>claim</code></td><td>take the lease. Exclusive, compare-and-set under the record's lock</td><td><code>acquire</code> (Azure Blob lease, Kubernetes Lease); beanstalkd <code>reserve</code></td></tr>
+<tr><td><code>orphan</code></td><td>a record that is claimable and stranded: not terminal, not held, not <code>transferred</code>, not paused</td><td><a href="https://github.com/sidekiq/sidekiq/wiki/Reliability">Sidekiq Pro</a>'s <code>super_fetch</code> orphan. <strong>Not</strong> Kubernetes' <code>orphan</code>, which is un-parented on purpose</td></tr>
+<tr><td><code>intent</code></td><td>what somebody <em>wants</em> — <code>run</code>, <code>pause</code>, <code>cancel</code> — written by anyone, <strong>without a lease</strong>; the holder converges on it</td><td>Kubernetes <code>deletionTimestamp</code>; Argo <code>spec.suspend</code>; BITS Resume/Suspend/Cancel</td></tr>
+<tr><td><code>recall</code></td><td>the issuer asking the holder for the lease back by a deadline, for a reason. The lapse at the deadline is the eviction</td><td>the video-memory budget signal of <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/display/video-memory-management-and-gpu-scheduling">WDDM</a>, the Windows display driver model; Android's trim. The half a Chubby lease lacks</td></tr>
+<tr><td><code>delegation</code></td><td>the work was handed to an external system; <code>{system, external_id}</code> finds it again; <code>progress</code> is then a cache and the external system is the truth</td><td><a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/">Camunda external task</a>; CSI external provisioner; BITS job GUID</td></tr>
+<tr><td><code>transferred</code></td><td>finished and proven, but not yet taken delivery of — moved to its final name and acknowledged by whoever asked. <strong>Not terminal</strong>; claimable so the requester can collect</td><td>BITS <code>TRANSFERRED</code> before <code>Complete()</code></td></tr>
+<tr><td><code>terminal</code></td><td><code>complete</code>, <code>failed</code>, <code>cancelled</code>. No claim, no update, no intent. Nothing reopens it</td><td>—</td></tr>
+<tr><td><code>complete</code></td><td>delivery taken. <strong>Trap:</strong> BITS calls this <code>ACKNOWLEDGED</code>; a reader mapping <code>complete</code> onto "the transfer finished" is one state early</td><td>AMQP <code>basic.ack</code>; Kubernetes and Azure <code>Succeeded</code></td></tr>
+<tr><td><code>content</code> / <code>critical</code></td><td>the data models this record carries, and the subset a reader must understand or refuse the whole record</td><td>JOSE <code>crit</code> (<a href="https://www.rfc-editor.org/rfc/rfc7515">RFC 7515</a>); JSON Schema <code>$vocabulary</code>; X.509 critical extensions</td></tr>
+<tr><td><code>unavailable</code> · <code>forbidden</code> · <code>unknown</code></td><td>the three ways a request does not succeed, and they must never collapse: <em>nothing can do this now</em>, <em>something said no</em>, <em>no answer arrived</em></td><td>SMTP <code>4yz</code>/<code>5yz</code> for the first two. The third has no common ancestor; <code>xa_recover</code> in <a href="https://pubs.opengroup.org/onlinepubs/009680699/toc.pdf">X/Open XA</a> is the closest</td></tr>
+</table></div>
+
+<h2 id="paradigms">Paradigms</h2>
+<p class="meta">Each: what it is, when it is met, an example that runs, remarks. Examples are lifted from the tests and the demo, not written for this page.</p>
+
+<h3 id="record">1. The record is the contract</h3>
+<p>Go, Python and C++ are not ports of each other and are not generated from a schema. They agree on one thing: the JSON on disk — one file per job, under a directory called the <strong>store</strong> — and the rules for taking it over. Field order, two-space indent, LF, UTC timestamps with exactly six fractional digits — because the bytes are compared across languages.</p>
+<pre><code>{
+  "content":  ["abstraction.job/base@1", "abstraction.job/intent@1"],
+  "critical": ["abstraction.job/base@1", "abstraction.job/intent@1"],
+  "id": "1757000000000-deadbeef",
+  "kind": "download",
+  "state": "running",
+  "spec": { "artifact": {}, "sources": [], "sink": {} },
+  "checkpoint": { "verified_prefix": 400 },
+  "progress":   { "done": 460, "updated_at": "…" },
+  "lease":      { "owner": "go-worker", "epoch": 2, "expires_at": "…" },
+  "intent":     { "want": "pause", "by": "comfyui@desktop:9184", "at": "…" },
+  "created_at": "…", "updated_at": "…"
+}</code></pre>
+<p><strong>Strings are escaped exactly one way</strong> <span class="tag">[JOB-E6]</span>: <code>"</code> and <code>\</code>, the five short control escapes, every other character below U+0020 as lower-case <code>\u00xx</code>, and U+2028 and U+2029. Everything else is raw UTF-8 — <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>/</code>, every non-ASCII character, and characters above U+FFFF as four bytes rather than a surrogate pair; an ill-formed byte becomes <code>�</code>, one per byte. That is <a href="https://www.rfc-editor.org/rfc/rfc8785">RFC 8785</a>'s string serialisation with two divergences declared on the contract page. The rule exists because Go's encoder escapes for HTML and Python's for transports that cannot carry high bytes, and a record with an ampersand in its URL came out three ways from three implementations that passed every check; the fixture <a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/verdicts"><code>locator-ampersand.json</code></a> now carries it.</p>
+<p><strong>Remarks.</strong> A field not in the table on <code>job/README.md</code> is <strong>refused, not ignored</strong> — the opposite of protobuf and of Postel, and declared as a divergence. Anything else goes in <code>extensions</code> under a namespaced key and is written back untouched. Inside <code>spec</code> the rule flips: unknown keys are ignored, because a spec is payload the layer above extends. <code>spec</code> is the worst name on the page and cannot change: a renamed field stops every old reader on every record already on disk.</p>
+
+<h3 id="ownership">2. Ownership is a lease with an epoch</h3>
+<p><strong>What.</strong> To work on a job, a process claims it for a ttl. The claim returns the record carrying the new holder's epoch, one higher than before. Every write the holder makes presents that epoch. When it stops renewing, the lease lapses; nothing tells it, and its next write is refused. Somebody else's claim then gets epoch+1 and inherits the checkpoint.</p>
+<p><strong>When.</strong> Every time anything moves bytes, and every time a process starts: look for orphans and adopt them. That pass is the <strong>sweep</strong>; a <strong>supervisor</strong> is a process that does nothing but sweep on a timer, and <code>jobd</code> is ours. Reclaiming is the mechanism; a polite <code>release</code> is only an optimisation, because a killed process never releases anything.</p>
+<h4>Example — claim, checkpoint, lapse, adopt</h4>
+<div class="lang" data-lang="go">
+<pre><code>store, _ := job.NewFileStore("/var/lib/jobs")
+
+rec := job.Record{Kind: "download"}
+rec.SetSpec(mySpec)                  // opaque here; the download layer reads it
+id, _ := store.Submit(rec)
+
+r, _ := store.Claim(id, "my-worker", 30*time.Second)
+store.Update(id, r.Lease.Epoch, func(r *job.Record) error {
+    r.Progress.Done = 1 &lt;&lt; 20
+    return r.SetCheckpoint(myCheckpoint)   // what a successor would need
+})
+
+// …thirty seconds pass with no renew…
+orphans, _ := store.Orphans()                                   // [the record]
+adopted, _ := store.Claim(orphans[0].ID, "successor", time.Minute)   // epoch 2; inherits Checkpoint
+
+_, err := store.Update(id, r.Lease.Epoch, func(*job.Record) error { return nil })
+errors.Is(err, job.ErrStaleEpoch)                               // true</code></pre>
+<p class="meta">From <code>job/README.md</code> § Try it, and <code>job/go/store_test.go</code> <code>TestOrphanIsAdoptedAfterExpiry</code>, <code>TestZombieOwnerIsRefused</code>.</p>
+</div>
+<div class="lang" data-lang="python">
+<pre><code>store = FileStore("/var/lib/jobs")
+jid = store.submit(Record(id="", kind="download", spec={"what": "a thing"}))
+held = store.claim(jid, "python-worker", ttl_seconds=30)
+
+def progress(r):
+    r.progress.done = 400
+    r.checkpoint = {"proven": 400}
+store.update(jid, held.lease.epoch, progress)
+
+# …31 seconds pass with no renew…
+orphans = store.orphans()               # [the record]
+adopted = store.claim(jid, "go-worker", 60)
+adopted.lease.epoch                     # 2
+adopted.checkpoint["proven"]            # 400 — the successor inherits what was proven
+
+store.update(jid, held.lease.epoch, lambda r: None)   # raises StaleEpoch</code></pre>
+<p class="meta">From <code>job/python/test_abstraction_job.py</code>, <code>test_orphan_is_adopted_after_expiry</code> and <code>test_zombie_owner_is_refused</code>.</p>
+</div>
+<div class="lang" data-lang="cpp">
+<pre><code>using namespace abstraction::job;
+FileStore store(root);
+
+Record r;
+r.kind = "download";
+r.spec = Json::parse(R"({"sink":{"final":"model.gguf"}})");
+const std::string id = store.submit(std::move(r));
+
+const Record claimed = store.claim(id, "cpp-worker", std::chrono::seconds(30));   // epoch 1
+store.update(id, claimed.lease.epoch, [](Record&amp; rec) {
+    rec.progress.done = 460;
+    rec.checkpoint = Json::parse(R"({"verified_prefix":400})");
+});
+
+// …the lease lapses…
+store.orphans().size();                                          // 1
+const Record adopted = store.claim(id, "successor", std::chrono::seconds(30));   // epoch 2
+(*adopted.checkpoint)["verified_prefix"];                        // 400
+store.update(id, 1, [](Record&amp;) {});                              // throws StaleEpoch</code></pre>
+<p class="meta">From <code>job/cpp/test/test_job_record.cpp</code>, <code>test_lease_rules</code>.</p>
+</div>
+<div class="diff"><strong>Where the three differ.</strong> The ttl is <code>time.Duration</code> in Go, <code>ttl_seconds: float</code> in Python, <code>std::chrono::milliseconds</code> in C++. A refusal is a returned <code>error</code> in Go (<code>errors.Is</code> against <code>job.ErrStaleEpoch</code>), an exception in Python (<code>StaleEpoch</code>) and C++ (<code>StaleEpoch</code>). <code>spec</code> is raw bytes set through <code>SetSpec(any)</code> in Go, a <code>dict</code> in Python, a <code>Json</code> value in C++ — and Python and C++ re-emit what they parsed, so a number spelling or escape can change on the way through one and not another; <code>specread --echo</code> exists to catch it. The contract asks for both opacity and byte identity over <code>spec</code>, and both are required <span class="tag">[JOB-E7]</span>: an implementation must reproduce the exact bytes of an opaque value it was given. A payload already in the JOB-E6 form is written identically by all three; one write by a re-spelling implementation brings an older one to that form.</div>
+<p><strong>Remarks.</strong> The lapse is silent: <code>expires_at</code> passing signals nothing. A holder learns at its next write, and the verdict tells it whether it has a successor — <code>lease-expired</code> while nobody has claimed since, <code>stale-epoch</code> once somebody has. A live lease held by another owner refuses a claim <code>lease-held</code>. The same owner may claim again while live and the epoch still rises. The lock is one machine's: two hosts writing one record over SMB lost 147–149 of 2150 updates; a record shared across hosts is handed off by delegation, not co-written.</p>
+
+<h3 id="checkpoint">3. A successor inherits what its predecessor proved — not what it did</h3>
+<pre><code>"progress":   { "done": 460 },
+"checkpoint": { "verified_prefix": 400, "verified": [[0, 400]] }</code></pre>
+<p>The predecessor wrote 460 units and proved 400. The successor resumes from 400 and discards the rest. For a download the resume point is the <em>smaller</em> of the checkpoint's prefix and what the file actually holds; the file is the floor and a partial is never deleted to make a record true. Ranges are half-open, sorted, merged where they touch. <strong>HTTP's byte ranges are inclusive at both ends</strong> — <code>[0, 8)</code> goes out as <code>bytes=0-7</code>; same word, different arithmetic, and every implementation converts at the wire.</p>
+
+<h3 id="states">4. Six states, and who writes each</h3>
+<div class="states">
+<div class="st"><b>pending</b>submitted; nobody on it. Written by the store on submit and on release</div>
+<div class="st"><b>running</b>a live lease, or a live delegation. Written by the store on claim</div>
+<div class="st"><b>transferred</b>done and proven, not collected. Written by the holder</div>
+<div class="st term"><b>complete</b>delivery taken. Holder. Terminal</div>
+<div class="st term"><b>failed</b>the request as written can never work. Holder. Terminal</div>
+<div class="st term"><b>cancelled</b>the holder honoured <code>intent: cancel</code>, or a momentary claimant did. Terminal</div>
+</div>
+<div class="wrap"><table>
+<tr><th>from</th><th>to</th><th>by</th></tr>
+<tr><td>—</td><td><code>pending</code></td><td>submit (store)</td></tr>
+<tr><td><code>pending</code>, <code>running</code></td><td><code>running</code></td><td>claim (store)</td></tr>
+<tr><td><code>running</code></td><td><code>pending</code></td><td>release (store), unless delegated</td></tr>
+<tr><td>any non-terminal</td><td>any state</td><td>holder's update — backwards included; the store guards only terminality</td></tr>
+<tr><td>non-terminal</td><td><code>cancelled</code></td><td>a momentary claimant — a process that claims the unheld record only to write this — when nobody holds the lease</td></tr>
+<tr><td>terminal</td><td>—</td><td>nothing. <code>renew</code> is the one write still accepted; it changes nothing a reader branches on</td></tr>
+</table></div>
+<p><strong>Remarks.</strong> The store cannot decide <code>transferred</code>, <code>complete</code> or <code>failed</code>, because deciding them means knowing whether the work is done, and it does not know what the work is. Terminal is judged on the record <em>as read</em>, so the write that makes a record terminal lands and the next one of that epoch is refused: <strong>put everything into the final update</strong> — the error, the last checkpoint, the final <code>done</code>. A <code>defer release()</code> after a final write is a call that cannot succeed. The state names are BITS' with one exception, and the exception (<code>complete</code>) is a trap; see <a href="#vocabulary">the words</a>.</p>
+
+<h3 id="intent">5. Intent — the one write with no epoch</h3>
+<p><strong>What.</strong> The person who wants a job stopped is not the process doing it, and requiring a lease would mean stealing the job in order to stop it — the one thing the lease exists to prevent. So <code>intent</code> is written by anyone, holding nothing, and the holder must read it before starting and at least as often as it checkpoints, and move toward it.</p>
+<p><strong>When.</strong> A pause button, a cancel button, a supervisor on another machine that a UI here needs to stop.</p>
+<h4>Example — a person cancels while an owner is dead; the next owner honours it before moving a byte</h4>
+<pre><code>submit A size=64 digest=good src=file
+claim A alpha 400
+intent A cancel
+sleep 900
+orphans            -&gt; ok A
+run A beta         -&gt; state=cancelled done=0     [DL-R26] [JOB-I9]</code></pre>
+<p class="meta">Scenario <code>download/testdata/scenarios/cancel-adoption.txt</code>; all three implementations produce this transcript byte for byte.</p>
+<div class="lang" data-lang="go">
+<pre><code>j := job.Open(store, id, "comfyui@desktop")   // a handle: look at it, give up on it
+j.Cancel()                                      // records the request; succeeds while somebody holds the lease
+if p, ok := j.(job.Pausable); ok { p.Pause() } // pause is an extended capability an application asks for</code></pre>
+</div>
+<div class="lang" data-lang="python">
+<pre><code>store.set_intent(jid, CANCEL, by="comfyui@desktop")   # no epoch, idempotent
+store.set_intent(jid, PAUSE, by="ui")
+store.set_intent(jid, RUN, by="ui")                    # resume records a value; it does not delete the field</code></pre>
+</div>
+<div class="lang" data-lang="cpp">
+<pre><code>store.set_intent(id, want::kCancel, "a-person");   // no epoch
+store.set_intent(id, "nonsense", "a-person");       // throws: an unknown want is refused, never treated as run</code></pre>
+</div>
+<div class="diff"><strong>Where the three differ.</strong> Go has a handle, <code>job.Job</code>, whose base is deliberately two things — <code>Record()</code> and <code>Cancel()</code> — with <code>Pausable</code> as an optional interface a provider advertises. Python and C++ have no handle; an application calls <code>set_intent</code> on the store. A double cancel: the store refuses <code>intent</code> on a <code>cancelled</code> record as <code>terminal</code>; Go's handle absorbs it as a double click. Undecided which is the rule.</div>
+<p><strong>Remarks.</strong> One word, four operations, and a caller has to know which it is holding:</p>
+<div class="wrap"><table>
+<tr><th>"cancel"</th><th>what it is</th><th>who</th><th>crosses a process boundary</th></tr>
+<tr><td><code>intent: cancel</code></td><td>a request written to the record</td><td>anyone, no epoch</td><td>yes — that is its purpose</td></tr>
+<tr><td><code>state: cancelled</code></td><td>the outcome</td><td>the holder, or a momentary claimant when unheld</td><td>it is the record</td></tr>
+<tr><td>stopping the execution</td><td>the holder stopping itself at its next intent check</td><td>the holder</td><td>never — nothing reaches into a process</td></tr>
+<tr><td>stopping the wait</td><td>a caller's local cancellation (a Go <code>ctx</code>)</td><td>the caller</td><td>no; writes nothing</td></tr>
+</table></div>
+<p>Cancelling never stops an execution. It records a request; the acknowledgement is the holder's own write of <code>cancelled</code>. A caller that must know the work stopped waits for the <em>state</em>. <code>cancel</code> is honoured by everything; an owner that cannot honour <code>pause</code> fails the job with a reason rather than carrying on, because a pause that quietly does nothing is worse than no pause button. A paused job is not an orphan — unless its state is still <code>running</code>, which is an owner that died between the ask and the honouring; the sweep offers that one so the next owner can honour it, and the scenario above is exactly that case.</p>
+
+<h3 id="recall">6. Recall — the issuer asks for the lease back</h3>
+<p><strong>What.</strong> A Chubby lease expires; nothing recalls it. Systems that genuinely arbitrate a resource have the other half: WDDM tells a process its budget changed and evicts it if it does not trim. A recall presents the epoch the issuer <em>read</em> — the fencing token pointed the other way — and moves <code>expires_at</code> to <code>until</code>. The holder may still renew and checkpoint until then, never past it; it cannot shed the recall by re-claiming; the lapse is the eviction and nothing else is. A recall is about the <em>resource</em>; it leaves <code>intent</code>, the user's wish about the <em>job</em>, untouched.</p>
+<pre><code>claim  A alpha 5000
+recall A beta  800 yield        -&gt; stale-epoch     [JOB-R1]   beta never held it
+recall A alpha 800              -&gt; invalid         [JOB-R2]   no reason
+recall A alpha 800 yield        -&gt; ok  recall=yield want=run  [JOB-R3] [JOB-R8]
+claim  A alpha 5000             -&gt; lease-held      [JOB-R5]   cannot re-claim under recall</code></pre>
+<p class="meta">Scenario <code>recall.txt</code>. Command line: <code>jobctl recall &lt;id&gt; --epoch N --reason WHY [--grace SECONDS] [--by who]</code> — <code>--epoch</code> is the one the caller last read, not one it holds.</p>
+
+<h3 id="acceptance">7. Acceptance — the instant ownership of a request transfers</h3>
+<p>Before it, an uncertain outcome means nothing was taken and retrying is free. After it, an uncertain outcome is <strong>unknown</strong>, and a retry starts a second job. Where a download runs is chosen from an ordered list — a NAS, a platform service, this process — and that order is the machine's <strong>tiers</strong>. Acceptance is a barrier in it: before acceptance a failure moves to the next tier; after it nothing may, because a second tier would start a second job.</p>
+<div class="wrap"><table>
+<tr><th>operation</th><th>accepted when</th><th>a lost answer</th></tr>
+<tr><td>submit</td><td>the record exists under its id</td><td>only a submitter that <em>named</em> the id can ask: <code>invalid</code> on resubmission then means <em>accepted, load it</em>. One that let the store mint the id cannot, and a retry makes a second job</td></tr>
+<tr><td>claim</td><td>its write lands under the lock</td><td>safe by construction: the retry is <code>lease-held</code>, a same-owner re-claim one epoch higher, or the claim</td></tr>
+<tr><td>update</td><td>the write lands</td><td><strong>unknown, and the store offers no way to ask.</strong> A retried final write is answered <code>terminal</code>, the one case that says it landed. There is no request identity on the write path</td></tr>
+<tr><td>intent</td><td>—</td><td>free: idempotent by rule</td></tr>
+<tr><td>handoff to a delegate</td><td>the delegate's own answer</td><td>the download layer writes the delegation <em>before</em> handing over and asks the delegate's <code>Locate</code>: a handle, a certain never, or unknown. XA's <code>xa_recover</code> shape. Go only</td></tr>
+</table></div>
+
+<h3 id="answers">8. The three answers</h3>
+<p><strong>What.</strong> A request that did not succeed ended one of three ways, and a provider that collapses them has told the caller nothing:</p>
+<div class="wrap"><table>
+<tr><th>answer</th><th>means</th><th>the caller must</th><th>download spells it</th></tr>
+<tr><td><code>unavailable</code></td><td>nothing that could do this is here now. The request stands</td><td>ask again later; create nothing</td><td><em>not now</em>: the record keeps its error, the lease lapses, the next runner resumes from the last proven byte</td></tr>
+<tr><td><code>forbidden</code></td><td>something answered and said no</td><td>end this request; a retry is a new request</td><td><em>no</em>: <code>state: failed</code>, and nothing tries it again</td></tr>
+<tr><td><code>unknown</code></td><td>no answer arrived. Not a no, not a yes, not a later</td><td>reconcile before retrying: load, <code>Locate</code>, or resubmit by id</td><td><code>ErrOutcomeUnknown</code>, Go only</td></tr>
+</table></div>
+<p>The verdict classes — the named refusals in the API tables below — map onto them, and what each obliges is the whole reason they are separate:</p>
+<div class="wrap"><table>
+<tr><th>verdict</th><th>answer</th><th>the caller must</th></tr>
+<tr><td><code>lease-held</code> · <code>lease-expired</code> · <code>stale-epoch</code></td><td>unavailable, <em>to this caller</em></td><td>re-read the record and decide again. <code>lease-held</code> retries after <code>expires_at</code>; the other two retry by re-claiming, never by re-presenting the epoch</td></tr>
+<tr><td><code>terminal</code> · <code>invalid</code> · <code>not-found</code></td><td>forbidden</td><td>end this request</td></tr>
+<tr><td><code>unknown-model</code></td><td>neither</td><td>the record is fine and <strong>this reader is too old</strong>: leave it for something newer; never discard, never retry here</td></tr>
+<tr><td>no verdict</td><td>unknown</td><td>reconcile first</td></tr>
+</table></div>
+<h4>Example — one application, three providers, nine situations</h4>
+<pre><code>$ ABSTRACTION_STORE=/tmp/s fetch -provider curl get http://host/f.bin f.bin
+provider=curl where=curl answer=delivered id=curl-0b55… detail="6291456 bytes sha256:e56b… at /tmp/f.bin"</code></pre>
+<div class="wrap"><table>
+<tr><th>situation</th><th><code>curl</code></th><th><code>here</code></th><th><code>service</code></th></tr>
+<tr><td>no service installed at all</td><td>delivered</td><td>delivered</td><td>unavailable</td></tr>
+<tr><td>service installed between runs</td><td>delivered</td><td>delivered</td><td>delivered</td></tr>
+<tr><td>caller exits mid-transfer, comes back</td><td><strong>unknown</strong> — left running by a pid nothing can prove stopped</td><td>delivered</td><td>delivered</td></tr>
+<tr><td>the provider refuses the request (403)</td><td>forbidden</td><td>forbidden</td><td>forbidden</td></tr>
+<tr><td>the service is removed while a job exists</td><td>unknown</td><td>unavailable</td><td>unavailable</td></tr>
+<tr><td>a guarantee the provider cannot give</td><td>unavailable</td><td>unavailable</td><td>unavailable</td></tr>
+<tr><td>the destination the caller actually named (absolute)</td><td>delivered</td><td>delivered</td><td>unavailable</td></tr>
+</table></div>
+<p class="meta">Seven of the nine rows; <a href="evidence.html#providers">the whole table</a> is on Evidence, 2026-09-08. <code>fetch</code> is written once against <code>download.Client</code> and never names a provider. Exit codes: 0 delivered or working, 3 unavailable, 4 forbidden, 5 unknown.</p>
+<div class="diff"><strong>Where the three differ.</strong> The five words live in <code>demo/answer</code>, Go. The job layer has no sentinel for <code>unknown</code> in any language and the transcript format cannot express it — a transcript is one process on its own store. Only Go's download layer names it (<code>ErrOutcomeUnknown</code>). And the error <em>class</em> does not survive Go's <code>Client</code> boundary: the runner stores <code>err.Error()</code> and <code>Wait</code> returns that string, so the only surviving signal of <em>no</em> is <code>state: failed</code>. The demo rebuilds the answer from the state and the text, and marks every answer it had to guess.</div>
+
+<h3 id="retries">9. Retries — not now against no</h3>
+<p>Retry classification, as old as SMTP's <code>4yz</code>/<code>5yz</code>. A dropped connection, a full disk, a NAS that rebooted: <em>not now</em>. A request that can never work as written: <em>no</em>. Backwards in either direction costs: a 404 classed <em>not now</em> is re-fetched on every sweep forever; a dropped connection classed <em>no</em> throws away the case this project exists for.</p>
+<ul>
+<li><strong>The class is attached where the error is defined, never kept in a list.</strong> Go and Python each kept a list; they disagreed by a row for as long as both existed.</li>
+<li>Over HTTP, <em>the source refused</em> is exactly <code>400 401 402 403 404 405 406 410 414 451</code>. Listed, not ranged: an unrecognised 4xx is <em>not now</em>. <strong>That breaks <a href="https://www.rfc-editor.org/rfc/rfc9110#section-15">RFC 9110 § 15</a> on purpose</strong> — <code>499</code> is nginx closing on its own client and <code>440</code> an IIS session timeout, and neither is a statement about the file.</li>
+<li><em>No</em> is: the source refused, nothing can serve the job's sources, the sink escapes the store root or names the store's own layout, the record is invalid. Everything else is <em>not now</em> — including a sink written in the other platform's path convention, which is unusable here and fine where it was written.</li>
+<li><strong>The attempt count is the lease epoch.</strong> A record carrying an error waits <code>updated_at + min(15 s · 2^(epoch−1), 15 min)</code>; a record without one is adopted at once, because a killed owner wrote nothing.</li>
+<li>Taking a lease to publish a refusal is a write: it bumps the epoch and charges the submitter's backoff. So a sweep declines to claim a job whose sink it cannot write, and refuses out loud only when asked by name.</li>
+</ul>
+<div class="lang" data-lang="go">
+<pre><code>download.Permanent(err)            // true: trying again unchanged is pointless
+download.RetryAfter(rec)           // time.Time; zero when the record carries no error</code></pre>
+</div>
+<div class="lang" data-lang="python">
+<pre><code>permanent(exc)                     # isinstance(exc, (Permanent, Invalid))
+retry_after(rec)                   # POSIX timestamp; 0.0 when the record carries no error</code></pre>
+</div>
+<div class="lang" data-lang="cpp">
+<pre><code>download::Error e(...); e.permanent();   // the class rides on the exception</code></pre>
+</div>
+<div class="diff"><strong>Where the three differ.</strong> C++ carries the class on <code>download::Error</code> and has no <code>retry_after</code>: the backoff formula exists in Go and Python only, tagged on no contract page and cited by no scenario. Whether the job layer owns the formula or only the counter is undecided.</div>
+
+<h3 id="declarations">10. Declarations, and what an older reader does</h3>
+<p>There is no version number and no negotiation. A record says which models it carries (<code>content</code>) and which a reader must understand (<code>critical</code>); both are derived from the record on every write, never remembered. An unknown name in <code>critical</code> is <code>unknown-model</code>: the record is fine, this reader is too old, leave it alone. <code>abstraction.job/terminal@1</code> and <code>recall@1</code> name <em>rules</em>, not fields — a shape can be ignored, a rule about writes cannot, because the reader that does not know it is precisely the reader that breaks it. Measured: a reader published one day earlier walked a <code>complete</code> record back to <code>pending</code> under an unchanged <code>base@1</code>.</p>
+<div class="warn">On the socket binding none of this runs: <code>content</code> and <code>critical</code> are stripped in both directions and an unknown field is dropped where the disk would refuse it. The socket ships to nobody today. Four combinations of a client and a service one day apart all connect, none refuses, and two finish the same script with the job in a different state (<code>research/skew/RESULTS.txt</code>).</div>
+
+<h3 id="delegation">11. Delegation — handing the work to something that outlives the caller</h3>
+<p>Two shapes, and each half is somebody's published interface; the pair is not, and is the one concept on these pages with no ancestor. A <strong>Fetcher</strong> streams bytes through us and dies with the process (http, a local file, an SMB path). A <strong>Delegator</strong> does the work under its own account and hands back a handle (BITS, a NAS daemon). A caller asks for <code>survives_process_exit</code>; which shape provides it is the machine's business. When delegated, the handle is <code>{system, external_id}</code>, the lease is released — holding it would stop anyone else verifying and delivering the finished file — and <code>progress</code> is a cache. A delegate's "success" is verified by hashing the delivered file: BITS guarantees size and timestamp, not content. A handle that stops resolving returns the job to <code>pending</code> with its sources and checkpoint intact.</p>
+<div class="lang" data-lang="go">
+<pre><code>runner.Delegators = download.NewDelegators(bits.New())
+err := runner.Delegate(ctx, id)      // returns as soon as the service has it; this process may now exit
+n, _ := runner.ReconcileAll(ctx)     // any later process catches up with work handed to a service
+n, _ := runner.Adopt(ctx)            // claims every orphan and finishes it here</code></pre>
+</div>
+<div class="lang" data-lang="python">
+<pre><code>runner.adopt()                       # claims every orphan and finishes it here</code></pre>
+</div>
+<div class="lang" data-lang="cpp">
+<pre><code>Runner runner(store, "cpp-worker");
+runner.run(id);                      // claim, resume from what was proven, hash, verify, deliver</code></pre>
+</div>
+<div class="diff"><strong>Where the three differ, and it is the largest gap on this page.</strong> <code>Delegator</code>, <code>Delegate</code>, <code>Reconcile</code>, the BITS and NAS bindings and the supervisor <code>jobd</code> exist in Go only. Python has a <code>Runner</code> that fetches and adopts and can be supervised by the Go <code>jobd</code>; C++ has a <code>Runner</code> that fetches and no adopt sweep. All three read and write a delegated record correctly — the field is in the contract — but only Go can create one. Intent on a delegated record (who honours cancel when the holder released to a delegate) has no rule in any language.</div>
+
+<h2 id="api">API</h2>
+<p class="meta">Signature, then what it refuses. Each language's shape is that language's; the refusal classes are the contract, their wording is not.</p>
+
+<h3>Store</h3>
+<div class="wrap"><table class="sig">
+<tr><th>operation</th><th>Go <code>job.Store</code></th><th>Python <code>abstraction_job.Store</code></th><th>C++ <code>abstraction::job::Store</code></th><th>refuses</th></tr>
+<tr><td>submit</td><td><code>Submit(r Record) (string, error)</code></td><td><code>submit(r) -&gt; str</code></td><td><code>std::string submit(Record)</code></td><td><code>invalid</code> — a supplied id that already exists, an empty kind</td></tr>
+<tr><td>load</td><td><code>Load(id string) (*Record, error)</code></td><td><code>load(job_id) -&gt; Record</code></td><td><code>Record load(const std::string&amp;) const</code></td><td><code>not-found</code>, <code>unknown-model</code>. Never takes the lock; any process may read</td></tr>
+<tr><td>list</td><td><code>List() ([]*Record, error)</code></td><td><code>list() -&gt; List[Record]</code></td><td><code>std::vector&lt;Record&gt; list() const</code></td><td>see below</td></tr>
+<tr><td>orphans</td><td><code>Orphans() ([]*Record, error)</code></td><td><code>orphans() -&gt; List[Record]</code></td><td><code>std::vector&lt;Record&gt; orphans() const</code></td><td>see below</td></tr>
+<tr><td>claimable</td><td><code>Claimable(r *Record) bool</code></td><td><code>claimable(r) -&gt; bool</code></td><td><code>bool claimable(const Record&amp;) const</code></td><td>a predicate over a record and a clock; no round trip</td></tr>
+<tr><td>claim</td><td><code>Claim(id, owner string, ttl time.Duration) (*Record, error)</code></td><td><code>claim(job_id, owner, ttl_seconds) -&gt; Record</code></td><td><code>Record claim(id, owner, std::chrono::milliseconds ttl)</code></td><td><code>not-found</code>, <code>lease-held</code>, <code>terminal</code>, <code>unknown-model</code>; an empty owner is refused with no fixed class</td></tr>
+<tr><td>renew</td><td><code>Renew(id string, epoch int64, ttl time.Duration) (*Record, error)</code></td><td><code>renew(job_id, epoch, ttl_seconds) -&gt; Record</code></td><td><code>Record renew(id, epoch, ttl)</code></td><td><code>stale-epoch</code>, <code>lease-expired</code> even when the epoch matches. Accepted on a terminal record</td></tr>
+<tr><td>release</td><td><code>Release(id string, epoch int64) error</code></td><td><code>release(job_id, epoch) -&gt; None</code></td><td><code>void release(id, epoch)</code></td><td><code>stale-epoch</code>, <code>lease-expired</code>, <code>terminal</code>. An epoch-checked write, not advisory: <em>courtesy</em> means only that nothing depends on it</td></tr>
+<tr><td>update</td><td><code>Update(id string, epoch int64, mutate func(*Record) error) (*Record, error)</code></td><td><code>update(job_id, epoch, mutate) -&gt; Record</code></td><td><code>Record update(id, epoch, const std::function&lt;void(Record&amp;)&gt;&amp;)</code></td><td><code>stale-epoch</code>, <code>lease-expired</code>, <code>terminal</code>, <code>invalid</code>. The single gate every change passes through</td></tr>
+<tr><td>set intent</td><td><code>SetIntent(id string, want Want, by string) (*Record, error)</code></td><td><code>set_intent(job_id, want, by="") -&gt; Record</code></td><td><code>Record set_intent(id, want, by)</code></td><td><code>terminal</code>, <code>invalid</code> on an unknown want. <strong>No epoch.</strong> Idempotent</td></tr>
+<tr><td>recall</td><td><code>Recall(id string, epoch int64, reason, by string, grace time.Duration) (*Record, error)</code></td><td><code>recall(job_id, epoch, reason, by="", grace_seconds=30.0) -&gt; Record</code></td><td><code>Record recall(id, epoch, reason, by, std::chrono::milliseconds grace)</code></td><td><code>stale-epoch</code> if the record moved, <code>invalid</code> without a reason, <code>lease-expired</code> where nobody holds it, <code>terminal</code></td></tr>
+</table></div>
+<div class="diff"><strong>Where the three differ.</strong> A partial answer — some records read, some unreadable — is a fourth shape. Go's <code>List</code> and <code>Orphans</code> return the records <em>beside</em> an <code>*ErrUnreadable</code> naming the ids. <strong>Python and C++ skip an unreadable record and return success</strong>, so a sweeper there calls itself healthy while work is stranded. Live divergence; the cross-language rule is undecided. Python and C++ also expose <code>claim_from(seen, owner, ttl)</code>: claim the record <em>as the caller last read it</em>, refused <code>lease-held</code> if it moved since. Go has no equivalent on the interface.</div>
+<p>Refusals by language: Go returns sentinel errors — <code>job.ErrNotFound</code>, <code>ErrLeaseHeld</code>, <code>ErrStaleEpoch</code>, <code>ErrLeaseExpiry</code>, <code>ErrTerminal</code>, <code>ErrInvalid</code>, <code>ErrUnknownSchema</code> — matched with <code>errors.Is</code>. Python raises <code>NotFound</code>, <code>LeaseHeld</code>, <code>StaleEpoch</code>, <code>LeaseExpired</code>, <code>Terminal</code>, <code>Invalid</code>, <code>UnknownSchema</code>, all under <code>JobError</code>. C++ throws the same names under <code>JobError</code>, with <code>TerminalState</code> for terminal. The <code>thrift</code> sketch in <code>job/job.thrift</code> declares the same exceptions and is <strong>not normative</strong>; its exception lists predate the terminal rules.</p>
+
+<h3>Optional: a local area</h3>
+<p>A store whose binding happens to be a filesystem can say so. A store bound to a service answers no, and a caller must have an answer for that.</p>
+<div class="lang" data-lang="go"><pre><code>if sc, ok := store.(job.Scratch); ok { sc.Root(); sc.WorkPath(id) }</code></pre></div>
+<div class="lang" data-lang="python"><pre><code>store.root(); store.work_path(job_id)        # FileStore implements the Scratch protocol</code></pre></div>
+<div class="lang" data-lang="cpp"><pre><code>if (auto* l = dynamic_cast&lt;LocalStore*&gt;(&amp;store)) { l-&gt;root(); l-&gt;work_path(id); }</code></pre></div>
+<p><code>work/&lt;id&gt;</code> is a name, not a shape: derived from the id so a successor finds what a predecessor left, and used by nothing else. <code>Reserved(owner, path)</code> (<code>reserved</code> in Python, <code>abstraction::job::reserved</code> in C++) says whether a path names the store's own layout — a sink of <code>jobs/&lt;id&gt;.json</code> would overwrite a record.</p>
+
+<h3>Watching</h3>
+<p>A live view of one kind's jobs: the present first, then every visible change, and quiet once nothing has changed for a budget. A change is identity, state, <code>progress.done</code>, <code>progress.total</code>, the lease owner or the error. <strong>A lease renewal is not a change</strong> — a view that redraws on every heartbeat flickers.</p>
+<div class="lang" data-lang="go"><pre><code>sub := job.Watch(store, "download")          // Records(), Next(ctx), Changes() &lt;-chan, Close()</code></pre></div>
+<div class="lang" data-lang="python"><pre><code>sub = watch(store, "download", budget=0.0)  # records(), next(timeout) -&gt; Notice, close()</code></pre></div>
+<div class="lang" data-lang="cpp"><pre><code>#include &lt;abstraction/job/watch.h&gt;          // the same three operations</code></pre></div>
+<p><code>KeepAwake(store, claimed)</code> holds the machine out of idle sleep for exactly as long as this process holds that lease and not a moment longer. Windows <code>PowerRequestSystemRequired</code>, macOS <code>caffeinate -i</code>, Linux <code>systemd-inhibit</code>. A queued or delegated job holds nothing. macOS and Linux are written and not run.</p>
+
+<h3>Download</h3>
+<p>The layer that can fetch. It adds to a job the three things a transfer needs and nothing about what the bytes are for:</p>
+<div class="wrap"><table>
+<tr><th>field</th><th>meaning</th><th>absent</th><th>is, elsewhere</th></tr>
+<tr><td><code>artifact.digest</code></td><td><code>sha256:</code> + 64 lowercase hex</td><td>unknown — <strong>not</strong> "matches anything"</td><td>an <a href="https://github.com/opencontainers/image-spec/blob/main/descriptor.md">OCI descriptor</a></td></tr>
+<tr><td><code>artifact.size</code></td><td>bytes</td><td>0, unknown</td><td></td></tr>
+<tr><td><code>sources[]</code></td><td>where the bytes may be had, ordered. <code>scheme</code>, <code>locator</code>, <code>priority</code> (<strong>lower first</strong>), <code>attrs</code> (to us), <code>headers</code> (to the server)</td><td>nothing to try</td><td>Metalink, <a href="https://www.rfc-editor.org/rfc/rfc5854">RFC 5854</a> — including its priority direction</td></tr>
+<tr><td><code>sink.final</code>, <code>sink.partial</code></td><td>where the bytes end up, and accumulate first. A relative path is under the store root on <em>whichever machine picks the job up</em>; an absolute one is honoured only by the machine whose convention it is written in</td><td>the layer invents the partial</td><td>BITS <code>LocalName</code>, curl <code>-o</code></td></tr>
+</table></div>
+<div class="lang" data-lang="go">
+<pre><code>a, _ := abstraction.Discover()             // reads the machine; no path, no flag in the caller
+h, _ := a.Download().Get(url, dest)        // returns at once; the transfer outlives the caller
+rec, err := h.Wait(ctx)                    // blocks until the bytes are here, then takes delivery
+
+// a caller that knows more
+h, _ := c.Submit(download.Spec{
+    Artifact: download.Artifact{Digest: "sha256:74a4da…", Size: 491400032},
+    Sources: []download.Source{
+        {Scheme: "https", Locator: "https://huggingface.co/…/model.gguf"},
+        {Scheme: "smb",   Locator: `\\nas\models\model.gguf`, Priority: 1},
+    },
+    Sink: download.Sink{Final: "models/model.gguf"},
+}, "survives_process_exit")
+
+h, out, _ := c.ResumeOrGet(url, dest)      // out.Decision: submitted · resumed · delivered · busy · paused
+sub := c.Jobs()                            // every download on this machine, live; bind a UI to it
+c.Where()                                  // "nas", "bits", "here" — display text, never a branch</code></pre>
+<p class="meta"><code>download.Client</code>: <code>Get</code>, <code>Submit</code>, <code>ResumeOrSubmit</code>, <code>ResumeOrGet</code>, <code>Open</code>, <code>Jobs</code>, <code>Where</code>, <code>Deliver</code>, <code>TakeDelivery</code>. <code>Handle</code> is a <code>job.Job</code> plus <code>Destination()</code>, <code>Wait(ctx)</code>, <code>TakeDelivery()</code>.</p>
+</div>
+<div class="lang" data-lang="python">
+<pre><code>svc = abstraction_download.discover()      # reads where this machine keeps its jobs
+svc.deliver(svc.get(url, "models/x.gguf")) # ids, not handles; deliver waits and takes delivery
+
+job_id = svc.submit(Spec(
+    artifact=Artifact(digest="sha256:74a4da…", size=491400032),
+    sources=[Source(scheme="https", locator="https://huggingface.co/…/model.gguf")],
+    sink=Sink(final="models/model.gguf"),
+), requires=["survives_process_exit"])
+svc.jobs()                                 # a snapshot, not a live collection
+svc.where()                                # "here", or the supervisor's tier</code></pre>
+<p class="meta"><code>Client</code>: <code>get</code>, <code>submit</code>, <code>open</code>, <code>jobs</code>, <code>where</code>, <code>take_delivery</code>, <code>deliver</code>.</p>
+</div>
+<div class="lang" data-lang="cpp">
+<pre><code>using namespace abstraction::download;
+Spec spec;
+spec.artifact = {"sha256:74a4da…", 491400032};
+spec.sources.push_back({"https", "https://huggingface.co/…/model.gguf"});
+spec.sink.final_path = "models/model.gguf";
+const std::string id = submit(store, spec);   // job::Invalid when the spec is refused
+Runner runner(store, "my-app");
+runner.run(id);                               // this process does the transfer
+
+switch (abstraction::discovery::ask(store_root, "abstraction.downloads")) {
+    case Answer::Present: break;              // a supervisor would take it
+    case Answer::Incompatible: break;         // a NEWER supervisor: do not
+    case Answer::Absent: break;               // the ordinary case, not an error
+}</code></pre>
+</div>
+<div class="diff"><strong>Where the three differ.</strong> Go has a facade (<code>abstraction.Discover()</code>), a <code>Client</code>, handles and a live collection. Python has a <code>Client</code> with ids in place of handles and a snapshot in place of a collection, because the Python job layer has neither. <strong>C++ has no <code>Client</code></strong>: <code>submit</code> and <code>Runner::run</code>, and a discovery <code>ask</code> that answers with three words and hands nothing over. Only Go can delegate. And the two-string convenience differs in meaning: Go's <code>Get</code> absolutises the destination — a shell path on <em>this</em> machine — while <code>Submit</code> carries the sink as written; Python's <code>get</code> also absolutises. The demo measured the same string <code>rel.bin</code> landing in the working directory under one provider and in the store root under another.</div>
+
+<h4>Capabilities</h4>
+<p><code>requires</code> is a placement constraint (Kubernetes <code>nodeSelector</code>, Nomad <code>constraint</code>). A job that asks for a property is not quietly served by something without it.</p>
+<div class="wrap"><table>
+<tr><th>capability</th><th>promise</th><th>how the claim is established</th></tr>
+<tr><td><code>verifies_content</code></td><td>the delivered bytes match the digest</td><td><em>checked</em>: the core hashes again, so a false claim costs nothing</td></tr>
+<tr><td><code>resume</code></td><td>continues from a proven prefix</td><td><em>falsifiable</em>: one observation refutes it, and a refuted claim is disbelieved</td></tr>
+<tr><td><code>survives_process_exit</code></td><td>the transfer continues when the caller is gone</td><td><em>recovered</em>: a false claim costs work that is taken back and redone</td></tr>
+<tr><td><code>delegates</code></td><td>hands the work to another system</td><td><em>trusted</em>: nothing here refutes a false claim. Published because a promise nobody checks is one an adopter is entitled to see named</td></tr>
+</table></div>
+<div class="warn"><strong>Known and unfixed:</strong> the check runs against the <em>fetcher</em>, not the arrangement. <code>-require survives_process_exit</code> is refused by all three demo providers, including the supervised one that does survive the caller exiting — the row <em>a guarantee the provider cannot give</em> on <a href="evidence.html#providers">Evidence</a>.</div>
+
+<h2 id="cli">Command line</h2>
+<div class="wrap"><table>
+<tr><th>tool</th><th>does</th><th>languages</th></tr>
+<tr><td><code>jobctl submit|claim|progress|finish|show|cancel|intent|recall|orphans</code></td><td>drives a store from a shell; <code>JOB_STORE</code> names it. Passes the spec through untouched</td><td>Go, Python, C++ — the same verbs, so a script can drive any</td></tr>
+<tr><td><code>dl &lt;url&gt;</code> · <code>dl list</code> · <code>dl watch</code></td><td>fetches one URL, resumes from the last byte it can prove, verifies. Ctrl-C it and run it again</td><td>Go</td></tr>
+<tr><td><code>jobd once|run|status|install</code></td><td>the supervisor: reconciles delegated jobs, verifies and delivers finished ones, adopts orphans. Moves no bytes. <code>install</code> prints the <code>schtasks</code> lines and does not run them</td><td>Go</td></tr>
+<tr><td><code>wanted/</code></td><td>a text file in the store is a request; the folder answers by renaming it <code>.accepted</code>, <code>.done</code>, <code>.failed</code>, <code>.refused</code>. Only <code>http</code> and <code>https</code>; no credential names</td><td>served by <code>jobd</code></td></tr>
+<tr><td><code>specread</code>, <code>replay</code></td><td>the conformance instruments: print the meaning each implementation arrived at, and run a scenario against its own store, so transcripts compare byte for byte</td><td>Go, Python, C++</td></tr>
+</table></div>
+
+<h2 id="undecided">Undecided</h2>
+<p class="meta">Behaviour none of the sources settles, with what the three implementations do today. An adopter meets these as surprises; they are listed so the surprise is here instead.</p>
+<ol>
+<li><strong>Backward state moves.</strong> All three let a holder write <code>transferred</code> → <code>pending</code>. No scenario asserts it lands; no refusal class exists for it.</li>
+<li><strong>Same-owner re-claim while live.</strong> All three bump the epoch. It let one process race itself and report a delivered download as a failed install.</li>
+<li><strong>Verdict class for an empty owner.</strong> Go: a bare error. Python, C++: <code>JobError</code>. Neither is in the verdict list.</li>
+<li><strong>Whose clock.</strong> Each store reads its own. Two hosts on one share may assume nothing.</li>
+<li><strong>Delegated orphans.</strong> The store offers them; the download kind declines them.</li>
+<li><strong>Intent on a delegated record.</strong> Who honours cancel and pause once the holder released to a delegate.</li>
+<li><strong>Request identity on the write path.</strong> An update's lost answer cannot be asked about.</li>
+<li><strong>Possibly delegated.</strong> <code>external_id == id</code> is Go's encoding of "unsettled"; a Python or C++ reader sees a settled delegation it can never settle.</li>
+<li><strong>A repeated recall</strong> may leave <code>until</code> past <code>expires_at</code>.</li>
+<li><strong><code>unknown</code> in the job layer.</strong> No sentinel, no verdict class, no transcript shape.</li>
+<li><strong>What <code>refused</code> names</strong> now that <code>unknown-model</code> exists.</li>
+<li><strong>Partial enumeration across languages</strong> — Go names the unreadable ids; Python and C++ skip.</li>
+<li><strong>Release after a final write</strong> has no distinguished answer.</li>
+<li><strong>Update, intent and release on <code>transferred</code>.</strong> All three answer <code>ok</code>; no page decides.</li>
+<li><strong>Where backoff lives.</strong> In the download kind, on the epoch. Whether the job layer owns the formula or only the counter.</li>
+<li><strong>The socket binding's decoder</strong>, and whether a connection declares what it enforces.</li>
+<li><strong>Renew on a never-held record</strong> (all three: <code>lease-expired</code>) and on a live lease (all three: <code>ok</code>).</li>
+</ol>
+<p class="meta">The full list with what would settle each: <code>job/SPEC.md</code> § 11.</p>
+
+<h2 id="where">Where each rule lives</h2>
+<p>Four jurisdictions, each rule in exactly one:</p>
+<div class="wrap"><table>
+<tr><th>a rule about</th><th>is normative in</th><th>today</th></tr>
+<tr><td>fields, types, identifiers, structural constraints</td><td>a machine-readable schema</td><td><code>job/job.thrift</code>, a sketch that generates nothing; the table on <code>job/README.md</code></td></tr>
+<tr><td>operations, state transitions, cancellation, ownership, retries</td><td>a behavioural specification</td><td><code>job/SPEC.md</code>, drawn from the tagged rules on the READMEs</td></tr>
+<tr><td>framing, discovery, authentication, reconnection</td><td>a transport binding</td><td>the file layout on <code>job/README.md</code>; a socket that ships to nobody</td></tr>
+<tr><td>concrete examples and regressions</td><td>a versioned conformance corpus</td><td><a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/scenarios"><code>download/testdata/scenarios/</code></a>, three transcripts per scenario compared byte for byte</td></tr>
+</table></div>
+<p class="meta">Every rule on a contract page ends with a tag — <code>[JOB-L1]</code>, <code>[DL-E2]</code> — and a scenario cites the tag it tests. A rule nothing cites is printed and counted <code>UNEXERCISED</code>; the tags minted in <code>job/SPEC.md</code> § 13 are counted so until the harness reads that page. The count is an instrument's number and moves on every run, so it is not quoted here.</p>
+
+<footer>
+<p>Sources, checked against them on 2026-09-08: <a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md"><code>job/CONTRACT.md</code></a>, <a href="https://github.com/openabstractions/abstraction-job/blob/main/SPEC.md"><code>job/SPEC.md</code></a>, <a href="https://github.com/openabstractions/abstraction-job/blob/main/job.thrift"><code>job/job.thrift</code></a>, <a href="https://github.com/openabstractions/abstraction-download/blob/main/CONTRACT.md"><code>download/CONTRACT.md</code></a>, and the demo behind <a href="evidence.html#providers">Evidence</a>. Where this page and a contract page disagree, the contract page binds. Nothing on this page carries an API stability promise; <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
+<p><a href="index.html">Overview</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> · <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
+</footer>
+</main>
+
+<script>
+(function () {
+  var root = document.documentElement, key = "lang";
+  root.setAttribute("data-js", "");
+  var saved = "all";
+  try { saved = localStorage.getItem(key) || "all"; } catch (e) {}
+  function set(v) {
+    root.setAttribute("data-lang", v);
+    try { localStorage.setItem(key, v); } catch (e) {}
+    var bs = document.querySelectorAll(".bar button");
+    for (var i = 0; i < bs.length; i++) bs[i].setAttribute("aria-pressed", bs[i].getAttribute("data-set") === v ? "true" : "false");
+  }
+  document.querySelector(".bar").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (b) set(b.getAttribute("data-set"));
+  });
+  set(saved);
+})();
+</script>
+</html>

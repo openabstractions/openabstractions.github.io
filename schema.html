@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Abstractions — schema</title>
+<link rel="stylesheet" href="style.css">
+
+<main>
+<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
+<a href="index.html">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="adopt.html">Adopt</a>
+<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
+<p class="meta" style="margin-top:10px"><a href="#encoding">Encoding</a> · <a href="#types">Types</a> · <a href="#structs">Structs</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#vocabulary">Vocabulary</a> · <a href="#refusals">Refusals</a> · <a href="#protocol">Protocol</a></p>
+
+<h1>Schema</h1>
+<p class="lead">One definition; this page and every encoder are emitted from it. Nothing below is written by hand, and each rule tag links the construct to the profile that admits it.</p>
+<h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
+<div class="wrap"><table>
+<thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
+<tbody>
+<tr><td><code>escape</code></td><td><code>minimal</code></td><td><span class="tag">[DEF-E2]</span></td></tr>
+<tr><td><code>indent</code></td><td><code>2</code></td><td><span class="tag">[DEF-E3]</span></td></tr>
+<tr><td><code>map_keys</code></td><td><code>utf8-bytes</code></td><td><span class="tag">[DEF-E4]</span></td></tr>
+<tr><td><code>numbers</code></td><td><code>integer-decimal</code></td><td><span class="tag">[DEF-E5]</span></td></tr>
+<tr><td><code>opaque</code></td><td><code>verbatim</code></td><td><span class="tag">[DEF-E6]</span></td></tr>
+<tr><td><code>terminator</code></td><td><code>newline</code></td><td><span class="tag">[DEF-E7]</span></td></tr>
+<tr><td><code>duplicate_keys</code></td><td><code>refuse</code></td><td><span class="tag">[DEF-E8]</span></td></tr>
+<tr><td><code>depth_limit</code></td><td><code>64</code></td><td><span class="tag">[DEF-E9]</span></td></tr>
+</tbody></table></div>
+<h2 id="types">Types</h2>
+<div class="wrap"><table>
+<thead><tr><th>kind</th><th>types</th></tr></thead>
+<tbody>
+<tr><td>built in</td><td><code>bool</code> <code>i32</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>declared below</td><td><code>Delegation</code> <code>Envelope</code> <code>Intent</code> <code>Lease</code> <code>Progress</code> <code>Recall</code> <code>Step</code></td></tr>
+<tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;json&gt;</code> <code>list&lt;string&gt;</code> <code>map&lt;string,json&gt;</code></td></tr>
+<tr><td>opaque <span class="tag">[DEF-A3]</span></td><td><code>json</code></td></tr>
+</tbody></table></div>
+<h3 id="named-types">Named types <span class="tag">[DEF-T2]</span></h3>
+<p class="meta">One spelling is written <span class="tag">[DEF-G2]</span> and a wider set is read <span class="tag">[DEF-G1]</span>; the width between them is the interoperability guarantee.</p>
+<div class="wrap"><table>
+<thead><tr><th>name</th><th>is</th><th>written</th><th>read</th></tr></thead>
+<tbody>
+<tr><td><code>timestamp</code></td><td><code>string</code></td><td><code>rfc3339-micros</code></td><td><code>rfc3339-wide</code></td></tr>
+</tbody></table></div>
+<h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
+<p class="meta">A field is required, or says when it is omitted <span class="tag">[DEF-A4]</span>. Each struct says on its own what it does with a field name it has never heard of <span class="tag">[DEF-A7]</span>. A wire name never moves; where a language must spell it differently the field says so <span class="tag">[DEF-A2]</span>.</p>
+<h3 id="struct-Step"><code>Step</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>name</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>ordinal</code></td><td><code>i32</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>of</code></td><td><code>i32</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>4</td><td><code>done</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>5</td><td><code>total</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Progress"><code>Progress</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>done</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>total</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>updated_at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>step</code></td><td><code>Step</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Recall"><code>Recall</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>reason</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>by</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>until</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Lease"><code>Lease</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>owner</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>epoch</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>expires_at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>recall</code></td><td><code>Recall</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Delegation"><code>Delegation</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>system</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>external_id</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>delivered</code></td><td><code>bool</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Intent"><code>Intent</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>want</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>by</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>at</code></td><td><code>timestamp</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Envelope"><code>Envelope</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>schema</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>actions</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Record"><code>Record</code></h3>
+<p class="meta">the document <span class="tag">[DEF-A1]</span> · unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>content</code></td><td><code>list&lt;string&gt;</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>critical</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>id</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>kind</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>17</td><td><code>envelope</code></td><td><code>Envelope</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>5</td><td><code>state</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>6</td><td><code>spec</code></td><td><code>json</code></td><td>required</td><td>—</td></tr>
+<tr><td>7</td><td><code>checkpoint</code></td><td><code>json</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>8</td><td><code>progress</code></td><td><code>Progress</code></td><td>required</td><td>—</td></tr>
+<tr><td>9</td><td><code>lease</code></td><td><code>Lease</code></td><td>required</td><td>—</td></tr>
+<tr><td>10</td><td><code>delegation</code></td><td><code>Delegation</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>11</td><td><code>requires</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero</td><td><code>cpp</code> <code>requires_</code></td></tr>
+<tr><td>12</td><td><code>error</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>13</td><td><code>intent</code></td><td><code>Intent</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>14</td><td><code>extensions</code></td><td><code>map&lt;string,json&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>15</td><td><code>created_at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>16</td><td><code>updated_at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Request"><code>Request</code></h3>
+<p class="meta">the <a href="#protocol">protocol request</a> · unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>op</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>id</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>owner</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>4</td><td><code>epoch</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>5</td><td><code>ttl_ms</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>6</td><td><code>want</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>7</td><td><code>by</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>8</td><td><code>reason</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>9</td><td><code>record</code></td><td><code>json</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>10</td><td><code>base</code></td><td><code>json</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Response"><code>Response</code></h3>
+<p class="meta">the <a href="#protocol">protocol response</a> · unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>kind</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>2</td><td><code>error</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>id</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>4</td><td><code>record</code></td><td><code>json</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>5</td><td><code>records</code></td><td><code>list&lt;json&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>6</td><td><code>bool</code></td><td><code>bool</code></td><td>optional · omitted when zero</td><td><code>cpp</code> <code>bool_</code></td></tr>
+<tr><td>7</td><td><code>unreadable</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
+<p class="meta">An enumeration is a closed vocabulary of wire names, and each one says on its own what a reader does with a member it has never heard of <span class="tag">[DEF-A5]</span>.</p>
+<h3 id="enum-Capability"><code>Capability</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>assurance</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>resume</code></td><td><code>falsifiable</code></td></tr>
+<tr><td>2</td><td><code>survives_process_exit</code></td><td><code>recovered</code></td></tr>
+<tr><td>3</td><td><code>verifies_content</code></td><td><code>checked</code></td></tr>
+<tr><td>4</td><td><code>delegates</code></td><td><code>trusted</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-Verdict"><code>Verdict</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>not_found</code></td></tr>
+<tr><td>2</td><td><code>lease_held</code></td></tr>
+<tr><td>3</td><td><code>stale_epoch</code></td></tr>
+<tr><td>4</td><td><code>conflict</code></td></tr>
+<tr><td>5</td><td><code>lease_expired</code></td></tr>
+<tr><td>6</td><td><code>terminal</code></td></tr>
+<tr><td>7</td><td><code>invalid</code></td></tr>
+<tr><td>8</td><td><code>unknown_schema</code></td></tr>
+<tr><td>9</td><td><code>unknown_op</code></td></tr>
+<tr><td>10</td><td><code>not_supported</code></td></tr>
+<tr><td>11</td><td><code>other</code></td></tr>
+</tbody></table></div>
+<h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
+<div class="wrap"><table>
+<thead><tr><th>name</th><th>type</th><th>value</th></tr></thead>
+<tbody>
+<tr><td><code>permanent_status</code></td><td><code>list&lt;i32&gt;</code></td><td><code>400, 401, 402, 403, 404, 405, 406, 410, 414, 451</code></td></tr>
+</tbody></table></div>
+<h2 id="vocabulary">Vocabulary <code>Content</code> <span class="tag">[DEF-A8]</span></h2>
+<p class="meta">declared of <code>Record</code> · carried in <code>content</code> · the subset a reader must know in <code>critical</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>term</th><th>present when</th><th>critical marking stripped</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>abstraction.job/base@1</code></td><td><code>always</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>abstraction.job/intent@1</code></td><td><code>intent</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>abstraction.download/ranges@1</code></td><td><code>checkpoint</code></td><td><code>true</code></td></tr>
+<tr><td>4</td><td><code>abstraction.job/delegation@1</code></td><td><code>delegation</code></td><td>—</td></tr>
+<tr><td>5</td><td><code>abstraction.job/envelope@1</code></td><td><code>envelope</code></td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="refusals">Refusal words <span class="tag">[DEF-R1]</span></h2>
+<div class="wrap"><table>
+<thead><tr><th>order</th><th>word</th><th>stage</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>malformed</code></td><td><code>grammar</code></td></tr>
+<tr><td>2</td><td><code>bad_string</code></td><td><code>grammar</code></td></tr>
+<tr><td>3</td><td><code>number_spelling</code></td><td><code>grammar</code></td></tr>
+<tr><td>4</td><td><code>wrong_type</code></td><td><code>grammar</code></td></tr>
+<tr><td>5</td><td><code>bad_timestamp</code></td><td><code>grammar</code></td></tr>
+<tr><td>6</td><td><code>depth_exceeded</code></td><td><code>grammar</code></td></tr>
+<tr><td>7</td><td><code>duplicate_key</code></td><td><code>grammar</code></td></tr>
+<tr><td>8</td><td><code>duplicate_field</code></td><td><code>structure</code></td></tr>
+<tr><td>9</td><td><code>unknown_field</code></td><td><code>structure</code></td></tr>
+<tr><td>10</td><td><code>missing_field</code></td><td><code>structure</code></td></tr>
+<tr><td>11</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
+<tr><td>12</td><td><code>unknown_critical</code></td><td><code>derivation</code></td></tr>
+<tr><td>13</td><td><code>not_a_subset</code></td><td><code>derivation</code></td></tr>
+<tr><td>14</td><td><code>content_mismatch</code></td><td><code>derivation</code></td></tr>
+</tbody></table></div>
+<h2 id="protocol">Protocol <code>Store</code> <span class="tag">[DEF-P1]</span></h2>
+<p class="meta">request <code>Request</code> · response <code>Response</code> · the operation in <code>op</code> · the verdict in <code>kind</code> from <code>Verdict</code> · an operation this peer does not know is <code>unknown_op</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>operation</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>submit</code></td></tr>
+<tr><td>2</td><td><code>load</code></td></tr>
+<tr><td>3</td><td><code>list</code></td></tr>
+<tr><td>4</td><td><code>orphans</code></td></tr>
+<tr><td>5</td><td><code>claimable</code></td></tr>
+<tr><td>6</td><td><code>claim</code></td></tr>
+<tr><td>7</td><td><code>renew</code></td></tr>
+<tr><td>8</td><td><code>release</code></td></tr>
+<tr><td>9</td><td><code>set_intent</code></td></tr>
+<tr><td>10</td><td><code>recall</code></td></tr>
+<tr><td>11</td><td><code>write</code></td></tr>
+</tbody></table></div>
+
+<footer>
+<p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
+<a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
+</footer>
+</main>
+</html>
