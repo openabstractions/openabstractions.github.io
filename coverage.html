@@ -30,7 +30,7 @@
 from what is committed in the tree and the transcripts in
 <a href="https://github.com/openabstractions/abstractions/tree/main/docs/results"><code>docs/results/</code></a>.
 Nothing on this page is typed by hand, and a grid the evidence no longer produces fails the gate rather than going stale quietly.</p>
-<p class="state" data-produced>Measured at commit <code>2c26008</code> on 2026-09-10. Layer trees: <code>abstraction@139e861 asks@87c0ff6 cas@017bcf7 config@8a4e899 download@56ce403 identity@cf38a12 job@7432d4d logging@68d0a1c model@ffb29b4 rights@4a3e767 router@4d89dda storage@e97f1c0 watch@0a0beff</code>.
+<p class="state" data-produced>Measured at commit <code>d762d15</code> on 2026-09-10. Layer trees: <code>abstraction@139e861 asks@87c0ff6 cas@017bcf7 config@cb5347c download@56ce403 identity@cf38a12 job@7432d4d logging@68d0a1c model@0037120 rights@4a3e767 router@4d89dda storage@e97f1c0 watch@0a0beff</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 
 <div class="warn"><p><strong>0 of the 24 implementations in this tree carry no verdict attributed to this tree.</strong>
@@ -52,14 +52,14 @@ nobody can point at.</p></div>
 <tr><td>identity</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
 <tr><td>job</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
 <tr><td>logging</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>model</td><td><span class="cell bad">FAIL</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>model</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
 <tr><td>rights</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
 <tr><td>router</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
 <tr><td>storage</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell good">PASS</span></td></tr>
 <tr><td>watch</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
 </table></div>
-<p class="tally"><span class="cell good">PASS</span> 23 ·
-<span class="cell bad">FAIL</span> 1 ·
+<p class="tally"><span class="cell good">PASS</span> 24 ·
+<span class="cell bad">FAIL</span> 0 ·
 <span class="cell unproven">UNPROVEN</span> 0 ·
 <span class="cell absent">ABSENT</span> 0 ·
 no implementation 15. 39 cells over 13 layers.</p>
@@ -107,7 +107,7 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>logging</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>logging</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>logging</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>model</td><td>go</td><td>FAIL</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>model</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>model</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 41 tests</td></tr>
 <tr><td>model</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>rights</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>

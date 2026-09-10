@@ -16,17 +16,21 @@
 <h1>Adopt</h1>
 <p class="lead">Four commands, then the one that judges us instead. Each was run before it was printed here, against the
 tag it names. Which of these is worth your time is <a href="cases.html">Cases</a>.</p>
-<p class="meta">Commands 1, 3 and 4 checked 2026-09-09 against the tags they name, with Go 1.26.5 on Windows 11, in an
+<p class="meta">A version appears below only where a command has to pin one, and it is the tag that command was run at —
+never a claim about which tag is newest. A tag list cannot drift, so each command links the one that answers "which
+release". Commands 1, 3 and 4 checked 2026-09-10 against the tags they name, with Go 1.26.5 on Windows 11, in an
 empty module cache with no workspace: each resolved from the Go proxy and was verified against <code>sum.golang.org</code>,
-and the program in step 3 compiled against the modules it fetched. Command 2 was run 2026-09-08 against the tag before
-this one, in a store in a scratch directory (<code>ABSTRACTION_STORE</code>): the transfer was killed by process id at
+and the program in step 3 compiled against the modules it fetched. Command 2 was last run 2026-09-08, against an earlier
+tag, in a store in a scratch directory (<code>ABSTRACTION_STORE</code>): the transfer was killed by process id at
 33.7 MiB of 87.6, the second run picked up at 33.7 MiB after the dead lease's thirty seconds, and the file's SHA-256
-matched the one Hugging Face publishes for it. Linux was last checked 2026-09-08, against the previous tags; macOS is
+matched the one Hugging Face publishes for it. Linux was last checked 2026-09-08, against earlier tags; macOS is
 <span class="unproven">UNPROVEN</span>.</p>
 
 <h2 id="run">1 · Run it</h2>
-<pre><code>go install github.com/openabstractions/abstraction-download/go/cmd/dl@v0.3.0</code></pre>
-<p>Go 1.26 or later. No file to download and no checksum to compare: Go builds <code>dl</code> from source and checks
+<pre><code>go install github.com/openabstractions/abstraction-download/go/cmd/dl@v0.4.1</code></pre>
+<p>Go 1.26 or later. That pin is the tag the command was run at;
+<a href="https://github.com/openabstractions/abstraction-download/tags">the tag list</a> is the answer to "which release".
+No file to download and no checksum to compare: Go builds <code>dl</code> from source and checks
 every module against <code>sum.golang.org</code>, which proves the bytes are the ones everyone else fetched and says
 nothing about who wrote them. Nine modules, eight of them ours and <code>golang.org/x/sys</code>. Nothing is signed.</p>
 
@@ -42,7 +46,7 @@ which it does in silence. <code>dl watch</code> is the live view. <code>-o &lt;p
 <code>--digest sha256:…</code> makes a corrupt answer from the server a refusal rather than a file —
 <a href="evidence.html#lies">without it, <code>dl</code> corrupts exactly as <code>curl</code> does</a>. A flag
 <code>dl</code> does not know, or a flag with nothing after it, is refused with exit 2 before anything is fetched —
-measured at the tag step 1 names; at the tag before it both were ignored without a word, and a mistyped
+measured at the tag step 1 names; an earlier tag ignored both without a word, and a mistyped
 <code>--digest</code> was an unverified file and exit 0.</p>
 <p>What is on disk after the kill: the partial file beside the destination, and under
 <a href="reference.html#record">the store</a> — the directory of job records — a record naming the URL, the destination,
@@ -54,7 +58,9 @@ a download may run — a NAS, a platform service, this process. Here it prints
 has the commands that set it up; they were not run for this page.</p>
 
 <h2 id="call">3 · Call it from a program</h2>
-<pre><code>go get github.com/openabstractions/abstraction-facade/go@v0.3.0</code></pre>
+<pre><code>go get github.com/openabstractions/abstraction-facade/go@v0.4.0</code></pre>
+<p class="meta">The pin is the tag this was run at;
+<a href="https://github.com/openabstractions/abstraction-facade/tags">the tag list</a> is the answer to "which release".</p>
 <pre><code>package main
 
 import (
@@ -83,7 +89,9 @@ written against this interface was run against three providers in nine situation
 words are for step 4.</p>
 
 <h2 id="implement">4 · Implement it, or wrap a downloader an application already has</h2>
-<pre><code>go get github.com/openabstractions/abstraction-download/go@v0.3.0</code></pre>
+<pre><code>go get github.com/openabstractions/abstraction-download/go@v0.4.1</code></pre>
+<p class="meta">The pin is the tag this was run at;
+<a href="https://github.com/openabstractions/abstraction-download/tags">the tag list</a> is the answer to "which release".</p>
 <p>The download module carries the <code>Client</code> interface, the <a href="reference.html#delegation"><code>Runner</code></a>
 that claims a record and drives it to delivery, the fetchers that move the bytes, and the scenario corpus every
 implementation is replayed through. The worked example of such a wrapper is <code>dlc</code>: one C++ header over
@@ -140,8 +148,10 @@ driver and returned FAILED with the rule and the step. Linux and macOS were not 
 <span class="unproven">UNPROVEN</span>.</p>
 
 <h2 id="other">Python and C++</h2>
-<p>Source only. Python is on no package index and C++ has no tagged release; no install line is printed here because none
-has been run from a clean machine. Both live beside Go in each layer's repository — <code>python/</code> and
+<p>Python is going onto PyPI a layer at a time; C++ has no tagged release. No install line is printed here, because none
+has been run from a clean machine, and which layers are up is not typed here:
+<a href="https://pypi.org/search/?q=abstraction-">the index</a> is the answer to that, the way a tag list is the answer
+to "which release". Both live beside Go in each layer's repository — <code>python/</code> and
 <code>cpp/</code> under <a href="https://github.com/openabstractions/abstraction-download"><code>abstraction-download</code></a>
 and <a href="https://github.com/openabstractions/abstraction-job"><code>abstraction-job</code></a> — and each is held
 to the same corpus: Go and Python finish each other's downloads in both directions
