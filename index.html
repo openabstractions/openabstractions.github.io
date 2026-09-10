@@ -16,8 +16,8 @@
 <h1><img class="mark" src="brand/mark-64.png" width="64" height="64" alt="">Open Abstractions</h1>
 <p class="lead">Interfaces for capabilities that applications keep rebuilding privately — durable work, downloads,
 storage, logging, local caller identity — each written so more than one implementation can satisfy it, and a conformance
-suite that tests whether one does. The first: a <strong>job</strong> is a record on disk that describes work, plus the
-rules for who may do it right now. Go, Python and C++ read and write that record under the same rules: Go and Python finish each other's downloads in both
+suite that tests whether one does. The first: a <strong>job</strong> is work with an identity, a state, and rules
+about who may act on it right now. Go, Python and C++ agree on those rules to the byte: Go and Python finish each other's downloads in both
 directions (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a>),
 and a NAS finishes a PC's download after every process on the PC is killed
 (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a>).
@@ -182,7 +182,7 @@ reference; the vocabulary is for whoever writes the thing that answers. The comm
 the <code>envelope</code> rows were re-read in the primary text on 2026-09-09.</p>
 <div class="wrap"><table>
 <tr><th>term</th><th>meaning</th><th>ancestor</th><th></th></tr>
-<tr><td><strong>job</strong></td><td>a record on disk describing work; <code>spec</code> is opaque to the layer and <code>kind</code> says who may read it</td><td><code>google.longrunning.Operation</code>, <a href="https://google.aip.dev/151">AIP-151</a>: <code>metadata</code> is an <code>Any</code> whose type is declared beside the method</td><td>match</td></tr>
+<tr><td><strong>job</strong></td><td>work with an identity, a state, and rules about who may act on it now; <code>spec</code> is opaque to the layer and <code>kind</code> says who may read it</td><td><code>google.longrunning.Operation</code>, <a href="https://google.aip.dev/151">AIP-151</a>: <code>metadata</code> is an <code>Any</code> whose type is declared beside the method</td><td>match</td></tr>
 <tr><td><strong>lease</strong></td><td>the time-limited right to work on a job; lapses when the holder stops renewing</td><td><a href="https://research.google/pubs/the-chubby-lock-service-for-loosely-coupled-distributed-systems/">Chubby</a></td><td>match</td></tr>
 <tr><td><strong>epoch</strong></td><td>rises by one on every claim; a write carrying an old one is refused</td><td>fencing token (<a href="https://dataintensive.net/">Kleppmann</a>, ch. 8); <code>If-Match</code></td><td>match</td></tr>
 <tr><td><strong>checkpoint</strong></td><td>what a successor inherits — the bytes <em>proven</em>, not the bytes written</td><td><a href="https://docs.temporal.io/activities">Temporal</a>'s activity heartbeat</td><td>match</td></tr>
