@@ -40,6 +40,18 @@ dropped into its <code>wanted/</code> folder; <code>dl watch</code> is killed at
 work was never inside the process that asked. Without the supervisor the partial waits on disk and the next
 <code>dl</code> with the same line resumes it (<a href="adopt.html#fetch">Adopt</a>, step 2).</p>
 
+<h2 id="get">Getting the programs</h2>
+<p>Installers for the three programs — <code>jobd</code>, <code>dl</code>, <code>jobctl</code> — are built from
+published module versions and drafted on the
+<a href="https://github.com/openabstractions/redist/releases">releases page of <code>redist</code></a>. That page is
+where every asset appears, so the link stays right whether or not a release has been drafted yet, and no version is
+typed here that a repository would have to keep true. Windows gets an MSI and Linux a tarball, both per-user, neither
+needing an administrator; <strong>every asset is unsigned</strong>, so Windows will call the publisher unknown and the
+checksum published beside a download says only that the bytes did not change in transit. macOS has no asset: an
+unsigned, unnotarised package is one Gatekeeper refuses to open.</p>
+<p>The route that needs none of this, on all three platforms, is <a href="adopt.html#run">Adopt</a> — one
+<code>go install</code> line per program, straight from the module proxy.</p>
+
 <h2 id="what">What is here</h2>
 <p>A <strong>layer</strong> is one contract — a page of tagged rules — with an implementation per language, in one
 repository. Go, Python and C++, with nothing from a package registry: Python is standard library only; Go adds the Go
