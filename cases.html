@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Abstractions — cases</title>
+<link rel="icon" href="brand/favicon.ico" sizes="any">
+<link rel="icon" href="brand/mark-32.png" type="image/png">
+<link rel="apple-touch-icon" href="brand/mark-180.png">
+<link rel="stylesheet" href="style.css">
+
+<main>
+<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
+<a href="index.html">Overview</a> <a href="cases.html" aria-current="page">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
+<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
+
+<h1>Three cases</h1>
+<p class="lead">Three situations where an application gains something it cannot get from the platform on its own. Each
+one says what the machine does today, what changes, which transcript shows it, and what about it is still unproven. A
+reader who does not recognise their own situation in one of these should not adopt anything here — the last section
+says what is missing from all three.</p>
+
+<div class="wrap"><table>
+<tr><th>case</th><th>the thing the alternative does not do</th><th>layer</th><th>furthest it has run</th></tr>
+<tr><td><a href="#download">A transfer nobody is watching</a></td>
+<td>the bytes keep arriving after the process that asked is killed, and a second program in a second language finishes them</td>
+<td><a href="https://github.com/openabstractions/abstraction-download"><code>download</code></a></td>
+<td>three languages, two machines, published transcripts</td></tr>
+<tr><td><a href="#identity">A service that is told which binary called</a></td>
+<td>the answer names the program the kernel bound at connect, and carries how strongly it was established</td>
+<td><a href="https://github.com/openabstractions/abstraction-identity"><code>identity</code></a></td>
+<td>three platforms in tests; <span class="unproven">UNPROVEN</span> against its own scenarios</td></tr>
+<tr><td><a href="#rights">A hold somebody can take away</a></td>
+<td>the machine is held awake by the service on the application's behalf, so revoking the right releases it</td>
+<td><a href="https://github.com/openabstractions/abstraction-rights"><code>rights</code></a></td>
+<td>one right, Windows, no published transcript</td></tr>
+</table></div>
+
+<h2 id="download">1 · A transfer nobody is watching</h2>
+<p><strong>The situation.</strong> Two programs on one machine want the same multi-gigabyte file. One of them is a
+plugin inside an application the person closes. A machine on the LAN has the disk and the uptime. The application is
+Python, the service is Go, and something in the pipeline is C++.</p>
+<p><strong>What the machine does today.</strong> Each program carries its own downloader, inside itself. Close the
+application and the transfer dies with it. Two programs asking for the same file fetch it twice, because neither can see
+the other's partial. Start again and the resume point is the length of the file on disk — bytes that arrived, which is
+not the same as bytes anything vouched for.</p>
+<p><strong>What changes.</strong> The record is on disk and the work is not in the process. Whoever holds the lease does
+the work; when the lease lapses, whatever is running <a href="reference.html#ownership">sweeps</a> for stranded records and takes this one over. The checkpoint is the bytes
+<em>proven</em> — hashed — so a successor never inherits a claim the predecessor could not make.
+<code>Get(url, path)</code> and <code>Wait</code> is the whole of what the calling application says.</p>
+<p><strong>What was measured.</strong> A file asked for on a PC was finished and verified by a NAS after every process
+of ours on the PC was killed
+(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a>). Go
+and Python finish each other's downloads in both directions
+(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a>).
+A transfer killed with <code>SIGKILL</code> resumed from the proven prefix in a separate process, discarding what
+nothing vouched for
+(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>).
+Against a server that answers a resume from the wrong offset with a <code>Content-Range</code> that lies to match,
+<code>curl -C -</code> writes a complete corrupt file and exits 0 — <a href="evidence.html#lies">so does ours without a
+digest, and that is on the page too</a>. The transfer surviving the ComfyUI node that asked for it is
+<a href="evidence.html#outlives">measured, Windows</a>.</p>
+<p><strong>What is not proven.</strong> The <a href="coverage.html#grid">coverage grid</a> carries a red cell for this
+layer in all three languages, generated from the transcripts rather than asserted, and the reason is on that page. No
+throughput claim is made anywhere on this site: two of our own benchmarks on one machine disagreed and
+<a href="evidence.html#speed">the tables were withdrawn</a>. Against three other downloaders, ours is the only one that
+resumes without being told to and it is <a href="evidence.html#resume">not the one that resumes best</a>. macOS is
+<span class="unproven">UNPROVEN</span>.</p>
+
+<h2 id="identity">2 · A service that is told which binary called</h2>
+<p><strong>The situation.</strong> You run a privileged helper that grants narrow permissions to named applications —
+<em>this one may hold the machine awake</em>, <em>that one may read the system log</em>. The grant is worth exactly what
+your ability to recognise the caller is worth.</p>
+<p><strong>What the machine does today.</strong> The common shape is a named pipe or a unix socket that takes an owner
+string in the message and verifies nothing, so any process on the machine is any application it cares to name and the
+permission model is a list nobody checks. The syscalls to do better exist and differ on all three platforms, and none of
+them tells you what its answer is worth: a service that needs a verified signature discovers per connection, or never,
+that this operating system cannot give it one.
+<a href="https://github.com/openabstractions/abstraction-identity/blob/main/README.md">The worked case is on the layer's
+own page.</a></p>
+<p><strong>What changes.</strong> The peer is bound once, at accept, and refused afterwards rather than re-derived. Five
+attributes — user, process, path, package, code — and each arrives welded to a rung saying how hard it would be to make
+it lie. There is no API that returns a value without its proof, and none that accepts a value the peer asserted.</p>
+<pre><code>none &lt; claimed &lt; invalid &lt; unsigned &lt; unmet &lt; pid &lt; bound &lt; kernel &lt; signed</code></pre>
+<p>Three of those nine are the platform's own verdicts on a signature, and they sit <em>below</em> <code>pid</code>: a
+policy asking for any rung that implies verification refuses a rejected signature by comparison alone, and a service that
+knowingly admits unverified code has to ask for the low rung by name. <code>Ceiling()</code> reports the best each
+attribute can reach on the running platform and answers with no connection in hand, so a service whose model rests on a
+proof this operating system cannot produce fails at startup instead of once per connection.</p>
+<p><strong>The three platforms do not agree, and the contract says so rather than averaging them:</strong> Windows can
+tell you which program opened the connection and cannot verify the code it is running; Linux can tell you who the peer
+is and has no general answer to what it is; macOS can verify the running code and, over a plain socket, cannot firmly
+bind that code to the connection — <a href="https://github.com/openabstractions/abstraction-identity/blob/main/CONTRACT.md">every
+rule of it tagged</a>, per platform, with what was executed on which.</p>
+<p><strong>What was measured.</strong> An unsigned binary and a tampered copy of a signed one used to satisfy policies
+asking for verification, on two platforms; <a href="evidence.html#rungs">the same peers after the ladder changed are
+admitted only at or below their own rung</a>. Our own supervisor answers nothing until the kernel has named the caller,
+and a client that opens the pipe anonymously is refused with the reason before its request is read
+(<a href="evidence.html#bus">measured, Windows</a>). Every rule on the contract page now carries a tag and
+<a href="evidence.html#idconf">scenarios cite them</a>.</p>
+<p><strong>What is not proven.</strong> <strong>There is no identity conformance driver in any language</strong> — no program that applies a scenario to an implementation and prints what an observer saw — so this layer is
+<span class="unproven">UNPROVEN</span> against its own scenarios on every platform — the scenarios have been shown to go
+red on a rule deliberately broken, which proves the scenarios and proves nothing about an implementation. The scenarios
+reach a minority of the tagged rules and the runner names every unreached rule on each run, with where each one sits;
+<a href="evidence.html#idconf">the counts are on Evidence</a>. There is no tagged release. On Linux the code rung is
+permanently <code>none</code>. Nothing here defends one process from another running as the same user at the same
+integrity level; that boundary is the platform's, and this layer reports it rather than building one.</p>
+
+<h2 id="rights">3 · A hold somebody can take away</h2>
+<p><strong>The situation.</strong> A long job — a render, a training run, a large fetch — needs the machine to stay
+awake while it runs, and the person who owns the machine wants to know what is holding it and be able to stop it.</p>
+<p><strong>What the machine does today.</strong> Every application asks the operating system directly, and the request
+belongs to the asking process. Nothing on the machine can say which application is holding it on whose authority, and
+nothing can take a hold away without killing the program. On Windows the one built-in list of what is holding the
+machine awake needs an elevated prompt.</p>
+<p><strong>What changes.</strong> The application asks for a right; the request is a question a person answers; the
+service — not the application — makes the operating-system request and keeps it. So the hold belongs to the service, and
+revoking the right releases the machine the same second, with the application told its hold is gone. The service never
+says yes on its own: a grant is a person's act.</p>
+<p>The shape is OAuth's and is named that way: registration is the device authorization grant
+(<a href="https://www.rfc-editor.org/rfc/rfc8628">RFC 8628</a>), a token is a bearer credential
+(<a href="https://www.rfc-editor.org/rfc/rfc6750">RFC 6750</a>) scoped to one right and one hour, and a resource holder
+in another process checks one by introspection (<a href="https://www.rfc-editor.org/rfc/rfc7662">RFC 7662</a>).
+Authority is designation, not identity: the grant's subject is the application designated by its secret, and the
+identity that registered it is evidence shown to the person once, never consulted for a decision again — so a grant
+outlives the build that earned it. Every operation binds its caller through
+<a href="#identity">case 2</a> before the request is parsed, and the service refuses to start on a machine that cannot
+bind at all.</p>
+<p><strong>What was measured.</strong> The hold follows the lease exactly and is released when the holder is killed,
+read back from the kernel's own execution-state bit
+(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/AWAKE1.txt"><code>AWAKE1</code></a>,
+Windows; Linux reads <code>systemd-inhibit</code>; macOS <span class="unproven">UNPROVEN</span>). That transcript
+measures the hold in the <a href="https://github.com/openabstractions/abstraction-job"><code>job</code></a> layer, which
+is where a lease lives.</p>
+<p><strong>What is not proven.</strong> <strong>No published transcript names this layer.</strong> One right,
+<code>awake</code>, runs end to end on Windows over a named pipe — <code>rightsd</code>, <code>rights</code>,
+<code>keepawake</code> — held to its own tests and nothing else. There is one implementation and therefore no scenario
+corpus, which by this project's own bar means it is not conformance
+(<a href="https://github.com/openabstractions/abstraction-rights/blob/main/README.md">the layer's page says the same</a>).
+Go only. The unix-socket listener, <code>systemd-inhibit</code> and <code>caffeinate</code> paths are written and have
+never run: <span class="unproven">UNPROVEN</span> on Linux and macOS. It holds among programs sharing one kernel and one
+user account and defends nothing across accounts. It enforces nothing inside a library: <code>awake</code> is
+enforceable because the operating-system request is held by the service, and a right over a resource the application
+holds in its own process is a promise the application keeps or does not.</p>
+
+<h2 id="state">What is missing from all three</h2>
+<p>The list a reader would otherwise have to assemble from the rest of this site, in one place, because a weakness found
+rather than stated makes everything beside it worth less.</p>
+<ul>
+<li><strong>Both integrations are ours.</strong> The ComfyUI-Manager integration and the Synology package were written
+here, by the same hand as the layers. No adopter outside this project has taken any of it, and that is the one item on
+this page that cannot be closed by us writing more code.</li>
+<li><strong>Every module is <code>0.y.z</code></strong> — under
+<a href="https://semver.org/#spec-item-4">Semantic Versioning §4</a> the public API may change between releases. Two of
+the three layers on this page carry no tag at all.</li>
+<li><strong>macOS is <span class="unproven">UNPROVEN</span></strong> for the download and rights cases, and for identity
+it is proven in a shape that is weaker than the other two platforms and says so.</li>
+<li><strong>Most cells in the <a href="coverage.html">coverage grid</a> carry no verdict attributed to this tree</strong>,
+including green ones the project's own gate exercises on every run — because the gate records no per-cell result, and a
+run nobody can point at is not evidence.</li>
+<li><strong>Nothing is signed.</strong> <code>sum.golang.org</code> proves the bytes are the ones everyone else fetched
+and says nothing about who wrote them.</li>
+<li><strong>One maintainer.</strong> Two organisation owners, and a succession plan that needs nobody's permission
+(<a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md"><code>GOVERNANCE.md</code></a>).</li>
+</ul>
+<p>What none of that is: a reason to take our word for any of it.
+<a href="adopt.html#judge">The conformance suite runs against your implementation, not ours</a> — a POSIX shell, no Go,
+nothing of ours built. If it fails a rule you believe you keep, that is the most useful thing anybody outside this
+project can send us.</p>
+
+<footer>
+<p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
+<p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> ·
+<a href="coverage.html">Coverage</a> · <a href="adopt.html">Adopt</a> ·
+<a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
+</footer>
+</main>
+</html>

@@ -15,7 +15,7 @@
 
 <main>
 <nav class="site"><a class="name" href="index.html">Open Abstractions</a>
-<a href="index.html">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html" aria-current="page">Evidence</a> <a href="adopt.html">Adopt</a>
+<a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html" aria-current="page">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
 <h1>Evidence</h1>
@@ -116,17 +116,20 @@ behaviour that justifies this layer is opt-in today.</p>
 <p>On <code>misplaced</code> the origin logged two requests from <code>dl</code>: a ranged one, then a plain one.
 <code>dl</code> read <code>Content-Range</code>, saw <code>bytes 0-</code>, threw the response away and re-fetched the
 whole artifact. It cost 149 MB and it was correct; <code>curl -C -</code> refuses the same case, which is also safe and
-needs a person to notice and retry. That is contract rule <code>DL-R7</code> firing over real HTTP.</p>
+needs a person to notice and retry. That is rule <code>DL-R7</code> of the
+<a href="https://github.com/openabstractions/abstraction-download/blob/main/CONTRACT.md">download contract</a> firing over
+real HTTP; every rule on a contract page carries a tag like that, and every scenario cites the tag it tests.</p>
 
 <h2 id="twodl">Two downloaders, one vocabulary, no shared engine</h2>
 <p class="state">2026-09-08. The same class of machine on mains; run in WSL2 Ubuntu, kernel 6.18, everything on tmpfs,
 other work running, rounds interleaved so any drift lands under every tool. g++ 15.2.0 at <code>-O2</code>, Go 1.26.0,
 curl 8.18.0. The origin counts every response where it leaves. Transcript not yet public; the second tool,
-<code>dlc</code>, is a binding of the download vocabulary over <code>curl</code> — one C++ header, no dependency —
+<code>dlc</code>, is an implementation of the download vocabulary over <code>curl</code> — one C++ header, no dependency —
 and is not yet published either.</p>
 <p>Every other agreement on this site is between implementations written from one design. <code>dl</code> drives our
-own fetcher; <code>dlc</code> drives <code>curl</code>. They take the same flags, answer in the same five words, and
-share not one line of transfer code. They are the first pair here that could genuinely disagree.</p>
+own fetcher; <code>dlc</code> drives <code>curl</code>. They take the same flags, answer in the same five words —
+<code>delivered</code>, <code>working</code>, <code>unavailable</code>, <code>forbidden</code>, <code>unknown</code> —
+and share not one line of transfer code. They are the first pair here that could genuinely disagree.</p>
 <p><strong>The wire: 54 cases, both tools, one fixture. Fifty end with the same verdict and the same bytes on disk.</strong>
 The eighteen HTTP statuses in the contract's list — ten permanent, eight <em>not now</em> — were classified
 independently, from a status table in Go and from <code>curl</code>'s exit codes, and agree on every entry. Our own Go
@@ -183,7 +186,7 @@ code with the supervisor <code>jobd</code> watching the store, so the work outli
 <tr><td>the service is removed while a job exists</td><td>unknown</td><td>unavailable*</td><td>unavailable</td></tr>
 <tr><td>a guarantee the provider cannot give</td><td>unavailable</td><td>unavailable</td><td>unavailable</td></tr>
 <tr><td>the destination the caller actually named (absolute)</td><td>delivered</td><td>delivered</td><td>delivered</td></tr>
-<tr><td>the same store, three providers</td><td>sees its own book: 8 jobs</td><td>sees the machine's store: 20 jobs</td><td>sees the machine's store: 20 jobs</td></tr>
+<tr><td>the same store, three providers</td><td>sees only the jobs it created: 8</td><td>sees the machine's store: 20 jobs</td><td>sees the machine's store: 20 jobs</td></tr>
 </table></div>
 <p class="meta">* the application read this answer out of an error string, because the class the layer computed does not
 survive the <code>Client</code> boundary. A defect, described beside the demo's source.</p>
@@ -196,7 +199,8 @@ provider that cannot give what was asked says <code>unavailable</code> rather th
 disk. Every number is a latency on a rate-limited local origin or a local pipe, never the network.
 Transcript not yet public; the code is in the tree and in no published tag.</p>
 <p><code>download</code> and <code>jobd</code> talk over the <code>identity</code> layer's own listener — the one
-<code>asks</code> and <code>rights</code> already use — and the supervisor answers nothing until the kernel has named the
+<a href="https://github.com/openabstractions/abstraction-asks"><code>asks</code></a> and
+<a href="https://github.com/openabstractions/abstraction-rights"><code>rights</code></a> already use — and the supervisor answers nothing until the kernel has named the
 caller and the name meets the listener's stated need. The store stays the truth: the connection carries a request to
 sweep now, or a question, and no job. The supervisor's heartbeat names the connection; the heartbeat predicts and the
 connection decides, so a supervisor killed between two beats attracts no work.</p>
@@ -236,7 +240,7 @@ submitter's machine has. Five rules, pinned in Go and in Python, each shown red 
 laptop-class Windows 11 machine on mains, other work running. No timing was taken on either. Transcripts not yet
 public; in the tree, not yet in the <code>identity</code> tag.</p>
 <p>Each thing <code>identity</code> says about a peer — user, path, package, code signature — carries a rung saying how
-it was established. The ladder was six rungs, and a signature the platform rejected sat on the rung the binding
+it was established. The ladder was six rungs, and a signature the platform rejected sat on the rung the peer
 had earned: on macOS an ad-hoc binary that failed <code>anchor apple</code> passed a policy asking for <em>pid</em>; on
 Windows an unsigned binary passed one asking for <em>bound</em>. A boolean said <em>untrusted</em> beside it, and nothing
 read the boolean.</p>
@@ -262,12 +266,15 @@ The tags are in the tree's contract page and not yet in the published one.</p>
 <em>claimed</em>, a policy that names every shortfall and not the first, a listening end and a client end that each
 answer, a claim in the payload that never reaches the identity, and a signature the platform rejected that meets no
 policy asking for verification. Of 45 tagged rules the scenarios reach 17; the other 28 the runner names on every run,
-and where each sits is a fact about the rule: reachable by a driver alone, needing a hostile peer that hands off,
+and where each sits is a fact about the rule: reachable by a
+<a href="https://github.com/openabstractions/abstractions/blob/main/conformance/DRIVER.md">conformance driver</a> — the
+small program that applies a scenario to an implementation and prints what an observer saw — alone, needing a hostile
+peer that hands off,
 pre-forks or recycles a pid, or measurable only on a platform this machine is not — an installed MSIX package, a
 Developer ID in an unlocked keychain, two kernels either side of Linux 6.5, an enforcing LSM, a second machine.</p>
 <p>Each cited rule was broken deliberately and the run went red on that rule and nothing else — against a script
 replaying the contract's own answers, which proves the scenarios can fail and proves nothing about an implementation.
-There is no identity driver in any language, so <code>abstraction-identity</code> is
+There is no identity conformance driver in any language, so <code>abstraction-identity</code> is
 <span class="unproven">UNPROVEN</span> against its own scenarios on every platform. The scenario written red that
 morning — a rejected signature meeting a policy that asks for verification — was green by evening, once the ladder above
 landed. Found on the way: the runner compared an expectation's tokens as a set, so a rule about an <em>order</em>
@@ -289,7 +296,7 @@ diagnosed, held open until the per-platform run lands.</p>
 installed. <strong>Every specimen is hand-written and judged by reading against each language's published rules and
 standard library. Nothing was compiled, nothing was run, no bytes were produced or compared.</strong> The five
 specimens are not yet public.</p>
-<p>The belief tested: the vocabulary is language-neutral, so a native binding in a new language is a naming exercise over
+<p>The belief tested: the vocabulary is language-neutral, so a native implementation in a new language is a naming exercise over
 the same shapes. The record from <code>job.thrift</code> and the three answers were written out as a native speaker of
 each language would expect to be handed them. <strong>The record's shapes travel. Two of its mechanisms do not, and both
 were invisible while the implementations were Go, Python and C++</strong> — three languages that happen to agree about
@@ -340,14 +347,15 @@ collapse — is enforceable by the compiler in two languages we have not built a
 
 <h2 id="unpublished">Not yet public</h2>
 <p class="meta">Linked nowhere above, because the files are not yet in a public repository: the four-tool
-interruption run, the server that lies, the two downloaders with the <code>dlc</code> binding they measure, the
+interruption run, the server that lies, the two downloaders with the <code>dlc</code> implementation they measure, the
 nine-situation provider transcript, the five specimens, and the four 2026-09-09 runs — the identified connection, the
 download that outlives its requester, the ladder before and after, the identity scenarios. When they are, the links go
 here.</p>
 
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
-<p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="adopt.html">Adopt</a> ·
+<p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> ·
+<a href="coverage.html">Coverage</a> · <a href="adopt.html">Adopt</a> ·
 <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
 </footer>
 </main>

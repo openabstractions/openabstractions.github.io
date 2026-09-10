@@ -10,7 +10,7 @@
 
 <main>
 <nav class="site"><a class="name" href="index.html">Open Abstractions</a>
-<a href="index.html" aria-current="page">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
+<a href="index.html" aria-current="page">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
 <h1><img class="mark" src="brand/mark-64.png" width="64" height="64" alt="">Open Abstractions</h1>
@@ -23,7 +23,7 @@ and a NAS finishes a PC's download after every process on the PC is killed
 (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a>).
 Two programs are built on it, the downloader <code>dl</code> and the supervisor <code>jobd</code>, and they talk over a
 local connection the kernel identifies: a caller it cannot name is refused before a request is read
-(<a href="evidence.html#bus">measured</a>, Windows; in no tag yet).</p>
+(<a href="evidence.html#bus">measured</a>, Windows; in no released version yet).</p>
 
 <p>Built first for desktop applications that fetch multi-gigabyte model files — image generators, local language-model
 runners, and the tools that manage their models. One integration exists:
@@ -31,14 +31,29 @@ runners, and the tools that manage their models. One integration exists:
 model downloads behind a job record without forking ComfyUI; a download it asked for kept arriving after the asking
 process was killed, and the digest matched (<a href="evidence.html#outlives">measured</a>, Windows). Nothing in the record mentions
 a model; those applications are the first users, not the subject
-(<a href="https://github.com/openabstractions/abstractions/blob/main/SCOPE.md"><code>SCOPE.md</code></a> §1).</p>
+(<a href="https://github.com/openabstractions/abstractions/blob/main/METHOD.md"><code>METHOD.md</code></a> §14).</p>
 
 <div class="demo"><img src="demo.gif" width="1460" height="320"
   alt="terminal: a URL is dropped into the wanted folder, dl watch shows the transfer, the watcher is killed with Ctrl-C at 62%, dl list shows the same download complete"></div>
 <p class="caption">Real clock, 11.6 seconds. The supervisor <code>jobd</code> is running; the request is a text file
-dropped into its <code>wanted/</code> folder; <code>dl watch</code> is killed at 62% and the file finishes, because the
+dropped into its <a href="reference.html#cli"><code>wanted/</code> folder</a>, the drop folder it answers; <code>dl watch</code> is killed at 62% and the file finishes, because the
 work was never inside the process that asked. Without the supervisor the partial waits on disk and the next
 <code>dl</code> with the same line resumes it (<a href="adopt.html#fetch">Adopt</a>, step 2).</p>
+
+<h2 id="cases">Three cases</h2>
+<p>The three places an application gains something the platform does not offer it. Each is argued, with its transcripts
+and with what about it is unproven, on <a href="cases.html">Cases</a>.</p>
+<ul>
+<li><strong><a href="cases.html#download">A transfer nobody is watching</a></strong> — the bytes keep arriving after the
+process that asked is killed, and a second program in a second language finishes them.</li>
+<li><strong><a href="cases.html#identity">A service that is told which binary called</a></strong> — not a name the
+caller sent: the program the kernel bound at connect, with a rung saying how strongly.</li>
+<li><strong><a href="cases.html#rights">A hold somebody can take away</a></strong> — the machine is held awake by a
+service on the application's behalf, so revoking the right releases it the same second.</li>
+</ul>
+<p class="meta">The same page collects, in one list, what is missing from all three.
+<a href="adopt.html#judge">The conformance suite runs against your implementation rather than ours</a>: a POSIX shell,
+no Go, nothing of ours built.</p>
 
 <h2 id="get">Getting the programs</h2>
 <p>Installers for the three programs — <code>jobd</code>, <code>dl</code>, <code>jobctl</code> — are built from
@@ -56,16 +71,16 @@ unsigned, unnotarised package is one Gatekeeper refuses to open.</p>
 <p>A <strong>layer</strong> is one contract — a page of tagged rules — with an implementation per language, in one
 repository. Go, Python and C++, with nothing from a package registry: Python is standard library only; Go adds the Go
 team's own <code>golang.org/x/sys</code>; C++ takes nothing, including a JSON library. Apache-2.0. Each repository
-lists its tags; the install lines on <a href="adopt.html">Adopt</a> name one each.</p>
+lists its released versions; the install lines on <a href="adopt.html">Adopt</a> name one each.</p>
 <div class="wrap"><table>
 <tr><th>layer</th><th>what it is</th><th>languages</th><th>evidence</th></tr>
 <tr><td><a href="https://github.com/openabstractions/abstraction-job"><code>job</code></a></td>
-<td>the record and the rules: lease, epoch, checkpoint, intent. <a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md"><code>CONTRACT.md</code></a>, every rule tagged; <a href="https://github.com/openabstractions/abstraction-job/blob/main/job.thrift"><code>job.thrift</code></a>, the record in nobody's language</td>
+<td>the record and the rules: <a href="reference.html#vocabulary">lease, epoch, checkpoint, intent</a>. <a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md"><code>CONTRACT.md</code></a>, where every rule carries a tag a scenario can cite; <a href="https://github.com/openabstractions/abstraction-job/blob/main/job.thrift"><code>job.thrift</code></a>, the record's fields and types in no language's syntax, written in <a href="https://github.com/openabstractions/abstractions/blob/main/idl/LANGUAGE.md">a profile of Apache Thrift's IDL</a></td>
 <td>Go, Python, C++</td>
 <td>three implementations replay <a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/scenarios">one scenario corpus</a> and their transcripts are diffed byte for byte: <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1</code></a>, <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/CONFORM1.txt"><code>CONFORM1</code></a></td></tr>
 <tr><td><a href="https://github.com/openabstractions/abstraction-download"><code>download</code></a></td>
-<td>a job whose work is bytes: artifact, sources, sink; resume from the proven prefix; verify; deliver. <code>dl</code> is its command line</td>
-<td>Go; Python fetches and adopts orphans; C++ fetches, no sweep</td>
+<td>a job whose work is bytes: <a href="reference.html#api">artifact, sources, sink</a>; resume from <a href="reference.html#checkpoint">the proven prefix</a>; verify; deliver. <code>dl</code> is its command line</td>
+<td>Go; Python fetches and <a href="reference.html#ownership">adopts orphans</a>; C++ fetches, and never sweeps for them</td>
 <td><a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD</code></a> Go and Python finish each other's downloads; <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>; <a href="evidence.html#resume">four downloaders, interrupted</a>; <a href="evidence.html#lies">a server that lies</a></td></tr>
 <tr><td><a href="https://github.com/openabstractions/service-jobd"><code>jobd</code></a></td>
 <td>the supervisor: finishes work nobody is watching, adopts orphans, verifies and delivers. Packaged for a Synology NAS (<a href="https://github.com/openabstractions/addon-synology"><code>addon-synology</code></a>) and as a container (<a href="https://github.com/openabstractions/docker-jobd"><code>docker-jobd</code></a>)</td>
@@ -89,7 +104,7 @@ lists its tags; the install lines on <a href="adopt.html">Adopt</a> name one eac
 <a href="https://github.com/openabstractions/adopter-comfyui"><code>adopter-comfyui</code></a> ComfyUI-Manager's downloads behind a job record, unreleased ·
 <a href="https://github.com/openabstractions/polite-monitor"><code>polite-monitor</code></a> a Windows window listing what the machine is doing ·
 <a href="https://github.com/openabstractions/research"><code>research</code></a> the prior art read before drawing any of it ·
-<a href="https://github.com/openabstractions/abstractions"><code>abstractions</code></a> the charter: how an interface is drawn and which seats qualify (<code>SCOPE.md</code> §2).</p>
+<a href="https://github.com/openabstractions/abstractions"><code>abstractions</code></a> how an interface here is drawn, and which gaps are worth drawing one for (<a href="https://github.com/openabstractions/abstractions/blob/main/METHOD.md"><code>METHOD.md</code></a> §14).</p>
 
 <h2 id="direction">Three things that must not blur</h2>
 <div class="wrap"><svg class="arch" viewBox="0 0 880 236" width="880" height="236" role="img"
@@ -133,7 +148,10 @@ lists its tags; the install lines on <a href="adopt.html">Adopt</a> name one eac
 <text class="no-l" x="740" y="206" text-anchor="middle">the daemon is not the definition</text>
 <text class="no-l" x="740" y="224" text-anchor="middle">of correctness</text>
 </svg></div>
-<p class="caption">An application is written against the contract and names no provider
+<p class="caption">A <a href="reference.html#vocabulary">provider</a> is whatever actually does the work, chosen by the machine
+rather than named by the application: our own code, <code>dlc</code> over <code>curl</code>, or Windows'
+Background Intelligent Transfer Service (BITS), the downloader every Windows machine already runs. An application is
+written against the contract and names none of them
 (<a href="evidence.html#providers">one binary, three providers</a>); a provider works with no service installed (that
 table, first row); <em>correct</em> means the scenario corpus every implementation is replayed through
 (<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1</code></a>),
@@ -150,7 +168,7 @@ reader, or a server that lies — and each is recorded where it was found.</p>
 <tr><td><strong>A second implementation.</strong> The retry table — which HTTP statuses mean <em>never</em> and which mean <em>later</em> — written once, with nothing to disagree with it</td>
 <td>The Go and Python implementations disagreed on four of eighteen statuses. A downloader written over <code>curl</code>, sharing no transfer code, was then measured against <code>dl</code>: all eighteen agreed, and 50 of 54 wire cases ended with the same verdict and bytes; the four that differed were the same case, a partial nothing could vouch for. <a href="evidence.html#twodl">The matrix.</a></td></tr>
 <tr><td><strong>A second writer.</strong> The application on launch and the service unit both resume the same partial</td>
-<td>The lease and epoch exist for this and still missed two things: the same owner may re-claim its own live lease and the epoch rises, and the store's <code>update</code> had no compare-and-set behind it. One process raced itself and reported a delivered download as a failed install, one run in eight. The compare-and-set is fixed; the re-claim is <a href="reference.html#undecided">undecided</a>.</td></tr>
+<td>The lease and epoch exist for this and still missed two things: the same owner may re-claim its own live lease and the epoch rises, and <code>update</code> on <a href="reference.html#record">the store</a> — the directory of job records on disk — had no compare-and-set behind it. One process raced itself and reported a delivered download as a failed install, one run in eight. The compare-and-set is fixed; the re-claim is <a href="reference.html#undecided">undecided</a>.</td></tr>
 <tr><td><strong>A second reader.</strong> A state file with one reader; its format is whatever the writer does</td>
 <td>Three implementations passed sixty-one spec checks while escaping JSON three different ways, because no fixture held an ampersand or an accent. One ampersand in a URL produced three different records. One escaping rule now, with a fixture that carries the ampersand. <a href="reference.html#record">The rule.</a></td></tr>
 </table></div>
@@ -184,7 +202,7 @@ the <code>envelope</code> rows were re-read in the primary text on 2026-09-09.</
 <p><strong>0.x.</strong> Every module is versioned <code>0.y.z</code>, which under
 <a href="https://semver.org/#spec-item-4">Semantic Versioning §4</a> means the public API may change between releases.</p>
 <ul>
-<li><strong>Go:</strong> every layer carries a tag; the supervisor <code>jobd</code> carries none, and nothing marked <em>in the tree</em> above is in a tag yet.</li>
+<li><strong>Go:</strong> every layer carries a released version; the supervisor <code>jobd</code> carries none, and nothing marked <em>in the tree</em> above has been released yet.</li>
 <li><strong>Python:</strong> source only, on no index. <strong>C++:</strong> source only, no tagged release.</li>
 <li><strong>Integrations:</strong> ComfyUI-Manager and a Synology package, both built here. Neither has a published release file yet.</li>
 <li><strong>Signing:</strong> nothing is signed. <code>sum.golang.org</code> proves the bytes are the ones everyone else fetched, not who wrote them.</li>
@@ -193,7 +211,8 @@ the <code>envelope</code> rows were re-read in the primary text on 2026-09-09.</
 
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
-<p><a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
+<p><a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> ·
+<a href="coverage.html">Coverage</a> · <a href="adopt.html">Adopt</a> ·
 <a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md">Governance</a> ·
 <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md">Security</a> ·
 <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>

@@ -21,7 +21,7 @@
 
 <main>
 <nav class="site"><a class="name" href="index.html">Open Abstractions</a>
-<a href="index.html">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html" aria-current="page">Coverage</a> <a href="adopt.html">Adopt</a>
+<a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html" aria-current="page">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
 <h1>Coverage</h1>
@@ -30,35 +30,37 @@
 from what is committed in the tree and the transcripts in
 <a href="https://github.com/openabstractions/abstractions/tree/main/docs/results"><code>docs/results/</code></a>.
 Nothing on this page is typed by hand, and a grid the evidence no longer produces fails the gate rather than going stale quietly.</p>
-<p class="state" data-produced>Measured at commit <code>c5c0991</code> on 2026-09-10. Layer trees: <code>abstraction@139e861 asks@87c0ff6 cas@7565469 config@8c8d0af download@0f81577 identity@1cf7b0c job@5806dfe logging@68d0a1c model@551c394 rights@4a3e767 router@4d89dda storage@e97f1c0 watch@eaf2c71</code>.
+<p class="state" data-produced>Measured at commit <code>8eecfb0</code> on 2026-09-10. Layer trees: <code>abstraction@139e861 asks@87c0ff6 cas@7565469 config@c1d9446 download@6ab23f9 identity@cf38a12 job@cc17156 logging@68d0a1c model@551c394 rights@4a3e767 router@4d89dda storage@e97f1c0 watch@fa67908</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 
-<div class="warn"><p><strong>15 of the 24 implementations in this tree carry no verdict attributed to this tree.</strong>
-That is the honest headline and it is not a rounding error. Most of them are built and tested on every run of the
-project's own gate — and the gate writes down no per-cell result, so what it proved cannot be read back out of the
-repository afterwards. A cell is green here only when a recorded transcript says so about the tree as it is now.
-Calling the rest green would be assuming a run nobody can point at.</p></div>
+<div class="warn"><p><strong>3 of the 24 implementations in this tree carry no verdict attributed to this tree.</strong>
+That is the honest headline. A cell is green here only when a recorded transcript says so about the tree as it is now —
+a cross-language harness transcript, or
+<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/GATE.txt"><code>GATE.txt</code></a>, the per-cell
+record <code>scripts/check.sh --record</code> writes. Every one of those names the commit and the layer trees it judged,
+and goes back to <code>UNPROVEN</code> the moment a layer moves under it. Calling the rest green would be assuming a run
+nobody can point at.</p></div>
 
 <h2 id="grid">The grid</h2>
 <div class="wrap"><table class="grid">
 <tr><th>layer</th><th>go</th><th>python</th><th>cpp</th></tr>
-<tr><td>abstraction</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>asks</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>abstraction</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>asks</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
 <tr><td>cas</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
-<tr><td>config</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>download</td><td><span class="cell bad">FAIL</span></td><td><span class="cell bad">FAIL</span></td><td><span class="cell bad">FAIL</span></td></tr>
-<tr><td>identity</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>job</td><td><span class="cell bad">FAIL</span></td><td><span class="cell bad">FAIL</span></td><td><span class="cell bad">FAIL</span></td></tr>
-<tr><td>logging</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>model</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>rights</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>router</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>storage</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>watch</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>config</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>download</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>identity</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>job</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
+<tr><td>logging</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>model</td><td><span class="cell bad">FAIL</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>rights</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>router</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>storage</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell good">PASS</span></td></tr>
+<tr><td>watch</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
 </table></div>
-<p class="tally"><span class="cell good">PASS</span> 3 ·
-<span class="cell bad">FAIL</span> 6 ·
-<span class="cell unproven">UNPROVEN</span> 15 ·
+<p class="tally"><span class="cell good">PASS</span> 20 ·
+<span class="cell bad">FAIL</span> 1 ·
+<span class="cell unproven">UNPROVEN</span> 3 ·
 <span class="cell absent">ABSENT</span> 0 ·
 no implementation 15. 39 cells over 13 layers.</p>
 
@@ -76,56 +78,57 @@ A Go-only layer has legitimately empty cells. An implementation that exists and 
 written <span class="cell unproven">UNPROVEN</span> so it looks like one.</p>
 
 <h2 id="why">Why each cell reads as it does</h2>
-<p>The reason is the point of the table. <code>gate</code> is a cell the project's own gate runs on every change without
-recording the outcome; <code>unreached</code> is a cell nothing runs at all. Both are <span class="cell unproven">UNPROVEN</span>
-and they are very different gaps.</p>
+<p>The reason is the point of the table. <code>gate</code> is a cell the project's own gate runs on every change and no recorded
+run wrote down; <code>skipped</code> is a cell the last recorded run could not judge; <code>unreached</code> is a cell nothing
+runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they are very different gaps.</p>
 <div class="wrap"><table class="why">
 <tr><th>layer</th><th>language</th><th>cell</th><th>reason</th><th>what proved it, or what did not</th></tr>
-<tr><td>abstraction</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests abstraction/go (2 test files) every run and records no per-cell result</td></tr>
+<tr><td>abstraction</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>abstraction</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>abstraction</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>asks</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests asks/go (2 test files) every run and records no per-cell result</td></tr>
+<tr><td>asks</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>asks</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>asks</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>cas</td><td>go</td><td>PASS</td><td>recorded</td><td>CAS-MIXED1, exit 0</td></tr>
 <tr><td>cas</td><td>python</td><td>PASS</td><td>recorded</td><td>CAS-MIXED1, exit 0</td></tr>
 <tr><td>cas</td><td>cpp</td><td>PASS</td><td>recorded</td><td>CAS-MIXED1, exit 0</td></tr>
-<tr><td>config</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests config/go (4 test files) every run and records no per-cell result</td></tr>
-<tr><td>config</td><td>python</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests config/python (2 test files) every run and records no per-cell result</td></tr>
+<tr><td>config</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>config</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 17 tests</td></tr>
 <tr><td>config</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>download</td><td>go</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 28 failed</td></tr>
-<tr><td>download</td><td>python</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 14 failed</td></tr>
-<tr><td>download</td><td>cpp</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 14 failed</td></tr>
-<tr><td>identity</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests identity (18 test files) every run and records no per-cell result</td></tr>
+<tr><td>download</td><td>go</td><td>UNPROVEN</td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@6ab23f9</td></tr>
+<tr><td>download</td><td>python</td><td>UNPROVEN</td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@6ab23f9</td></tr>
+<tr><td>download</td><td>cpp</td><td>UNPROVEN</td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@6ab23f9</td></tr>
+<tr><td>identity</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>identity</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>identity</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>job</td><td>go</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 28 failed</td></tr>
-<tr><td>job</td><td>python</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 14 failed</td></tr>
-<tr><td>job</td><td>cpp</td><td>FAIL</td><td>recorded</td><td>BEHAVIOUR1, 14 failed</td></tr>
-<tr><td>logging</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests logging/go (4 test files) every run and records no per-cell result</td></tr>
+<tr><td>job</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>job</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 75 tests</td></tr>
+<tr><td>job</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 4 test runs</td></tr>
+<tr><td>logging</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>logging</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>logging</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>model</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests model/go (3 test files) every run and records no per-cell result</td></tr>
-<tr><td>model</td><td>python</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests model/python (2 test files) every run and records no per-cell result</td></tr>
+<tr><td>model</td><td>go</td><td>FAIL</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>model</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 41 tests</td></tr>
 <tr><td>model</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>rights</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests rights/go (4 test files) every run and records no per-cell result</td></tr>
+<tr><td>rights</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>rights</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
 <tr><td>rights</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>router</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests router/go (7 test files) every run and records no per-cell result</td></tr>
+<tr><td>router</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>router</td><td>python</td><td>—</td><td>undeclared</td><td>no python implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
 <tr><td>router</td><td>cpp</td><td>—</td><td>undeclared</td><td>no cpp implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
-<tr><td>storage</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests storage/go (1 test file) every run and records no per-cell result</td></tr>
+<tr><td>storage</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
 <tr><td>storage</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>storage</td><td>cpp</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests storage/cpp (1 test file) every run and records no per-cell result</td></tr>
-<tr><td>watch</td><td>go</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests watch/go (1 test file) every run and records no per-cell result</td></tr>
-<tr><td>watch</td><td>python</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests watch/python (2 test files) every run and records no per-cell result</td></tr>
-<tr><td>watch</td><td>cpp</td><td>UNPROVEN</td><td>gate</td><td>the gate builds and tests watch/cpp (1 test file) every run and records no per-cell result</td></tr>
+<tr><td>storage</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 1 test runs</td></tr>
+<tr><td>watch</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>watch</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 19 tests</td></tr>
+<tr><td>watch</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 1 test runs</td></tr>
 </table></div>
 <div class="wrap"><table>
 <tr><th>reason</th><th>what it says about the cell</th></tr>
 <tr><td><code>recorded</code></td><td>a transcript in <code>docs/results/</code> recorded this verdict for this tree</td></tr>
 <tr><td><code>drifted</code></td><td>a transcript recorded a verdict, for a tree this one is no longer. It proves what the code used to do</td></tr>
-<tr><td><code>gate</code></td><td>the gate builds and tests this cell every run and writes down no per-cell result</td></tr>
+<tr><td><code>skipped</code></td><td>the last recorded gate run reached this cell and could not judge it — a toolchain absent, or a mode that leaves it out</td></tr>
+<tr><td><code>gate</code></td><td>the gate builds and tests this cell every run, and no recorded run has written down the result</td></tr>
 <tr><td><code>untested</code></td><td>the cell has no test file of its own</td></tr>
 <tr><td><code>unreached</code></td><td>nothing the gate runs names this cell</td></tr>
 <tr><td><code>declared</code></td><td>the project's inventory declares the language and the tree does not have it</td></tr>
@@ -134,9 +137,11 @@ and they are very different gaps.</p>
 </table></div>
 
 <h2 id="evidence">Where the evidence comes from</h2>
-<p>Six cross-language harnesses and one public suite. Five of the six say which language a result belongs to; what none
-of them leaves behind is a committed record naming the commit it judged, which is why so much of the grid reads
-<code>gate</code> rather than <span class="good">PASS</span>.</p>
+<p>Six cross-language harnesses and one public suite. Five of the six say which language a result belongs to, and two of them
+leave a committed transcript naming the commit they judged. The rest of the grid rests on the gate itself, which builds and
+tests most of these cells on every run: <code>scripts/check.sh --record</code> writes what it reached into
+<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/GATE.txt"><code>GATE.txt</code></a>, one line per
+cell. A cell still reads <code>gate</code> where no recorded run has judged it.</p>
 <div class="wrap"><table>
 <tr><th>harness</th><th>asks</th><th>says which language?</th><th>leaves a committed transcript?</th></tr>
 <tr><td><a href="https://github.com/openabstractions/abstractions/blob/main/scripts/behaviour-conformance.sh"><code>behaviour-conformance.sh</code></a></td><td>do the implementations <em>do</em> the same thing</td><td>yes — every scenario line names the languages that agreed, and an absent one is named too</td><td>yes, <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1.txt</code></a></td></tr>
@@ -153,7 +158,7 @@ many test files each cell carries.</p>
 
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
-<p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
+<p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
 <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
 </footer>
 </main>

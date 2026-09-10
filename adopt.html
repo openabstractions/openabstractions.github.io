@@ -10,11 +10,12 @@
 
 <main>
 <nav class="site"><a class="name" href="index.html">Open Abstractions</a>
-<a href="index.html">Overview</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="adopt.html" aria-current="page">Adopt</a>
+<a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html" aria-current="page">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
 <h1>Adopt</h1>
-<p class="lead">Four commands. Each was run before it was printed here, against the tag it names.</p>
+<p class="lead">Four commands, then the one that judges us instead. Each was run before it was printed here, against the
+tag it names. Which of these is worth your time is <a href="cases.html">Cases</a>.</p>
 <p class="meta">Commands 1, 3 and 4 checked 2026-09-09 against the tags they name, with Go 1.26.5 on Windows 11, in an
 empty module cache with no workspace: each resolved from the Go proxy and was verified against <code>sum.golang.org</code>,
 and the program in step 3 compiled against the modules it fetched. Command 2 was run 2026-09-08 against the tag before
@@ -32,8 +33,10 @@ nothing about who wrote them. Nine modules, eight of them ours and <code>golang.
 <h2 id="fetch">2 · Fetch something, kill it, fetch it again</h2>
 <pre><code>dl https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_0.gguf</code></pre>
 <p>The first line printed is <code>dl: nothing on this machine answers questions; fetching from huggingface.co unasked</code>:
-before reaching a host for the first time <code>dl</code> asks a permission service, and on a machine without one it says
-so and proceeds. Ctrl+C it halfway. <code>dl list</code> still shows the job and how far it got. Run the same line again:
+before reaching a host for the first time <code>dl</code> asks whatever on this machine answers questions a program may
+put to a person — the <a href="https://github.com/openabstractions/abstraction-asks"><code>asks</code></a> and
+<a href="https://github.com/openabstractions/abstraction-rights"><code>rights</code></a> layers — and on a machine with
+neither it says so and proceeds. Ctrl+C it halfway. <code>dl list</code> still shows the job and how far it got. Run the same line again:
 it resumes from the last byte it can <em>prove</em>, with no flag — after waiting out the dead run's thirty-second lease,
 which it does in silence. <code>dl watch</code> is the live view. <code>-o &lt;path&gt;</code> names the destination;
 <code>--digest sha256:…</code> makes a corrupt answer from the server a refusal rather than a file —
@@ -41,8 +44,10 @@ which it does in silence. <code>dl watch</code> is the live view. <code>-o &lt;p
 <code>dl</code> does not know, or a flag with nothing after it, is refused with exit 2 before anything is fetched —
 measured at the tag step 1 names; at the tag before it both were ignored without a word, and a mistyped
 <code>--digest</code> was an unverified file and exit 0.</p>
-<p>What is on disk after the kill: the partial file beside the destination, and under the store a record naming the URL,
-the destination, the progress and the lease. Where the store is: <code>dl tiers</code> prints it, and prints
+<p>What is on disk after the kill: the partial file beside the destination, and under
+<a href="reference.html#record">the store</a> — the directory of job records — a record naming the URL, the destination,
+the progress and the lease. Where that store is: <code>dl tiers</code> prints it, along with the ordered list of places
+a download may run — a NAS, a platform service, this process. Here it prints
 <code>supervisor none</code> — downloads run in this process and stop when it does. The recording on the
 <a href="index.html">overview</a> is the other arrangement: <code>jobd</code> running, a request dropped into its
 <code>wanted/</code> folder, and nothing to re-run. <a href="https://github.com/openabstractions/service-jobd"><code>service-jobd</code></a>
@@ -79,22 +84,60 @@ words are for step 4.</p>
 
 <h2 id="implement">4 · Implement it, or wrap a downloader an application already has</h2>
 <pre><code>go get github.com/openabstractions/abstraction-download/go@v0.3.0</code></pre>
-<p>The download module carries the <code>Client</code> interface, the <code>Runner</code>, the fetchers, and the scenario
-corpus every implementation is replayed through. The worked example of such a wrapper is <code>dlc</code>: one C++
-header over <code>curl</code>, no dependency, sharing no transfer code with <code>dl</code>. It takes the same flags,
-answers in the same five words, and agrees with <code>dl</code> on all eighteen HTTP statuses in the contract's list and
-on 50 of 54 wire cases — <a href="evidence.html#twodl">the matrix</a>. It is not published yet. The convention for such
-a binding is <code>abstraction-&lt;layer&gt;-over-&lt;engine&gt;</code>; ours is <code>-over-native</code>, one binding
-among peers, and none is published under that name yet because interface and implementation still share one module.</p>
-<p>The rules an implementation must satisfy are the tagged pages —
+<p>The download module carries the <code>Client</code> interface, the <a href="reference.html#delegation"><code>Runner</code></a>
+that claims a record and drives it to delivery, the fetchers that move the bytes, and the scenario corpus every
+implementation is replayed through. The worked example of such a wrapper is <code>dlc</code>: one C++ header over
+<code>curl</code>, no dependency, sharing no transfer code with <code>dl</code>. It takes the same flags, answers in the
+same five words — <code>delivered</code>, <code>working</code>, <code>unavailable</code>, <code>forbidden</code>,
+<code>unknown</code> — and agrees with <code>dl</code> on all eighteen HTTP statuses in the contract's list and
+on 50 of 54 wire cases — <a href="evidence.html#twodl">the matrix</a>. It is not published yet. The naming convention for
+an implementation over somebody else's engine is <code>abstraction-&lt;layer&gt;-over-&lt;engine&gt;</code>; ours is
+<code>-over-native</code>, one implementation among peers, and none is published under that name yet because interface
+and implementation still share one module.</p>
+<p>The rules an implementation must satisfy are the contract pages, where every rule carries a tag a scenario can cite —
 <a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md">job</a>,
 <a href="https://github.com/openabstractions/abstraction-job/blob/main/SPEC.md">its state machine</a>,
 <a href="https://github.com/openabstractions/abstraction-download/blob/main/CONTRACT.md">download</a> — and the
 <a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/scenarios">scenario corpus</a>:
 each scenario is a text file of commands and the transcript they must produce, replayed against every implementation
 and compared byte for byte. A scenario an implementation cannot reach is printed as <code>UNPROVEN</code> and counted;
-it is never skipped. The harness does not yet run from a clean clone against a stranger's implementation, which the
-charter repository records as its second open item.</p>
+it is never skipped. You do not have to take our replay for it: step 5 is the same corpus, run by you against your own
+program.</p>
+
+<h2 id="judge">5 · Judge it without our help</h2>
+<p>The conformance suite judges <em>your</em> implementation against the rules on the contract pages. It needs a POSIX
+shell and your own program. It does not need our source tree, our build, or Go.</p>
+<pre><code>curl -L https://codeload.github.com/openabstractions/abstractions/tar.gz/refs/heads/main | tar xz
+cd abstractions-main/conformance
+sh selftest.sh
+sh run.sh -- ./my-driver</code></pre>
+<p><a href="https://github.com/openabstractions/abstractions/blob/main/conformance/DRIVER.md"><code>DRIVER.md</code></a>
+is the whole of what your driver must do — a page of behaviour: it applies a scenario and prints what an observer saw.
+<code>--capabilities</code> is how it says what it does not implement, and a scenario needing something it did not
+declare is reported unreachable with the missing capability named, rather than failing a rule it never claimed.
+<code>sh run.sh --scenarios identity -- ./my-driver</code> asks for the identity rules instead of the download and job
+ones. The wire scenarios want a Python 3 for the fixture that serves a lying <code>Content-Range</code> and the rest;
+without one, <code>--no-fixture</code>, and every wire scenario reports unreachable, which is the honest answer.</p>
+<p><strong>Out of reach is never a pass.</strong> A scenario your driver cannot run, a fixture that would not start, a
+capability you did not declare — each is counted and named, and the run exits 2. Exit 0 means every rule the suite could
+reach was kept; 1 means a rule broke. The rules have tags, every expectation cites one, and a run with no contract page
+compares steps and judges no rule:
+<a href="https://github.com/openabstractions/abstractions/blob/main/conformance/contracts.list"><code>contracts.list</code></a>
+names each page and where to fetch it, and a page the run needed and did not have is named with the command that gets
+it. With the pages in place the runner also reports which written rules no scenario reaches.</p>
+<p><code>sh selftest.sh</code> is the suite checking itself: toy drivers that declare nothing, answer <code>ok</code> to
+everything, admit they have no HTTP, or answer with a superset of the right answer — the runner has to call each of them
+not set up, failed, incomplete or refused. If it calls any of them green, do not trust the rest.</p>
+<p>A passing run says your implementation keeps the rules these scenarios reach. It does not say the contract is
+complete, and it does not say ours is right. <strong>If your driver fails a rule you believe you keep, that is worth
+telling us</strong> — a suite only we can run cannot tell a correct contract from one design transcribed three times.
+<a href="https://github.com/openabstractions/abstractions/blob/main/conformance/README.md">The suite's own page</a> says
+the same, at length.</p>
+<p class="meta">The four lines above were run in that order on 2026-09-10, on a desktop-class Windows 11 machine, in an
+empty scratch directory, with no clone of our tree and nothing of ours built: the tarball unpacked, the selftest passed,
+every page <code>contracts.list</code> names was fetched, and <code>run.sh</code> judged a deliberately generous toy
+driver and returned FAILED with the rule and the step. Linux and macOS were not used:
+<span class="unproven">UNPROVEN</span>.</p>
 
 <h2 id="other">Python and C++</h2>
 <p>Source only. Python is on no package index and C++ has no tagged release; no install line is printed here because none
@@ -124,7 +167,8 @@ Apache-2.0 throughout; nothing copyleft comes in.</p>
 
 <footer>
 <p>Every module is <code>0.y.z</code>: the public API may change between releases. Nothing here carries an API stability promise.</p>
-<p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> ·
+<p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> ·
+<a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a> ·
 <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
 </footer>
 </main>
