@@ -11,10 +11,11 @@
 .grid td:not(:first-child) { text-align: center; white-space: nowrap; }
 .grid th:not(:first-child) { text-align: center; }
 .cell { font: 600 12px ui-monospace, Consolas, Menlo, monospace; }
+.tool { font: 400 11px ui-monospace, Consolas, Menlo, monospace; color: var(--dim); white-space: nowrap; }
 .absent { color: var(--bad); }
 .dash { color: var(--dim); font-weight: 400; }
 .grid tr td:first-child { font-family: ui-monospace, Consolas, Menlo, monospace; }
-.why td:nth-child(1), .why td:nth-child(2), .why td:nth-child(4) {
+.why td:nth-child(1), .why td:nth-child(2), .why td:nth-child(4), .why td:nth-child(5) {
   font-family: ui-monospace, Consolas, Menlo, monospace; font-size: 13px; }
 .tally { font-variant-numeric: tabular-nums; }
 </style>
@@ -30,10 +31,10 @@
 from what is committed in the tree and the transcripts in
 <a href="https://github.com/openabstractions/abstractions/tree/main/docs/results"><code>docs/results/</code></a>.
 Nothing on this page is typed by hand, and a grid the evidence no longer produces fails the gate rather than going stale quietly.</p>
-<p class="state" data-produced>Measured at commit <code>d762d15</code> on 2026-09-10. Layer trees: <code>abstraction@139e861 asks@87c0ff6 cas@017bcf7 config@cb5347c download@56ce403 identity@cf38a12 job@7432d4d logging@68d0a1c model@0037120 rights@4a3e767 router@4d89dda storage@e97f1c0 watch@0a0beff</code>.
+<p class="state" data-produced>Measured at commit <code>ddd31d9</code> on 2026-09-10. Layer trees: <code>abstraction@6e37257 asks@1352b48 cas@1f99bd1 config@6deb3b2 download@5b3c636 identity@b812381 job@b126e63 logging@cbf5c4c model@160dbc3 rights@fb5baa4 router@e07620f storage@e97f1c0 watch@0a0beff</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 
-<div class="warn"><p><strong>0 of the 24 implementations in this tree carry no verdict attributed to this tree.</strong>
+<div class="warn"><p><strong>17 of the 24 implementations in this tree carry no verdict attributed to this tree.</strong>
 That is the honest headline. A cell is green here only when a recorded transcript says so about the tree as it is now —
 a cross-language harness transcript, or
 <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/GATE.txt"><code>GATE.txt</code></a>, the per-cell
@@ -42,25 +43,29 @@ and goes back to <code>UNPROVEN</code> the moment a layer moves under it. Callin
 nobody can point at.</p></div>
 
 <h2 id="grid">The grid</h2>
+<p>Beside each verdict is the toolchain that reached it, and <code>?</code> where the record it came from named none.
+A C++ cell is the reason this is here: a <span class="cell good">PASS</span> in the C++ column used to stand for a
+three-platform claim without naming a single compiler. This grid was recorded from a <code>full</code>
+run, and every cell says which toolchains reached it.</p>
 <div class="wrap"><table class="grid">
 <tr><th>layer</th><th>go</th><th>python</th><th>cpp</th></tr>
-<tr><td>abstraction</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>asks</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>cas</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
-<tr><td>config</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>download</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
-<tr><td>identity</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>job</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
-<tr><td>logging</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>model</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>rights</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>router</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>storage</td><td><span class="cell good">PASS</span></td><td><span class="cell dash">—</span></td><td><span class="cell good">PASS</span></td></tr>
-<tr><td>watch</td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td><td><span class="cell good">PASS</span></td></tr>
+<tr><td>abstraction</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>asks</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>cas</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>config</td><td><span class="cell good">PASS</span> <span class="tool">go1.26.5</span></td><td><span class="cell good">PASS</span> <span class="tool">py3.12</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>download</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>identity</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>job</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>logging</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>model</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>rights</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>router</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td>storage</td><td><span class="cell good">PASS</span> <span class="tool">go1.26.5</span></td><td><span class="cell dash">—</span></td><td><span class="cell good">PASS</span> <span class="tool">g++/msvc</span></td></tr>
+<tr><td>watch</td><td><span class="cell good">PASS</span> <span class="tool">go1.26.5</span></td><td><span class="cell good">PASS</span> <span class="tool">py3.12</span></td><td><span class="cell good">PASS</span> <span class="tool">g++/msvc</span></td></tr>
 </table></div>
-<p class="tally"><span class="cell good">PASS</span> 24 ·
+<p class="tally"><span class="cell good">PASS</span> 7 ·
 <span class="cell bad">FAIL</span> 0 ·
-<span class="cell unproven">UNPROVEN</span> 0 ·
+<span class="cell unproven">UNPROVEN</span> 17 ·
 <span class="cell absent">ABSENT</span> 0 ·
 no implementation 15. 39 cells over 13 layers.</p>
 
@@ -82,46 +87,46 @@ written <span class="cell unproven">UNPROVEN</span> so it looks like one.</p>
 run wrote down; <code>skipped</code> is a cell the last recorded run could not judge; <code>unreached</code> is a cell nothing
 runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they are very different gaps.</p>
 <div class="wrap"><table class="why">
-<tr><th>layer</th><th>language</th><th>cell</th><th>reason</th><th>what proved it, or what did not</th></tr>
-<tr><td>abstraction</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>abstraction</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>abstraction</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>asks</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>asks</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>asks</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>cas</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>cas</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 13 tests</td></tr>
-<tr><td>cas</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 1 test runs</td></tr>
-<tr><td>config</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>config</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 17 tests</td></tr>
-<tr><td>config</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>download</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>download</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 67 tests</td></tr>
-<tr><td>download</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 6 test runs</td></tr>
-<tr><td>identity</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>identity</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>identity</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>job</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>job</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 75 tests</td></tr>
-<tr><td>job</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 4 test runs</td></tr>
-<tr><td>logging</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>logging</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>logging</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>model</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>model</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 41 tests</td></tr>
-<tr><td>model</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>rights</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>rights</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>rights</td><td>cpp</td><td>—</td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>router</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>router</td><td>python</td><td>—</td><td>undeclared</td><td>no python implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
-<tr><td>router</td><td>cpp</td><td>—</td><td>undeclared</td><td>no cpp implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
-<tr><td>storage</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>storage</td><td>python</td><td>—</td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
-<tr><td>storage</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 1 test runs</td></tr>
-<tr><td>watch</td><td>go</td><td>PASS</td><td>recorded</td><td>GATE fast, go build ./... &amp;&amp; go test ./...</td></tr>
-<tr><td>watch</td><td>python</td><td>PASS</td><td>recorded</td><td>GATE fast, unittest discover, 19 tests</td></tr>
-<tr><td>watch</td><td>cpp</td><td>PASS</td><td>recorded</td><td>GATE fast, ctest under linux, 1 test runs</td></tr>
+<tr><th>layer</th><th>language</th><th>cell</th><th>toolchain</th><th>reason</th><th>what proved it, or what did not</th></tr>
+<tr><td>abstraction</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction@139e861; the tree is abstraction@6e37257</td></tr>
+<tr><td>abstraction</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>abstraction</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at asks@8391834; the tree is asks@1352b48</td></tr>
+<tr><td>asks</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>asks</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>cas</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>CAS-MIXED1 recorded PASS at cas@7565469; the tree is cas@1f99bd1</td></tr>
+<tr><td>cas</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>CAS-MIXED1 recorded PASS at cas@7565469; the tree is cas@1f99bd1</td></tr>
+<tr><td>cas</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>CAS-MIXED1 recorded PASS at cas@7565469; the tree is cas@1f99bd1</td></tr>
+<tr><td>config</td><td>go</td><td>PASS</td><td>go1.26.5</td><td>recorded</td><td>GATE full, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>config</td><td>python</td><td>PASS</td><td>py3.12</td><td>recorded</td><td>GATE full, unittest discover, 17 tests</td></tr>
+<tr><td>config</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>download</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@5b3c636</td></tr>
+<tr><td>download</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@5b3c636</td></tr>
+<tr><td>download</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at download@88561a4; the tree is download@5b3c636</td></tr>
+<tr><td>identity</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at identity@d9d7267; the tree is identity@b812381</td></tr>
+<tr><td>identity</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>identity</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>job</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>AWAKE1 recorded PASS at job@5806dfe; the tree is job@b126e63</td></tr>
+<tr><td>job</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at job@5806dfe; the tree is job@b126e63</td></tr>
+<tr><td>job</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>BEHAVIOUR1 recorded PASS at job@5806dfe; the tree is job@b126e63</td></tr>
+<tr><td>logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at logging@68d0a1c; the tree is logging@cbf5c4c</td></tr>
+<tr><td>logging</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>logging</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>model</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at model@0037120; the tree is model@160dbc3</td></tr>
+<tr><td>model</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at model@0037120; the tree is model@160dbc3</td></tr>
+<tr><td>model</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at rights@6d9d16d; the tree is rights@fb5baa4</td></tr>
+<tr><td>rights</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>rights</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at router@0bdb1d8; the tree is router@e07620f</td></tr>
+<tr><td>router</td><td>python</td><td>—</td><td></td><td>undeclared</td><td>no python implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
+<tr><td>router</td><td>cpp</td><td>—</td><td></td><td>undeclared</td><td>no cpp implementation, and the inventory carries no row for router, so nothing says whether the gap is deliberate</td></tr>
+<tr><td>storage</td><td>go</td><td>PASS</td><td>go1.26.5</td><td>recorded</td><td>GATE full, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>storage</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation, and the inventory declares none, so the gap is deliberate</td></tr>
+<tr><td>storage</td><td>cpp</td><td>PASS</td><td>g++/msvc</td><td>recorded</td><td>GATE full, ctest under g++ 15.2.0 in WSL + msvc 14.51.36231, 2 test runs</td></tr>
+<tr><td>watch</td><td>go</td><td>PASS</td><td>go1.26.5</td><td>recorded</td><td>GATE full, go build ./... &amp;&amp; go test ./...</td></tr>
+<tr><td>watch</td><td>python</td><td>PASS</td><td>py3.12</td><td>recorded</td><td>GATE full, unittest discover, 19 tests</td></tr>
+<tr><td>watch</td><td>cpp</td><td>PASS</td><td>g++/msvc</td><td>recorded</td><td>GATE full, ctest under g++ 15.2.0 in WSL + msvc 14.51.36231, 2 test runs</td></tr>
 </table></div>
 <div class="wrap"><table>
 <tr><th>reason</th><th>what it says about the cell</th></tr>
