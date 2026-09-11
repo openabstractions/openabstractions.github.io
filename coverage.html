@@ -459,7 +459,7 @@
 from what is committed in the tree and the transcripts in
 <a href="https://github.com/openabstractions/abstractions/tree/main/docs/results"><code>docs/results/</code></a>.
 Nothing on this page is typed by hand, and a grid the evidence no longer produces fails the gate rather than going stale quietly.</p>
-<p class="state" data-produced>Measured at commit <code>929f77d</code> on 2026-09-12. Layer trees: <code>openabstractions-flat/abstraction-asks@dc90adb openabstractions-flat/abstraction-cas@f9cb388 openabstractions-flat/abstraction-config@3a6b536 openabstractions-flat/abstraction-download@0e9f520 openabstractions-flat/abstraction-facade@2274aed openabstractions-flat/abstraction-identity@9b388e7 openabstractions-flat/abstraction-job@7cfad00 openabstractions-flat/abstraction-logging@c6ee7aa openabstractions-flat/abstraction-model@62fae45 openabstractions-flat/abstraction-rights@d33d9ed openabstractions-flat/abstraction-router@68128e6 openabstractions-flat/abstraction-storage@27bc58b openabstractions-flat/abstraction-watch@27bd982</code>.
+<p class="state" data-produced>Measured at commit <code>e1e75b6</code> on 2026-09-12. Layer trees: <code>openabstractions-flat/abstraction-asks@d87aa54 openabstractions-flat/abstraction-cas@f9cb388 openabstractions-flat/abstraction-config@1d97522 openabstractions-flat/abstraction-download@0e9f520 openabstractions-flat/abstraction-facade@2274aed openabstractions-flat/abstraction-identity@9b388e7 openabstractions-flat/abstraction-job@7cfad00 openabstractions-flat/abstraction-logging@7587a69 openabstractions-flat/abstraction-model@62fae45 openabstractions-flat/abstraction-rights@ace5f0f openabstractions-flat/abstraction-router@2d720fb openabstractions-flat/abstraction-storage@27bc58b openabstractions-flat/abstraction-watch@27bd982</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 <p>Native macOS results are recorded separately in <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/DARWIN1.txt"><code>DARWIN1.txt</code></a>. They supplement the local gate for the same layer revisions; failures remain visible.</p>
 
@@ -524,7 +524,7 @@ run wrote down; <code>skipped</code> is a cell the last recorded run could not j
 runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they are very different gaps.</p>
 <div class="wrap"><table class="why">
 <tr><th>layer</th><th>language</th><th>cell</th><th>toolchain</th><th>reason</th><th>what proved it, or what did not</th></tr>
-<tr><td>abstraction-asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-asks@7e9ea82; the tree is openabstractions-flat/abstraction-asks@dc90adb</td></tr>
+<tr><td>abstraction-asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-asks@7e9ea82; the tree is openabstractions-flat/abstraction-asks@d87aa54</td></tr>
 <tr><td>abstraction-asks</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-asks</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-asks</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
@@ -534,8 +534,8 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>abstraction-cas</td><td>cpp</td><td>PASS</td><td>Apple Clang darwin/arm64</td><td>recorded</td><td>DARWIN1 , CMake build and aggregate CTest on native macOS</td></tr>
 <tr><td>abstraction-cas</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
 <tr><td>abstraction-cas</td><td>javascript</td><td>—</td><td></td><td>undeclared</td><td>no javascript implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
-<tr><td>abstraction-config</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@3a6b536</td></tr>
-<tr><td>abstraction-config</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@3a6b536</td></tr>
+<tr><td>abstraction-config</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@1d97522</td></tr>
+<tr><td>abstraction-config</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@1d97522</td></tr>
 <tr><td>abstraction-config</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-config/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-config</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-config</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
@@ -559,7 +559,7 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>abstraction-job</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-job@30ffc73; the tree is openabstractions-flat/abstraction-job@7cfad00</td></tr>
 <tr><td>abstraction-job</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-job</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-logging@ec56256; the tree is openabstractions-flat/abstraction-logging@c6ee7aa</td></tr>
+<tr><td>abstraction-logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-logging@ec56256; the tree is openabstractions-flat/abstraction-logging@7587a69</td></tr>
 <tr><td>abstraction-logging</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-logging</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-logging/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-logging</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
@@ -569,12 +569,12 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>abstraction-model</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-model</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-model</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-rights@6fff1f5; the tree is openabstractions-flat/abstraction-rights@d33d9ed</td></tr>
+<tr><td>abstraction-rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-rights@6fff1f5; the tree is openabstractions-flat/abstraction-rights@ace5f0f</td></tr>
 <tr><td>abstraction-rights</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-router@a56ecb2; the tree is openabstractions-flat/abstraction-router@68128e6</td></tr>
+<tr><td>abstraction-router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-router@a56ecb2; the tree is openabstractions-flat/abstraction-router@2d720fb</td></tr>
 <tr><td>abstraction-router</td><td>python</td><td>—</td><td></td><td>undeclared</td><td>no python implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-router</td></tr>
 <tr><td>abstraction-router</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-router/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-router</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-router</td></tr>
