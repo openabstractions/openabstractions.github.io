@@ -18,6 +18,27 @@
 .why td:nth-child(1), .why td:nth-child(2), .why td:nth-child(4), .why td:nth-child(5) {
   font-family: ui-monospace, Consolas, Menlo, monospace; font-size: 13px; }
 .tally { font-variant-numeric: tabular-nums; }
+.table-wrap { overflow-x: auto; }
+.coverage-grid { table-layout: fixed; margin: 18px 0; }
+.coverage-grid th:first-child { width: 15%; }
+.coverage-grid th, .coverage-grid td { padding: 9px 6px; vertical-align: middle; }
+.coverage-grid th[scope=row] { color: var(--ink); font-weight: 600; }
+.coverage-cell summary { cursor: pointer; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; list-style: none; }
+.coverage-cell summary::-webkit-details-marker { display: none; }
+.coverage-cell summary::after { content: '+'; font-size: 11px; color: var(--dim); }
+.coverage-cell[open] summary::after { content: '-'; }
+.coverage-cell ul { margin: 10px 0 0; padding-left: 14px; font-size: 12px; overflow-wrap: anywhere; }
+.coverage-grid .badge { font-size: 11px; font-weight: 600; border-radius: 4px; padding: 2px 5px; white-space: nowrap; }
+.coverage-grid .badge.good { color: var(--good); background: color-mix(in srgb, var(--good) 12%, transparent); }
+.coverage-grid .badge.bad { color: var(--bad); background: var(--badbg); }
+.coverage-grid .badge.neutral { color: var(--dim); background: var(--code); }
+.coverage-empty { color: var(--line); }
+@media(max-width:600px) { .coverage-grid { min-width: 630px; } }
+.coverage-audit { margin: 24px 0; border-top: 1px solid var(--line); padding-top: 16px; }
+.coverage-audit > summary { cursor: pointer; font-weight: 600; }
+.coverage-audit .unproven { color: var(--dim); }
+.coverage-audit .state { overflow-wrap: anywhere; }
+
 </style>
 
 <main>
@@ -25,426 +46,284 @@
 <a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html" aria-current="page">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
-<h1>Coverage</h1>
-<h2>Service clients and capability dimensions</h2><p>Independent dimensions, not ordinal levels. Interface availability is source inventory, not a test PASS. A C++ service client can use a Go host; no C++ server is required. Native OS and custom providers require explicitly classified evidence. Legacy checks remain unclassified and their failures remain in the legacy grid below.</p>
-<div class="table-wrap"><table><tr><th>Layer</th><th>Go</th><th>Python</th><th>C++</th><th>Rust</th><th>JavaScript</th></tr>
-<tr><th>abstraction-asks</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<h1>What you can use</h1>
+<p class="lead">One capability, your language. Open a cell for platforms and verification details.</p>
+<h2>Capability coverage</h2><p>API = handwritten public API; Interface = generated API; Types = record codec only. Tested = recorded layer checks; Service, Native and Adapter = scoped runtime evidence. Green availability is not a runtime PASS. Expand a cell for platforms and evidence.</p>
+<div class="table-wrap"><table class="coverage-grid"><thead><tr><th scope="col">Capability</th><th scope="col">Go</th><th scope="col">Python</th><th scope="col">C++</th><th scope="col">Rust</th><th scope="col">JavaScript</th></tr></thead><tbody>
+<tr><th scope="row">asks</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-cas</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">cas</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. go1.26.5; not a native-provider classification.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. py3.12; not a native-provider classification.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. Apple Clang darwin/arm64; not a native-provider classification.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-config</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="good">PASS | windows/amd64; host: go; config-cpp-windows-service (PASS)</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">config</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; config-cpp-windows-service (PASS)</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-download</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">record codec only</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">record codec only</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">record codec only</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">download</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge neutral">Types</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge neutral">Types</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge neutral">Types</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-facade</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="good">PASS | windows/amd64; host: go; facade-cpp-windows-services (PASS)</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">facade</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; facade-cpp-windows-services (PASS)</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-identity</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">identity</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-job</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">record codec only</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">job</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge neutral">Types</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-logging</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="good">PASS | windows/amd64; host: go; logging-go-windows-service (PASS)</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="good">PASS | windows/amd64; host: go; logging-cpp-windows-service (PASS)</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">logging</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; logging-go-windows-service (PASS)</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; logging-cpp-windows-service (PASS)</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-model</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">model</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-rights</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">rights</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-router</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">service interface available</span></div>
-<div><strong>Service client</strong>: <span class="good">PASS | windows/amd64; host: go; router-cpp-windows-service (PASS)</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">router</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; router-cpp-windows-service (PASS)</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-storage</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">storage</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-<tr><th>abstraction-watch</th>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
-<td>
-<div><strong>Generated interface</strong>: <span class="unproven">not found</span></div>
-<div><strong>Service client</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Native OS provider</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-<div><strong>Custom provider / binding</strong>: <span class="unproven">UNPROVEN / unclassified</span></div>
-</td>
+<tr><th scope="row">watch</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. go1.26.5; not a native-provider classification.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. py3.12; not a native-provider classification.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Tested</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Recorded layer checks: PASS. Apple Clang darwin/arm64; not a native-provider classification.</li>
+</ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
-</table></div>
+</tbody></table></div>
+<details class="service-evidence"><summary>Service test evidence</summary>
 <p>Shared IPC runtime source: reusable C ABI client binding, C++ wrapper, native transport; source availability is separate from full identity provider conformance.</p>
 <h2>Service clients and focused checks</h2><p>Each scenario states the service/provider behavior actually exercised. Client transport and individual capability checks are separate from full capability conformance. These results never replace a provider failure or establish other platforms. Inputs and toolchain identity are recorded per scenario.</p>
 <div class="table-wrap"><table><tr><th>Check</th><th>Layer</th><th>Language</th><th>Scope</th><th>Platform</th><th>Verdict</th><th>Scenario</th><th>Toolchain</th></tr>
@@ -454,12 +333,10 @@
 <tr><td>logging-go-windows-service</td><td>openabstractions-flat/abstraction-logging</td><td>go</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>go facade -&gt; generated client -&gt; shared named-pipe IPC -&gt; identity-checked Go logging service -&gt; service-owned JSONL sink; multiline Unicode, zero level and empty attrs preserved; verified peer; record survives client exit; schema=2 refused; absent service errors; no client-local storage</td><td>python: Python 3.12.14; go: go version go1.26.5 windows/amd64</td></tr>
 <tr><td>router-cpp-windows-service</td><td>openabstractions-flat/abstraction-router</td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed C++ Router.Models/Hosts/Pick -&gt; generated RPC -&gt; shared IPC -&gt; identity-bound Go router service and existing provider over isolated local HTTP fixtures; inventory/resident/denied choices, empty allowance versus absence, caller audit, typed refusals, GET-only provider reads and no client-local state; no central-host or GPU-cost claim</td><td>python: Python 3.12.14; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
 </table></div>
-<p class="lead">Every layer against every language, and what proved each one. Generated by
-<code>scripts/matrix.sh</code>
-from what is committed in the tree and the transcripts in
-<a href="https://github.com/openabstractions/abstractions/tree/main/docs/results"><code>docs/results/</code></a>.
-Nothing on this page is typed by hand, and a grid the evidence no longer produces fails the gate rather than going stale quietly.</p>
-<p class="state" data-produced>Measured at commit <code>e1e75b6</code> on 2026-09-12. Layer trees: <code>openabstractions-flat/abstraction-asks@d87aa54 openabstractions-flat/abstraction-cas@f9cb388 openabstractions-flat/abstraction-config@1d97522 openabstractions-flat/abstraction-download@0e9f520 openabstractions-flat/abstraction-facade@2274aed openabstractions-flat/abstraction-identity@9b388e7 openabstractions-flat/abstraction-job@7cfad00 openabstractions-flat/abstraction-logging@7587a69 openabstractions-flat/abstraction-model@62fae45 openabstractions-flat/abstraction-rights@ace5f0f openabstractions-flat/abstraction-router@2d720fb openabstractions-flat/abstraction-storage@27bc58b openabstractions-flat/abstraction-watch@27bd982</code>.
+</details>
+<details class="coverage-audit"><summary>Build and conformance evidence</summary>
+<p>Recorded checks for exact source revisions. A changed revision needs fresh verification.</p>
+<p class="state" data-produced>Measured at commit <code>711bf52</code> on 2026-09-12. Layer trees: <code>openabstractions-flat/abstraction-asks@67bc91e openabstractions-flat/abstraction-cas@f9cb388 openabstractions-flat/abstraction-config@e14c74d openabstractions-flat/abstraction-download@d809e96 openabstractions-flat/abstraction-facade@75832f0 openabstractions-flat/abstraction-identity@dc63e2b openabstractions-flat/abstraction-job@7cfad00 openabstractions-flat/abstraction-logging@238137d openabstractions-flat/abstraction-model@00e86f5 openabstractions-flat/abstraction-rights@2951974 openabstractions-flat/abstraction-router@d79374d openabstractions-flat/abstraction-storage@27bc58b openabstractions-flat/abstraction-watch@27bd982</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 <p>Native macOS results are recorded separately in <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/DARWIN1.txt"><code>DARWIN1.txt</code></a>. They supplement the local gate for the same layer revisions; failures remain visible.</p>
 
@@ -524,7 +401,7 @@ run wrote down; <code>skipped</code> is a cell the last recorded run could not j
 runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they are very different gaps.</p>
 <div class="wrap"><table class="why">
 <tr><th>layer</th><th>language</th><th>cell</th><th>toolchain</th><th>reason</th><th>what proved it, or what did not</th></tr>
-<tr><td>abstraction-asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-asks@7e9ea82; the tree is openabstractions-flat/abstraction-asks@d87aa54</td></tr>
+<tr><td>abstraction-asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-asks@7e9ea82; the tree is openabstractions-flat/abstraction-asks@67bc91e</td></tr>
 <tr><td>abstraction-asks</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-asks</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-asks</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
@@ -534,22 +411,22 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>abstraction-cas</td><td>cpp</td><td>PASS</td><td>Apple Clang darwin/arm64</td><td>recorded</td><td>DARWIN1 , CMake build and aggregate CTest on native macOS</td></tr>
 <tr><td>abstraction-cas</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
 <tr><td>abstraction-cas</td><td>javascript</td><td>—</td><td></td><td>undeclared</td><td>no javascript implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
-<tr><td>abstraction-config</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@1d97522</td></tr>
-<tr><td>abstraction-config</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@1d97522</td></tr>
+<tr><td>abstraction-config</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@e14c74d</td></tr>
+<tr><td>abstraction-config</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@e14c74d</td></tr>
 <tr><td>abstraction-config</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-config/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-config</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-config</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-download</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@0e9f520</td></tr>
-<tr><td>abstraction-download</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@0e9f520</td></tr>
-<tr><td>abstraction-download</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@0e9f520</td></tr>
+<tr><td>abstraction-download</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@d809e96</td></tr>
+<tr><td>abstraction-download</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@d809e96</td></tr>
+<tr><td>abstraction-download</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@d809e96</td></tr>
 <tr><td>abstraction-download</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-download</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-facade</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-facade@4fee870; the tree is openabstractions-flat/abstraction-facade@2274aed</td></tr>
+<tr><td>abstraction-facade</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-facade@4fee870; the tree is openabstractions-flat/abstraction-facade@75832f0</td></tr>
 <tr><td>abstraction-facade</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-facade</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-facade/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-facade</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-facade</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-identity</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-identity@b812381; the tree is openabstractions-flat/abstraction-identity@9b388e7</td></tr>
+<tr><td>abstraction-identity</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-identity@b812381; the tree is openabstractions-flat/abstraction-identity@dc63e2b</td></tr>
 <tr><td>abstraction-identity</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-identity</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-identity/cpp exists with 4 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-identity</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
@@ -559,22 +436,22 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 <tr><td>abstraction-job</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-job@30ffc73; the tree is openabstractions-flat/abstraction-job@7cfad00</td></tr>
 <tr><td>abstraction-job</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-job</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-logging@ec56256; the tree is openabstractions-flat/abstraction-logging@7587a69</td></tr>
+<tr><td>abstraction-logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-logging@ec56256; the tree is openabstractions-flat/abstraction-logging@238137d</td></tr>
 <tr><td>abstraction-logging</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-logging</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-logging/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-logging</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-logging</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-model</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@7cf857e; the tree is openabstractions-flat/abstraction-model@62fae45</td></tr>
-<tr><td>abstraction-model</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@7cf857e; the tree is openabstractions-flat/abstraction-model@62fae45</td></tr>
+<tr><td>abstraction-model</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@7cf857e; the tree is openabstractions-flat/abstraction-model@00e86f5</td></tr>
+<tr><td>abstraction-model</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@7cf857e; the tree is openabstractions-flat/abstraction-model@00e86f5</td></tr>
 <tr><td>abstraction-model</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-model</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-model</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-rights@6fff1f5; the tree is openabstractions-flat/abstraction-rights@ace5f0f</td></tr>
+<tr><td>abstraction-rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-rights@6fff1f5; the tree is openabstractions-flat/abstraction-rights@2951974</td></tr>
 <tr><td>abstraction-rights</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>cpp</td><td>—</td><td></td><td>none</td><td>no cpp implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
 <tr><td>abstraction-rights</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-router@a56ecb2; the tree is openabstractions-flat/abstraction-router@2d720fb</td></tr>
+<tr><td>abstraction-router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-router@a56ecb2; the tree is openabstractions-flat/abstraction-router@d79374d</td></tr>
 <tr><td>abstraction-router</td><td>python</td><td>—</td><td></td><td>undeclared</td><td>no python implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-router</td></tr>
 <tr><td>abstraction-router</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-router/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
 <tr><td>abstraction-router</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-router</td></tr>
@@ -623,6 +500,7 @@ cell. A cell still reads <code>gate</code> where no recorded run has judged it.<
 modules the workspace lists, which C++ directories the top-level build adds, which Python suites the gate names, and how
 many test files each cell carries.</p>
 
+</details>
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>
 <p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="adopt.html">Adopt</a> ·
