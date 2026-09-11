@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Abstractions — schema</title>
+<link rel="stylesheet" href="style.css">
+
+<main>
+<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
+<a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
+<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
+<p class="meta" style="margin-top:10px"><a href="#encoding">Encoding</a> · <a href="#types">Types</a> · <a href="#structs">Structs</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#vocabulary">Vocabulary</a> · <a href="#refusals">Refusals</a> · <a href="#protocol">Protocol</a></p>
+
+<h1>Schema</h1>
+<p class="lead">One definition; this page and every encoder are emitted from it. Nothing below is written by hand, and each rule tag links the construct to the profile that admits it.</p>
+<h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
+<div class="wrap"><table>
+<thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
+<tbody>
+<tr><td><code>escape</code></td><td><code>minimal</code></td><td><span class="tag">[DEF-E2]</span></td></tr>
+<tr><td><code>indent</code></td><td><code>2</code></td><td><span class="tag">[DEF-E3]</span></td></tr>
+<tr><td><code>map_keys</code></td><td><code>utf8-bytes</code></td><td><span class="tag">[DEF-E4]</span></td></tr>
+<tr><td><code>numbers</code></td><td><code>integer-decimal</code></td><td><span class="tag">[DEF-E5]</span></td></tr>
+<tr><td><code>opaque</code></td><td><code>verbatim</code></td><td><span class="tag">[DEF-E6]</span></td></tr>
+<tr><td><code>terminator</code></td><td><code>newline</code></td><td><span class="tag">[DEF-E7]</span></td></tr>
+<tr><td><code>duplicate_keys</code></td><td><code>last</code></td><td><span class="tag">[DEF-E8]</span></td></tr>
+<tr><td><code>depth_limit</code></td><td><code>64</code></td><td><span class="tag">[DEF-E9]</span></td></tr>
+</tbody></table></div>
+<h2 id="types">Types</h2>
+<div class="wrap"><table>
+<thead><tr><th>kind</th><th>types</th></tr></thead>
+<tbody>
+<tr><td>built in</td><td><code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code></td></tr>
+<tr><td>string map <span class="tag">[DEF-A10]</span></td><td><code>map&lt;string,string&gt;</code></td></tr>
+</tbody></table></div>
+<h3 id="named-types">Named types <span class="tag">[DEF-T2]</span></h3>
+<p class="meta">One spelling is written <span class="tag">[DEF-G2]</span> and a wider set is read <span class="tag">[DEF-G1]</span>; the width between them is the interoperability guarantee.</p>
+<div class="wrap"><table>
+<thead><tr><th>name</th><th>is</th><th>written</th><th>read</th></tr></thead>
+<tbody>
+<tr><td><code>timestamp</code></td><td><code>string</code></td><td><code>rfc3339-micros</code></td><td><code>rfc3339-wide</code></td></tr>
+</tbody></table></div>
+<h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
+<p class="meta">A field is required, or says when it is omitted <span class="tag">[DEF-A4]</span>. Each struct says on its own what it does with a field name it has never heard of <span class="tag">[DEF-A7]</span>. A wire name never moves; where a language must spell it differently the field says so <span class="tag">[DEF-A2]</span>.</p>
+<h3 id="struct-Attestation"><code>Attestation</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>by</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>verified</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>hop</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>program</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>5</td><td><code>host</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>6</td><td><code>user</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>7</td><td><code>exe</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>8</td><td><code>uid</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>9</td><td><code>gid</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>10</td><td><code>pid</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>11</td><td><code>key</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>12</td><td><code>mac</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Record"><code>Record</code></h3>
+<p class="meta">the document <span class="tag">[DEF-A1]</span> · unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>schema</code></td><td><code>i64</code></td><td>required; equals <code>1</code>; refusal <code>bad_schema</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>time</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>level</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>msg</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>identity</code></td><td><code>list&lt;Attestation&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>6</td><td><code>job</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>7</td><td><code>attrs</code></td><td><code>map&lt;string,string&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="refusals">Refusal words <span class="tag">[DEF-R1]</span></h2>
+<div class="wrap"><table>
+<thead><tr><th>order</th><th>word</th><th>stage</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>malformed</code></td><td><code>grammar</code></td></tr>
+<tr><td>2</td><td><code>bad_string</code></td><td><code>grammar</code></td></tr>
+<tr><td>3</td><td><code>number_spelling</code></td><td><code>grammar</code></td></tr>
+<tr><td>4</td><td><code>wrong_type</code></td><td><code>grammar</code></td></tr>
+<tr><td>5</td><td><code>bad_timestamp</code></td><td><code>grammar</code></td></tr>
+<tr><td>6</td><td><code>depth_exceeded</code></td><td><code>grammar</code></td></tr>
+<tr><td>7</td><td><code>duplicate_field</code></td><td><code>structure</code></td></tr>
+<tr><td>8</td><td><code>unknown_field</code></td><td><code>structure</code></td></tr>
+<tr><td>9</td><td><code>missing_field</code></td><td><code>structure</code></td></tr>
+<tr><td>10</td><td><code>bad_schema</code></td><td><code>structure</code></td></tr>
+<tr><td>11</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
+</tbody></table></div>
+<h2 id="service-Sink">Service <code>Sink</code> <span class="tag">[DEF-S1]</span></h2>
+<p>A sink for structured log records across a service boundary.</p>
+<p>Wire identity: <code>abstraction.logging/sink@1</code></p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Submit a log record. Completion confirms local transport submission only.</p>
+<h3><code>Write</code></h3><p><code>oneway</code> <code>void</code></p><ul>
+<li>Argument 1: <code>Record</code> <code>record</code> (required, including zero/false/empty)</li>
+</ul>
+
+<footer>
+<p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a> · <a href="adopt.html">Adopt</a> ·
+<a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
+</footer>
+</main>
+</html>
