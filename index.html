@@ -56,16 +56,19 @@ service on the application's behalf, so revoking the right releases it the same 
 no Go, nothing of ours built.</p>
 
 <h2 id="get">Getting the programs</h2>
-<p>Installers for the three programs — <code>jobd</code>, <code>dl</code>, <code>jobctl</code> — are built from
-published module versions and drafted on the
-<a href="https://github.com/openabstractions/redist/releases">releases page of <code>redist</code></a>. That page is
-where every asset appears, so the link stays right whether or not a release has been drafted yet, and no version is
-typed here that a repository would have to keep true. Windows gets an MSI and Linux a tarball, both per-user, neither
-needing an administrator; <strong>every asset is unsigned</strong>, so Windows will call the publisher unknown and the
-checksum published beside a download says only that the bytes did not change in transit. macOS has no asset: an
-unsigned, unnotarised package is one Gatekeeper refuses to open.</p>
-<p>The route that needs none of this, on all three platforms, is <a href="adopt.html#run">Adopt</a> — one
-<code>go install</code> line per program, straight from the module proxy.</p>
+<p>The redistributable packages <code>jobd</code>, <code>dl</code>, <code>jobctl</code> and the
+<code>openabstractions</code> service host. Windows also includes the windowless <code>jobdw</code> supervisor and
+Abstraction Panel: six Windows executables, four Linux/macOS programs, built from published module versions.</p>
+<p>Find available downloads and their release-specific verification on the
+<a href="https://github.com/openabstractions/redist/releases">redist releases page</a>. Windows uses an MSI with a default per-user installation or an elevated <em>Everyone</em> installation;
+<strong>Add to PATH is optional</strong>. Linux uses a per-user tarball installer. macOS packaging produces a
+universal <code>.pkg</code>, attached only when the release's signing requirements are met.</p>
+<p>Read each release's notes for its actual assets, signatures, notarisation and build verification.
+A built package is not proof that it was installed on every supported architecture.
+<a href="https://github.com/openabstractions/redist/blob/main/NOTES.md">Installation notes</a> explain the choices
+and limitations. Checksums compare downloaded bytes with the published checksum file; they do not independently
+establish origin.</p>
+<p>For building programs directly from their public modules, see <a href="adopt.html#run">Adopt</a>.</p>
 
 <h2 id="what">What is here</h2>
 <p>A <strong>layer</strong> is one contract — a page of tagged rules — with an implementation per language, in one
