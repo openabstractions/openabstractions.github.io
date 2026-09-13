@@ -47,9 +47,10 @@ html[data-lang]:not([data-lang="all"]) .lang::before { display: none; }
 <a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html" aria-current="page">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 <p class="meta" style="margin-top:10px"><a href="#vocabulary">Vocabulary</a> · <a href="#concepts">Concepts</a> · <a href="#api">API</a> · <a href="#cli">Command line</a> · <a href="#undecided">Undecided</a> · <a href="#where">Where each rule lives</a> · <a href="schema.html">Job schema</a> · <a href="abstraction.logging.schema.html">Logging API</a> · <a href="abstraction.config.schema.html">Config API</a> · <a href="abstraction.router.schema.html">Router API</a></p>
-<p>The logging API reference is generated from its Thrift definition. Integration of that protocol into the installed service is still pending.</p>
+<p>The logging API reference is generated from its Thrift definition. The service and typed clients use that protocol; installed availability depends on the selected runtime package.</p>
 
-<h1>Vocabulary and API</h1>
+<h1>Vocabulary and provider API history</h1>
+<p><strong>Scope:</strong> this page retains earlier provider/store API examples and dated comparisons. Application integrations should follow the <a href="adopt.html">current service-client guide</a> and <a href="https://github.com/openabstractions/abstraction-facade">facade README</a>. Direct shared-store access and earlier <code>Discover().Download()</code> examples belong to explicit legacy/provider integrations. Statements below about missing clients or unresolved defects describe their original evidence, not the current SDK.</p>
 <p class="lead">The application holds an id; the work belongs to the machine. A lease that stops being renewed lapses, the next claim
 raises the epoch and inherits the checkpoint, and the successor resumes from the proven prefix and discards the rest —
 <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/RESUME1.txt"><code>RESUME1</code></a>

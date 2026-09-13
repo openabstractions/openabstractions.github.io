@@ -38,7 +38,7 @@ a model; those applications are the first users, not the subject
 <p class="caption">Real clock, 11.6 seconds. The supervisor <code>jobd</code> is running; the request is a text file
 dropped into its <a href="reference.html#cli"><code>wanted/</code> folder</a>, the drop folder it answers; <code>dl watch</code> is killed at 62% and the file finishes, because the
 work was never inside the process that asked. Without the supervisor the partial waits on disk and the next
-<code>dl</code> with the same line resumes it (<a href="adopt.html#fetch">Adopt</a>, step 2).</p>
+<code>dl</code> with the same line resumes it (historical provider demonstration; <a href="adopt.html#fetch">current durable service guidance</a>).</p>
 
 <h2 id="cases">Three cases</h2>
 <p>The three places an application gains something the platform does not offer it. Each is argued, with its transcripts
@@ -74,7 +74,7 @@ establish origin.</p>
 <p>A <strong>layer</strong> is one contract — a page of tagged rules — with an implementation per language, in one
 repository. Go, Python and C++, with nothing from a package registry: Python is standard library only; Go adds the Go
 team's own <code>golang.org/x/sys</code>; C++ takes nothing, including a JSON library. Apache-2.0. Each repository
-lists its released versions; the install lines on <a href="adopt.html">Adopt</a> name one each.</p>
+lists its released versions; <a href="adopt.html">Adopt</a> describes current source APIs and revision selection.</p>
 <div class="wrap"><table>
 <tr><th>layer</th><th>what it is</th><th>languages</th><th>evidence</th></tr>
 <tr><td><a href="https://github.com/openabstractions/abstraction-job"><code>job</code></a></td>
@@ -90,7 +90,7 @@ lists its released versions; the install lines on <a href="adopt.html">Adopt</a>
 <td>Go, untagged</td>
 <td><a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/SUPERVISOR1.txt"><code>SUPERVISOR1</code></a>; <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt"><code>NAS1</code></a> a NAS finishes a PC's download after every process on the PC is killed</td></tr>
 <tr><td><a href="https://github.com/openabstractions/abstraction-facade"><code>facade</code></a></td>
-<td><code>Discover()</code> once; then <code>Download()</code>, <code>Jobs()</code>, <code>Storage()</code>, <code>Log()</code>. The application names no implementation</td>
+<td>Resolve typed logging, configuration, routing and job service clients. Services own their state</td>
 <td>Go</td>
 <td><a href="evidence.html#providers">one program, three providers</a></td></tr>
 </table></div>
@@ -109,56 +109,9 @@ lists its released versions; the install lines on <a href="adopt.html">Adopt</a>
 <a href="https://github.com/openabstractions/research"><code>research</code></a> the prior art read before drawing any of it ·
 <a href="https://github.com/openabstractions/abstractions"><code>abstractions</code></a> how an interface here is drawn, and which gaps are worth drawing one for (<a href="https://github.com/openabstractions/abstractions/blob/main/METHOD.md"><code>METHOD.md</code></a> §14).</p>
 
-<h2 id="direction">Three things that must not blur</h2>
-<div class="wrap"><svg class="arch" viewBox="0 0 880 236" width="880" height="236" role="img"
-  aria-label="Three boxes: contract, provider, service installation. Solid arrows point left, from service to provider and from provider to contract. Crossed-out arrows point right: the contract must not need the provider, the provider must not require the service, and the service is not the definition of correctness.">
-<defs>
-<marker id="mk-dep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="mk-dep" d="M0 0L10 5L0 10z"/></marker>
-<marker id="mk-no" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="mk-no" d="M0 0L10 5L0 10z"/></marker>
-</defs>
-<rect class="app" x="20" y="10" width="140" height="30" rx="4"/>
-<text x="90" y="30" text-anchor="middle">application</text>
-<path class="dep" d="M90 40V78" marker-end="url(#mk-dep)"/>
-<text class="dim" x="100" y="64">calls</text>
-
-<rect class="box" x="20" y="80" width="260" height="96" rx="6"/>
-<text class="t" x="36" y="106">contract</text>
-<text class="dim" x="36" y="128">tagged rules · <tspan class="mono">job.thrift</tspan></text>
-<text class="dim" x="36" y="146">scenario corpus, diffed byte for byte</text>
-<text x="36" y="166">what <tspan class="t">correct</tspan> means</text>
-
-<rect class="box" x="320" y="80" width="260" height="96" rx="6"/>
-<text class="t" x="336" y="106">provider</text>
-<text class="dim" x="336" y="128"><tspan class="mono">-over-native</tspan> · <tspan class="mono">dlc</tspan> over curl · BITS</text>
-<text class="dim" x="336" y="146">a client of a service</text>
-<text x="336" y="166">who does the work</text>
-
-<rect class="box" x="620" y="80" width="240" height="96" rx="6"/>
-<text class="t" x="636" y="106">service installation</text>
-<text class="dim" x="636" y="128"><tspan class="mono">jobd</tspan> on this machine, on a NAS</text>
-<text class="dim" x="636" y="146">policy, durable execution</text>
-<text x="636" y="166">work that outlives the caller</text>
-
-<path class="dep" d="M320 112H288" marker-end="url(#mk-dep)"/>
-<text class="dim" x="300" y="100" text-anchor="middle">satisfies</text>
-<path class="dep" d="M620 112H588" marker-end="url(#mk-dep)"/>
-<text class="dim" x="600" y="100" text-anchor="middle">is one</text>
-
-<path class="no" d="M280 150H312" marker-end="url(#mk-no)"/>
-<path class="no" d="M580 150H612" marker-end="url(#mk-no)"/>
-<text class="no-l" x="150" y="206" text-anchor="middle">the interface must not need the factory</text>
-<text class="no-l" x="450" y="206" text-anchor="middle">the factory must not require the daemon</text>
-<text class="no-l" x="740" y="206" text-anchor="middle">the daemon is not the definition</text>
-<text class="no-l" x="740" y="224" text-anchor="middle">of correctness</text>
-</svg></div>
-<p class="caption">A <a href="reference.html#vocabulary">provider</a> is whatever actually does the work, chosen by the machine
-rather than named by the application: our own code, <code>dlc</code> over <code>curl</code>, or Windows'
-Background Intelligent Transfer Service (BITS), the downloader every Windows machine already runs. An application is
-written against the contract and names none of them
-(<a href="evidence.html#providers">one binary, three providers</a>); a provider works with no service installed (that
-table, first row); <em>correct</em> means the scenario corpus every implementation is replayed through
-(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1</code></a>),
-never what the supervisor does.</p>
+<h2 id="direction">Application, service and provider</h2>
+<p>The application resolves a compatible service through its language client. The service owns shared storage, execution and authorization enforcement. Its provider implements the contract using an engine or OS facility. Installation supplies availability and lifecycle.</p>
+<p>Adopt one capability through the <a href="adopt.html">Go and C++ service examples</a>. Explicit local adapters support migration of existing engines with their own stated guarantees. Current facade bindings use local transport; remote bindings remain development work.</p>
 
 <h2 id="line">Four defects, and the condition each needed to appear</h2>
 <p>A program that fetches one file, on one machine, in one language, from a source that publishes a digest, does not need
@@ -201,16 +154,9 @@ the <code>envelope</code> rows were re-read in the primary text on 2026-09-09.</
 <li><strong>No throughput claim is made.</strong> Two of our own loopback benchmarks on one machine disagree by 2.7×; the tables are withdrawn, and nothing on this site rests on a throughput number. <a href="evidence.html#speed">What was withdrawn and why.</a></li>
 </ul>
 
-<h2 id="stage">Stage</h2>
-<p><strong>0.x.</strong> Every module is versioned <code>0.y.z</code>, which under
-<a href="https://semver.org/#spec-item-4">Semantic Versioning §4</a> means the public API may change between releases.</p>
-<ul>
-<li><strong>Go:</strong> every layer carries a released version; the supervisor <code>jobd</code> carries none, and nothing marked <em>in the tree</em> above has been released yet.</li>
-<li><strong>Python:</strong> source only, on no index. <strong>C++:</strong> source only, no tagged release.</li>
-<li><strong>Integrations:</strong> ComfyUI-Manager and a Synology package, both built here. Neither has a published release file yet.</li>
-<li><strong>Signing:</strong> nothing is signed. <code>sum.golang.org</code> proves the bytes are the ones everyone else fetched, not who wrote them.</li>
-<li><strong>Governance:</strong> one maintainer today, two organisation owners; the succession plan is written and needs nobody's permission (<a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md"><code>GOVERNANCE.md</code></a>). Faults go through <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md"><code>SECURITY.md</code></a>.</li>
-</ul>
+<h2 id="stage">Development and availability</h2>
+<p>APIs remain in development. The <a href="adopt.html">adoption guide</a> describes the current source path; select reviewed public revisions and verify their dependency set before use. Runtime packages, source packages and client conformance have separate evidence. Check <a href="https://github.com/openabstractions/redist/releases">runtime releases</a> for actual artifacts and <a href="coverage.html">coverage</a> for dated language/platform scopes.</p>
+<p>Current Go, C++ and Python facade clients bind local services. Rust and JavaScript connectors require explicit server-trust configuration. Remote transport and complete rights-grant integration remain open. Historical demonstrations elsewhere on this page retain their original scope.</p>
 
 <footer>
 <p>Nothing here carries an API stability promise. <code>UNPROVEN</code> is written wherever a platform has not been reached.</p>

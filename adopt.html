@@ -13,173 +13,52 @@
 <a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html" aria-current="page">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
-<h1>Adopt</h1>
-<p class="lead">Four commands, then the one that judges us instead. Each was run before it was printed here, against the
-tag it names. Which of these is worth your time is <a href="cases.html">Cases</a>.</p>
-<p class="meta">A version appears below only where a command has to pin one, and it is the tag that command was run at —
-never a claim about which tag is newest. A tag list cannot drift, so each command links the one that answers "which
-release". Commands 1, 3 and 4 checked 2026-09-10 against the tags they name, with Go 1.26.5 on Windows 11, in an
-empty module cache with no workspace: each resolved from the Go proxy and was verified against <code>sum.golang.org</code>,
-and the program in step 3 compiled against the modules it fetched. Command 2 was last run 2026-09-08, against an earlier
-tag, in a store in a scratch directory (<code>ABSTRACTION_STORE</code>): the transfer was killed by process id at
-33.7 MiB of 87.6, the second run picked up at 33.7 MiB after the dead lease's thirty seconds, and the file's SHA-256
-matched the one Hugging Face publishes for it. Linux was last checked 2026-09-08, against earlier tags; macOS is
-<span class="unproven">UNPROVEN</span>.</p>
-
-<h2 id="run">1 · Run it</h2>
-<pre><code>go install github.com/openabstractions/abstraction-download/go/cmd/dl@v0.4.1</code></pre>
-<p>Go 1.26 or later. That pin is the tag the command was run at;
-<a href="https://github.com/openabstractions/abstraction-download/tags">the tag list</a> is the answer to "which release".
-No file to download and no checksum to compare: Go builds <code>dl</code> from source and checks
-every module against <code>sum.golang.org</code>, which proves the bytes are the ones everyone else fetched and says
-nothing about who wrote them. Nine modules, eight of them ours and <code>golang.org/x/sys</code>. Nothing is signed.</p>
-
-<h2 id="fetch">2 · Fetch something, kill it, fetch it again</h2>
-<pre><code>dl https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_0.gguf</code></pre>
-<p>The first line printed is <code>dl: nothing on this machine answers questions; fetching from huggingface.co unasked</code>:
-before reaching a host for the first time <code>dl</code> asks whatever on this machine answers questions a program may
-put to a person — the <a href="https://github.com/openabstractions/abstraction-asks"><code>asks</code></a> and
-<a href="https://github.com/openabstractions/abstraction-rights"><code>rights</code></a> layers — and on a machine with
-neither it says so and proceeds. Ctrl+C it halfway. <code>dl list</code> still shows the job and how far it got. Run the same line again:
-it resumes from the last byte it can <em>prove</em>, with no flag — after waiting out the dead run's thirty-second lease,
-which it does in silence. <code>dl watch</code> is the live view. <code>-o &lt;path&gt;</code> names the destination;
-<code>--digest sha256:…</code> makes a corrupt answer from the server a refusal rather than a file —
-<a href="evidence.html#lies">without it, <code>dl</code> corrupts exactly as <code>curl</code> does</a>. A flag
-<code>dl</code> does not know, or a flag with nothing after it, is refused with exit 2 before anything is fetched —
-measured at the tag step 1 names; an earlier tag ignored both without a word, and a mistyped
-<code>--digest</code> was an unverified file and exit 0.</p>
-<p>What is on disk after the kill: the partial file beside the destination, and under
-<a href="reference.html#record">the store</a> — the directory of job records — a record naming the URL, the destination,
-the progress and the lease. Where that store is: <code>dl tiers</code> prints it, along with the ordered list of places
-a download may run — a NAS, a platform service, this process. Here it prints
-<code>supervisor none</code> — downloads run in this process and stop when it does. The recording on the
-<a href="index.html">overview</a> is the other arrangement: <code>jobd</code> running, a request dropped into its
-<code>wanted/</code> folder, and nothing to re-run. <a href="https://github.com/openabstractions/service-jobd"><code>service-jobd</code></a>
-has the commands that set it up; they were not run for this page.</p>
-
-<h2 id="call">3 · Call it from a program</h2>
-<pre><code>go get github.com/openabstractions/abstraction-facade/go@v0.4.0</code></pre>
-<p class="meta">The pin is the tag this was run at;
-<a href="https://github.com/openabstractions/abstraction-facade/tags">the tag list</a> is the answer to "which release".</p>
+<h1>Adopt a service capability</h1>
+<p class="lead">An application resolves a service and calls its language-native client. The service owns its data and work. Begin with logging; add durable jobs when the application needs recoverable acceptance.</p>
+<p><strong>Development source guidance.</strong> The examples below match the current source API. Verify that your chosen public revision contains it and that its dependencies resolve. Historical release tags and coverage records do not establish availability of a newer API.</p>
+<span id="run"></span>
+<h2 id="go">Go: resolve and log</h2>
+<p>Use Go 1.26 or newer and the <a href="https://github.com/openabstractions/abstraction-facade">facade package</a>. Its README gives module selection and a complete example:</p>
 <pre><code>package main
 
 import (
-	"fmt"
-	"os"
+    &quot;context&quot;
+    &quot;log&quot;
+    &quot;time&quot;
 
-	abstraction "github.com/openabstractions/abstraction-facade/go"
+    facade &quot;github.com/openabstractions/abstraction-facade/go&quot;
 )
 
 func main() {
-	a, err := abstraction.Discover()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	h, err := a.Download().Get(os.Args[1], os.Args[2])
-	fmt.Println(h, err)
-}</code></pre>
-<p><code>Discover()</code> reads the machine — no path, no flag in the caller — and answers with the layers as this machine
-provides them: <code>Download()</code>, <code>Jobs()</code>, <code>Storage()</code>, <code>Log()</code>.
-<code>Get</code> returns at once with a handle; <code>h.Wait(ctx)</code> blocks until the bytes are here and takes
-delivery — moves the finished file to its destination and marks the job complete. Whether the transfer runs in this
-process, in a service on this machine, or on a NAS is the machine's configuration, not the call site's: one binary
-written against this interface was run against three providers in nine situations
-(<a href="evidence.html#providers">the table</a>). What every method promises is on <a href="reference.html#api">the reference</a>. The application learns no word from that page; the
-words are for step 4.</p>
-
-<h2 id="implement">4 · Implement it, or wrap a downloader an application already has</h2>
-<pre><code>go get github.com/openabstractions/abstraction-download/go@v0.4.1</code></pre>
-<p class="meta">The pin is the tag this was run at;
-<a href="https://github.com/openabstractions/abstraction-download/tags">the tag list</a> is the answer to "which release".</p>
-<p>The download module carries the <code>Client</code> interface, the <a href="reference.html#delegation"><code>Runner</code></a>
-that claims a record and drives it to delivery, the fetchers that move the bytes, and the scenario corpus every
-implementation is replayed through. The worked example of such a wrapper is <code>dlc</code>: one C++ header over
-<code>curl</code>, no dependency, sharing no transfer code with <code>dl</code>. It takes the same flags, answers in the
-same five words — <code>delivered</code>, <code>working</code>, <code>unavailable</code>, <code>forbidden</code>,
-<code>unknown</code> — and agrees with <code>dl</code> on all eighteen HTTP statuses in the contract's list and
-on 50 of 54 wire cases — <a href="evidence.html#twodl">the matrix</a>. It is not published yet. The naming convention for
-an implementation over somebody else's engine is <code>abstraction-&lt;layer&gt;-over-&lt;engine&gt;</code>; ours is
-<code>-over-native</code>, one implementation among peers, and none is published under that name yet because interface
-and implementation still share one module.</p>
-<p>The rules an implementation must satisfy are the contract pages, where every rule carries a tag a scenario can cite —
-<a href="https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md">job</a>,
-<a href="https://github.com/openabstractions/abstraction-job/blob/main/SPEC.md">its state machine</a>,
-<a href="https://github.com/openabstractions/abstraction-download/blob/main/CONTRACT.md">download</a> — and the
-<a href="https://github.com/openabstractions/abstraction-download/tree/main/testdata/scenarios">scenario corpus</a>:
-each scenario is a text file of commands and the transcript they must produce, replayed against every implementation
-and compared byte for byte. A scenario an implementation cannot reach is printed as <code>UNPROVEN</code> and counted;
-it is never skipped. You do not have to take our replay for it: step 5 is the same corpus, run by you against your own
-program.</p>
-
-<h2 id="judge">5 · Judge it without our help</h2>
-<p>The conformance suite judges <em>your</em> implementation against the rules on the contract pages. It needs a POSIX
-shell and your own program. It does not need our source tree, our build, or Go.</p>
-<pre><code>curl -L https://codeload.github.com/openabstractions/abstractions/tar.gz/refs/heads/main | tar xz
-cd abstractions-main/conformance
-sh selftest.sh
-sh run.sh -- ./my-driver</code></pre>
-<p><a href="https://github.com/openabstractions/abstractions/blob/main/conformance/DRIVER.md"><code>DRIVER.md</code></a>
-is the whole of what your driver must do — a page of behaviour: it applies a scenario and prints what an observer saw.
-<code>--capabilities</code> is how it says what it does not implement, and a scenario needing something it did not
-declare is reported unreachable with the missing capability named, rather than failing a rule it never claimed.
-<code>sh run.sh --scenarios identity -- ./my-driver</code> asks for the identity rules instead of the download and job
-ones. The wire scenarios want a Python 3 for the fixture that serves a lying <code>Content-Range</code> and the rest;
-without one, <code>--no-fixture</code>, and every wire scenario reports unreachable, which is the honest answer.</p>
-<p><strong>Out of reach is never a pass.</strong> A scenario your driver cannot run, a fixture that would not start, a
-capability you did not declare — each is counted and named, and the run exits 2. Exit 0 means every rule the suite could
-reach was kept; 1 means a rule broke. The rules have tags, every expectation cites one, and a run with no contract page
-compares steps and judges no rule:
-<a href="https://github.com/openabstractions/abstractions/blob/main/conformance/contracts.list"><code>contracts.list</code></a>
-names each page and where to fetch it, and a page the run needed and did not have is named with the command that gets
-it. With the pages in place the runner also reports which written rules no scenario reaches.</p>
-<p><code>sh selftest.sh</code> is the suite checking itself: toy drivers that declare nothing, answer <code>ok</code> to
-everything, admit they have no HTTP, or answer with a superset of the right answer — the runner has to call each of them
-not set up, failed, incomplete or refused. If it calls any of them green, do not trust the rest.</p>
-<p>A passing run says your implementation keeps the rules these scenarios reach. It does not say the contract is
-complete, and it does not say ours is right. <strong>If your driver fails a rule you believe you keep, that is worth
-telling us</strong> — a suite only we can run cannot tell a correct contract from one design transcribed three times.
-<a href="https://github.com/openabstractions/abstractions/blob/main/conformance/README.md">The suite's own page</a> says
-the same, at length.</p>
-<p class="meta">The four lines above were run in that order on 2026-09-10, on a desktop-class Windows 11 machine, in an
-empty scratch directory, with no clone of our tree and nothing of ours built: the tarball unpacked, the selftest passed,
-every page <code>contracts.list</code> names was fetched, and <code>run.sh</code> judged a deliberately generous toy
-driver and returned FAILED with the rule and the step. Linux and macOS were not used:
-<span class="unproven">UNPROVEN</span>.</p>
-
-<h2 id="other">Python and C++</h2>
-<p>Python is going onto PyPI a layer at a time; C++ has no tagged release. No install line is printed here, because none
-has been run from a clean machine, and which layers are up is not typed here:
-<a href="https://pypi.org/search/?q=abstraction-">the index</a> is the answer to that, the way a tag list is the answer
-to "which release". Both live beside Go in each layer's repository — <code>python/</code> and
-<code>cpp/</code> under <a href="https://github.com/openabstractions/abstraction-download"><code>abstraction-download</code></a>
-and <a href="https://github.com/openabstractions/abstraction-job"><code>abstraction-job</code></a> — and each is held
-to the same corpus: Go and Python finish each other's downloads in both directions
-(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/XLANG-DOWNLOAD.txt"><code>XLANG-DOWNLOAD.txt</code></a>),
-and six writers in three languages made 600 changes to one file and lost none
-(<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/CAS-MIXED1.txt"><code>CAS-MIXED1.txt</code></a>).
-Python is standard library only; C++ takes nothing, including a JSON library.</p>
-
-<h2 id="services">The services, and what is not here</h2>
-<p><a href="https://github.com/openabstractions/service-jobd"><code>service-jobd</code></a> is the supervisor that
-finishes work nobody is watching; <a href="https://github.com/openabstractions/addon-synology"><code>addon-synology</code></a>
-packages it for a Synology NAS and <a href="https://github.com/openabstractions/docker-jobd"><code>docker-jobd</code></a>
-for a container; <a href="https://github.com/openabstractions/adopter-comfyui"><code>adopter-comfyui</code></a> puts
-ComfyUI-Manager's model downloads behind a job record without forking ComfyUI. Each builds from its repository. None has
-a release file to download yet, and none is signed; when a package is published here it will say which of those two
-things is still true.</p>
-
-<h2 id="faults">Faults and governance</h2>
-<p>A fault goes through <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md"><code>SECURITY.md</code></a>.
-A proposal to change a contract is a pull request carrying the scenario that would prove it. Who decides, and what
-happens if the maintainer stops, is <a href="https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md"><code>GOVERNANCE.md</code></a>.
-Apache-2.0 throughout; nothing copyleft comes in.</p>
-
-<footer>
-<p>Every module is <code>0.y.z</code>: the public API may change between releases. Nothing here carries an API stability promise.</p>
-<p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> ·
-<a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a> ·
-<a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
-</footer>
+    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+    defer cancel()
+    events, err := facade.Discover().ResolveLog(ctx, facade.Requirements{})
+    if err != nil {
+        log.Fatal(err)
+    }
+    if err := events.LogContext(ctx, 0, &quot;worker started&quot;, map[string]string{&quot;component&quot;: &quot;worker&quot;}); err != nil {
+        log.Fatal(err)
+    }
+}
+</code></pre>
+<p>The context bounds resolution and the write. A later call can use a fresh context with the same binding. Failure to resolve returns an error and leaves installation with the operator. Logging frame delivery supplies no durable logging acknowledgement.</p>
+<h2 id="other">C++: consume installed packages</h2>
+<p>C++17 uses <code>find_package(abstraction_facade CONFIG REQUIRED)</code> and <code>abstraction::facade_client</code>. The <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/README.md#build-and-install">source installation instructions</a> name the six public source dependencies, install prefix and outside consumer commands. <code>Discover().ResolveLog()</code> performs resolution and can throw before sending a log event.</p>
+<p>The <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/examples/logging/README.md">complete C++ logging example</a> includes an exact six-repository public revision lock and clean-source build commands. That tested path requires no operator-selected revision set.</p>
+<p>Go, C++ and Python have typed service clients in the current source. See the <a href="https://github.com/openabstractions/abstraction-facade/blob/main/py/README.md">Python package instructions</a> for dependencies and supported capabilities. Rust and JavaScript connectors require explicit server-trust configuration. Check published package versions separately.</p>
+<h2 id="services">Make the service available</h2>
+<p>The operator installs and activates a compatible shared runtime. See <a href="https://github.com/openabstractions/redist">runtime distribution</a> for package and platform instructions. A built package is evidence for its build scope; check the installed lifecycle evidence for your platform.</p>
+<p>For development, a compatible <code>openabstractions serve runtime</code> runs in the foreground. Its default services include logging, configuration and durable jobs. Routing needs a configured provider. <code>openabstractions status --json</code> reports capability readiness separately from installation or supervision evidence. An unavailable optional capability can coexist with a healthy host.</p>
+<p><code>ABSTRACTION_RUNTIME_ENDPOINT</code> selects an explicit bootstrap for an isolated runtime. Applications receive selected service references and keep shared storage behind those APIs. The current facade binds local transport; remote transport support remains unfinished.</p>
+<h2 id="fetch">Durable work and existing engines</h2>
+<p>Use <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/test/jobs/README.md">typed job acceptance, observation and result access</a> for service-owned work. Retain the request key, history epoch, logical owner and required guarantees before submission. A lost reply remains uncertain: reconcile the same identity with its original owner. A cancelled wait ends the wait; <code>CancelWork</code> requests cancellation of the work.</p>
+<p>An explicit legacy adapter can keep an existing engine during migration. Its lifetime and storage requirements belong to that integration. Direct FileStore and Runner examples describe provider implementation; they are separate from the primary facade's application boundary.</p>
+<h2 id="judge">Check your integration</h2>
+<p>Implementations can run the public <a href="https://github.com/openabstractions/abstractions/tree/main/conformance">conformance suite</a> through its documented driver protocol. Read its scope and prerequisites before running it.</p>
+<p>Compile outside the source workspace, then exercise success and an absent runtime using isolated endpoints. Preserve the explicit failure and verify that the application created no provider storage. The <a href="https://github.com/openabstractions/abstraction-facade/actions/workflows/facade-binding.yml">installed C++ binding workflow</a> records source revisions and platform results. <a href="coverage.html">Coverage</a> records wider conformance scopes; inspect dates and revisions before using a result.</p>
+<p>Agents preparing an adoption or patch should use <a href="https://github.com/openabstractions/abstraction-facade/blob/main/CONTRIBUTING.md">the contribution checklist</a>. It asks for dependency, runtime, guarantee and failure evidence.</p>
+<h2 id="faults">Report a mismatch</h2>
+<p>File a focused issue or patch in the capability repository with the selected revision, input, expected contract behavior and actual result. Security reports follow <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+<footer><p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a></p></footer>
 </main>
 </html>
