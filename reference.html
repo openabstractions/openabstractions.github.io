@@ -423,15 +423,9 @@ spec.sources.push_back({"https", "https://huggingface.co/…/model.gguf"});
 spec.sink.final_path = "models/model.gguf";
 const std::string id = submit(store, spec);   // job::Invalid when the spec is refused
 Runner runner(store, "my-app");
-runner.run(id);                               // this process does the transfer
-
-switch (abstraction::discovery::ask(store_root, "abstraction.downloads")) {
-    case Answer::Present: break;              // a supervisor would take it
-    case Answer::Incompatible: break;         // a NEWER supervisor: do not
-    case Answer::Absent: break;               // the ordinary case, not an error
-}</code></pre>
+runner.run(id);                               // this process does the transfer</code></pre>
 </div>
-<div class="diff"><strong>Where the three differ.</strong> Go has a facade (<code>abstraction.Discover()</code>), a <code>Client</code>, handles and a live collection. Python has a <code>Client</code> with ids in place of handles and a snapshot in place of a collection, because the Python job layer has neither. <strong>C++ has no <code>Client</code></strong>: <code>submit</code> and <code>Runner::run</code>, and a discovery <code>ask</code> that answers with three words and hands nothing over. Only Go can delegate. And the two-string convenience differs in meaning: Go's <code>Get</code> absolutises the destination — a shell path on <em>this</em> machine — while <code>Submit</code> carries the sink as written; Python's <code>get</code> also absolutises. The demo measured the same string <code>rel.bin</code> landing in the working directory under one provider and in the store root under another.</div>
+<div class="diff"><strong>Where the three differ.</strong> Go has a facade (<code>abstraction.Discover()</code>), a <code>Client</code>, handles and a live collection. Python has a <code>Client</code> with ids in place of handles and a snapshot in place of a collection, because the Python job layer has neither. <strong>C++ has no <code>Client</code></strong>: <code>submit</code> and <code>Runner::run</code>. Only Go can delegate. And the two-string convenience differs in meaning: Go's <code>Get</code> absolutises the destination — a shell path on <em>this</em> machine — while <code>Submit</code> carries the sink as written; Python's <code>get</code> also absolutises. The demo measured the same string <code>rel.bin</code> landing in the working directory under one provider and in the store root under another.</div>
 
 <h4>Capabilities</h4>
 <p><code>requires</code> is a placement constraint (Kubernetes <code>nodeSelector</code>, Nomad <code>constraint</code>). A job that asks for a property is not quietly served by something without it.</p>
