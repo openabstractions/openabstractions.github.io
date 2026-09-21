@@ -1,64 +1,71 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open Abstractions — adopt</title>
-<link rel="icon" href="brand/favicon.ico" sizes="any">
-<link rel="icon" href="brand/mark-32.png" type="image/png">
-<link rel="apple-touch-icon" href="brand/mark-180.png">
-<link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Abstractions — adopt a capability</title>
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html" aria-current="page">Adopt</a><a href="cases.html">Cases</a><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page">
+    <section class="intro">
+      <p class="eyebrow">Adopt</p>
+      <h1>Add one capability across operating systems, libraries, and services</h1>
+      <p>Applications already use abstractions for files, windows, networks, and libraries. OA extends that idea to running capabilities such as downloads, model calls, logging, storage, configuration, and application tools. Choose the capability, add its client, run the OA service, and connect an available implementation.</p>
+    </section>
+    <p class="status-note"><a href="https://github.com/openabstractions/redist/releases/latest">Release notes</a> list available packages, included features and installation verification. For source integrations, <a href="coverage.html">Coverage</a> shows which capability, language and operating-system combinations were tested.</p>
+    <section aria-labelledby="quickstart-title">
+      <h2 id="quickstart-title">Write a log. Read it back from OA.</h2>
+      <p>Start with one small application. It sends a structured event to OA, then retrieves that event from the service’s retained history. You grant history access to that application’s executable. OA keeps the record independently of the application.</p>
+      <p>The Go example includes Windows PowerShell and Linux commands for building the app, starting an isolated development runtime, and granting access. It uses a unique event ID to check that each run retrieves its own event.</p>
+      <pre><code>wrote: worker started (quickstart-…)
+read back: worker started (component=quickstart)</code></pre>
+      <p><a href="https://github.com/openabstractions/abstractions/tree/main/examples/logging-quickstart">Open the logging quickstart and source</a></p>
+      <p class="status-note">Use the example and runtime from the same release revision. The isolated write/read path has been exercised on Windows. Installed applications use discovery to verify the runtime; this example uses an explicit development endpoint.</p>
+    </section>
+    <h2>Choose your starting point</h2>
+    <div class="page-grid">
+      <article class="page-card"><h3>Add a capability to an application</h3><p>Pick downloads, inference, logging, storage, or another capability below. Add the facade client for your language and call the matching <code>Resolve*</code> method.</p><p><a href="https://github.com/openabstractions/abstraction-facade">Facade source and language setup</a></p></article>
+      <article class="page-card"><h3>Use an existing engine</h3><p>Connect an existing downloader, model server, or content store through a provider or adapter. Register what it can do with OA; applications continue using the capability API.</p><p><a href="reference.html#providers">Provider boundary</a></p></article>
+      <article class="page-card"><h3>Run and configure OA</h3><p>Start the runtime, choose which programs may do what, register providers and applications, save provider credentials, and inspect readiness.</p><p><a href="cases.html#operator">Operator example</a></p></article>
+      <article class="page-card"><h3>Connect an assistant through MCP</h3><p>Connect a Model Context Protocol-compatible assistant to OA's approved tools. Choose which tool groups it may use and keep app or document context attached to each proposed action.</p><p><a href="cases.html#interaction">Application interaction example</a></p></article>
+    </div>
+    <h2>Choose a capability</h2>
+    <div class="page-grid">
+      <article class="page-card"><h3>Work and data</h3><p><strong>Jobs</strong> retain accepted work. <strong>Downloads</strong> acquire and verify artifacts. <strong>Storage</strong> finds content-addressed bytes.</p><p>Example: an image editor can recover the same model download after it restarts.</p></article>
+      <article class="page-card"><h3>Application services</h3><p><strong>Logging</strong> carries structured events. <strong>Configuration</strong> exposes effective OA settings and the source of each value. <strong>Credentials</strong> keep secrets inside approved services.</p><p>Example: the OA Panel follows logs and configuration changes while an application runs.</p></article>
+      <article class="page-card"><h3>Models and inference</h3><p><strong>Model</strong> describes model lookup. <strong>Router</strong> selects eligible hosts. <strong>Inference</strong> carries chat, embeddings, speech, transcription, live sessions, and image generation.</p><p>Example: a coding assistant keeps its chat API while OA changes the selected provider.</p></article>
+      <article class="page-card"><h3>People, programs, and apps</h3><p><strong>Identity</strong> identifies the connected program and account. <strong>Rights</strong> chooses what that program may do. <strong>Asks</strong> carries specific human decisions. The facade can list visible apps and open a registered app with permission.</p><p>Example: an assistant opens an image editor and ties later actions to its current document.</p></article>
+      <article class="page-card"><h3>For provider authors</h3><p><strong>Compare-and-set (CAS)</strong> replaces shared bytes only when they still match the version a provider read. <strong>Watch</strong> turns polled or pushed values into current snapshots, reports quiet after a chosen budget, and can collapse a burst into one settled callback.</p><p>Providers use these development utilities directly through their language packages. CAS has no behavioral contract page or capability claim.</p></article>
+      <article class="page-card"><h3>Explore the full catalogue</h3><p>The generated catalogue connects each responsibility to its contracts, language clients, source route, and recorded platform declaration.</p><p><a href="catalogue.html">Open the capability catalogue</a></p></article>
+    </div>
+    <h2>Resolve a service</h2>
+    <pre><code>ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+defer cancel()
 
-<main>
-<nav class="site"><a class="name" href="index.html">Open Abstractions</a>
-<a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html" aria-current="page">Adopt</a>
-<a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
-
-<h1>Adopt a service capability</h1>
-<p class="lead">An application resolves a service and calls its language-native client. The service owns its data and work. Begin with logging; add durable jobs when the application needs recoverable acceptance.</p>
-<p><strong>Development source guidance.</strong> The examples below match the current source API. Verify that your chosen public revision contains it and that its dependencies resolve. Historical release tags and coverage records do not establish availability of a newer API.</p>
-<span id="run"></span>
-<h2 id="go">Go: resolve and log</h2>
-<p>Use Go 1.26 or newer and the <a href="https://github.com/openabstractions/abstraction-facade">facade package</a>. Its README gives module selection and a complete example:</p>
-<pre><code>package main
-
-import (
-    &quot;context&quot;
-    &quot;log&quot;
-    &quot;time&quot;
-
-    facade &quot;github.com/openabstractions/abstraction-facade/go&quot;
-)
-
-func main() {
-    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-    defer cancel()
-    events, err := facade.Discover().ResolveLog(ctx, facade.Requirements{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if err := events.LogContext(ctx, 0, &quot;worker started&quot;, map[string]string{&quot;component&quot;: &quot;worker&quot;}); err != nil {
-        log.Fatal(err)
-    }
-}
-</code></pre>
-<p>The context bounds resolution and the write. A later call can use a fresh context with the same binding. Failure to resolve returns an error and leaves installation with the operator. Logging frame delivery supplies no durable logging acknowledgement.</p>
-<h2 id="other">C++: consume installed packages</h2>
-<p>C++17 uses <code>find_package(abstraction_facade CONFIG REQUIRED)</code> and <code>abstraction::facade_client</code>. The <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/README.md#build-and-install">source installation instructions</a> name the six public source dependencies, install prefix and outside consumer commands. <code>Discover().ResolveLog()</code> performs resolution and can throw before sending a log event.</p>
-<p>The <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/examples/logging/README.md">complete C++ logging example</a> includes an exact six-repository public revision lock and clean-source build commands. That tested path requires no operator-selected revision set.</p>
-<p>Go, C++ and Python have typed service clients in the current source. See the <a href="https://github.com/openabstractions/abstraction-facade/blob/main/py/README.md">Python package instructions</a> for dependencies and supported capabilities. Rust and JavaScript connectors require explicit server-trust configuration. Check published package versions separately.</p>
-<h2 id="services">Make the service available</h2>
-<p>The operator installs and activates a compatible shared runtime. See <a href="https://github.com/openabstractions/redist">runtime distribution</a> for package and platform instructions. A built package is evidence for its build scope; check the installed lifecycle evidence for your platform.</p>
-<p>For development, a compatible <code>openabstractions serve runtime</code> runs in the foreground. Its default services include logging, configuration and durable jobs. Routing needs a configured provider. <code>openabstractions status --json</code> reports capability readiness separately from installation or supervision evidence. An unavailable optional capability can coexist with a healthy host.</p>
-<p><code>ABSTRACTION_RUNTIME_ENDPOINT</code> selects an explicit bootstrap for an isolated runtime. Applications receive selected service references and keep shared storage behind those APIs. The current facade binds local transport; remote transport support remains unfinished.</p>
-<h2 id="fetch">Durable work and existing engines</h2>
-<p>Use <a href="https://github.com/openabstractions/abstraction-facade/blob/main/cpp/test/jobs/README.md">typed job acceptance, observation and result access</a> for service-owned work. Retain the request key, history epoch, logical owner and required guarantees before submission. A lost reply remains uncertain: reconcile the same identity with its original owner. A cancelled wait ends the wait; <code>CancelWork</code> requests cancellation of the work.</p>
-<p>An explicit legacy adapter can keep an existing engine during migration. Its lifetime and storage requirements belong to that integration. Direct FileStore and Runner examples describe provider implementation; they are separate from the primary facade's application boundary.</p>
-<h2 id="judge">Check your integration</h2>
-<p>Implementations can run the public <a href="https://github.com/openabstractions/abstractions/tree/main/conformance">conformance suite</a> through its documented driver protocol. Read its scope and prerequisites before running it.</p>
-<p>Compile outside the source workspace, then exercise success and an absent runtime using isolated endpoints. Preserve the explicit failure and verify that the application created no provider storage. The <a href="https://github.com/openabstractions/abstraction-facade/actions/workflows/facade-binding.yml">installed C++ binding workflow</a> records source revisions and platform results. <a href="coverage.html">Coverage</a> records wider conformance scopes; inspect dates and revisions before using a result.</p>
-<p>Agents preparing an adoption or patch should use <a href="https://github.com/openabstractions/abstraction-facade/blob/main/CONTRIBUTING.md">the contribution checklist</a>. It asks for dependency, runtime, guarantee and failure evidence.</p>
-<h2 id="faults">Report a mismatch</h2>
-<p>File a focused issue or patch in the capability repository with the selected revision, input, expected contract behavior and actual result. Security reports follow <a href="https://github.com/openabstractions/.github/blob/main/SECURITY.md">SECURITY.md</a>.</p>
-<footer><p><a href="index.html">Overview</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a></p></footer>
-</main>
+sink, err := facade.Discover().ResolveLog(
+    ctx,
+    facade.Requirements{Scope: facade.ScopeLocal},
+)</code></pre>
+    <ol class="compact-list">
+      <li>Choose an explicit deadline and execution scope.</li>
+      <li>Request only the guarantees your feature requires.</li>
+      <li>Handle resolution errors and capability outcomes as normal product states.</li>
+      <li>Save the returned work reference and use the same request identity when a submission reply is lost.</li>
+      <li>Exercise forbidden, unavailable, interruption, restart, and stale-context behavior for your integration.</li>
+    </ol>
+    <h2>Source and installation</h2>
+    <p>All five languages can use the shared native connection. Go, Python and C++ include it in the default facade entry point. Rust and JavaScript use separate native connector packages; their installed-runtime paths select and verify runtime identity. The <a href="https://github.com/openabstractions/abstraction-facade">facade repository</a> gives revision-specific setup. The <a href="coverage.html">coverage page</a> records capability-level checks. Runtime packaging and release qualification remain separate from these source paths.</p>
+    <h2>Connect an assistant through the development gateway</h2>
+    <p>Run the MCP gateway as a separately authorized local program. Grant it only the OA tool groups the assistant needs, then configure the MCP-compatible assistant to connect to that gateway. OA uses the gateway program's operating-system identity for permission checks. Names supplied by the MCP client remain descriptive. Application tools keep the selected app and document identity on preview, apply, and readback calls.</p>
+  </main>
+  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Coverage</a></footer>
+</body>
 </html>

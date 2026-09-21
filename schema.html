@@ -9,10 +9,11 @@
 <nav class="site"><a class="name" href="index.html">Open Abstractions</a>
 <a href="index.html">Overview</a> <a href="cases.html">Cases</a> <a href="reference.html">Reference</a> <a href="evidence.html">Evidence</a> <a href="coverage.html">Coverage</a> <a href="adopt.html">Adopt</a>
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
-<p class="meta" style="margin-top:10px"><a href="#encoding">Encoding</a> · <a href="#types">Types</a> · <a href="#structs">Structs</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#vocabulary">Vocabulary</a> · <a href="#refusals">Refusals</a> · <a href="#protocol">Protocol</a></p>
+
 
 <h1>Schema</h1>
-<p class="lead">One definition; this page and every encoder are emitted from it. Nothing below is written by hand, and each rule tag links the construct to the profile that admits it.</p>
+<p class="lead">Use this reference to inspect fields, methods, accepted values and failure outcomes. For setup and working examples, start with the <a href="reference.html">API guide</a>.</p>
+<nav aria-label="Schema sections" class="meta"><a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#encoding">Encoding</a> · <a href="#vocabulary">Vocabulary</a> · <a href="#refusals">Refusals</a> · <a href="#protocol">Protocol</a></nav>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
@@ -168,29 +169,29 @@
 <h3 id="enum-Capability"><code>Capability</code></h3>
 <p class="meta">a member this reader does not know is <code>grant</code></p>
 <div class="wrap"><table>
-<thead><tr><th>id</th><th>member</th><th>assurance</th></tr></thead>
+<thead><tr><th>id</th><th>member</th><th>wire</th><th>assurance</th></tr></thead>
 <tbody>
-<tr><td>1</td><td><code>resume</code></td><td><code>falsifiable</code></td></tr>
-<tr><td>2</td><td><code>survives_process_exit</code></td><td><code>recovered</code></td></tr>
-<tr><td>3</td><td><code>verifies_content</code></td><td><code>checked</code></td></tr>
-<tr><td>4</td><td><code>delegates</code></td><td><code>trusted</code></td></tr>
+<tr><td>1</td><td><code>resume</code></td><td><code>resume</code></td><td><code>falsifiable</code></td></tr>
+<tr><td>2</td><td><code>survives_process_exit</code></td><td><code>survives_process_exit</code></td><td><code>recovered</code></td></tr>
+<tr><td>3</td><td><code>verifies_content</code></td><td><code>verifies_content</code></td><td><code>checked</code></td></tr>
+<tr><td>4</td><td><code>delegates</code></td><td><code>delegates</code></td><td><code>trusted</code></td></tr>
 </tbody></table></div>
 <h3 id="enum-Verdict"><code>Verdict</code></h3>
 <p class="meta">a member this reader does not know is <code>grant</code></p>
 <div class="wrap"><table>
-<thead><tr><th>id</th><th>member</th><th>transcript</th></tr></thead>
+<thead><tr><th>id</th><th>member</th><th>wire</th><th>transcript</th></tr></thead>
 <tbody>
-<tr><td>1</td><td><code>not_found</code></td><td><code>not-found</code></td></tr>
-<tr><td>2</td><td><code>lease_held</code></td><td><code>lease-held</code></td></tr>
-<tr><td>3</td><td><code>stale_epoch</code></td><td><code>stale-epoch</code></td></tr>
-<tr><td>4</td><td><code>conflict</code></td><td><code>refused</code></td></tr>
-<tr><td>5</td><td><code>lease_expired</code></td><td><code>lease-expired</code></td></tr>
-<tr><td>6</td><td><code>terminal</code></td><td><code>terminal</code></td></tr>
-<tr><td>7</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
-<tr><td>8</td><td><code>unknown_schema</code></td><td><code>unknown-model</code></td></tr>
-<tr><td>9</td><td><code>unknown_op</code></td><td><code>refused</code></td></tr>
-<tr><td>10</td><td><code>not_supported</code></td><td><code>refused</code></td></tr>
-<tr><td>11</td><td><code>other</code></td><td><code>refused</code></td></tr>
+<tr><td>1</td><td><code>not_found</code></td><td><code>not_found</code></td><td><code>not-found</code></td></tr>
+<tr><td>2</td><td><code>lease_held</code></td><td><code>lease_held</code></td><td><code>lease-held</code></td></tr>
+<tr><td>3</td><td><code>stale_epoch</code></td><td><code>stale_epoch</code></td><td><code>stale-epoch</code></td></tr>
+<tr><td>4</td><td><code>conflict</code></td><td><code>conflict</code></td><td><code>refused</code></td></tr>
+<tr><td>5</td><td><code>lease_expired</code></td><td><code>lease_expired</code></td><td><code>lease-expired</code></td></tr>
+<tr><td>6</td><td><code>terminal</code></td><td><code>terminal</code></td><td><code>terminal</code></td></tr>
+<tr><td>7</td><td><code>invalid</code></td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>8</td><td><code>unknown_schema</code></td><td><code>unknown_schema</code></td><td><code>unknown-model</code></td></tr>
+<tr><td>9</td><td><code>unknown_op</code></td><td><code>unknown_op</code></td><td><code>refused</code></td></tr>
+<tr><td>10</td><td><code>not_supported</code></td><td><code>not_supported</code></td><td><code>refused</code></td></tr>
+<tr><td>11</td><td><code>other</code></td><td><code>other</code></td><td><code>refused</code></td></tr>
 </tbody></table></div>
 <h2 id="vocabulary">Vocabulary <code>Content</code> <span class="tag">[DEF-A8]</span></h2>
 <p class="meta">declared of <code>Record</code> · carried in <code>content</code> · the subset a reader must know in <code>critical</code></p>

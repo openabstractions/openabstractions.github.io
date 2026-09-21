@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Abstractions — inference</title>
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+  <link rel="stylesheet" href="inference.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><a href="inference.html" aria-current="page">Inference</a><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page inference-page">
+    <section class="inference-hero">
+      <div>
+        <p class="eyebrow">Inference</p>
+        <h1>One abstraction for chat, audio, images and video</h1>
+        <p class="inference-lead">Build assistants, semantic search, voice features, and image and video generation through OA. Each task connects to a compatible model provider. Applications specify where execution is allowed; the service manages provider connections and credentials.</p>
+        <div class="hero-links"><a class="button primary" href="#modalities">Compare modalities</a><a class="button" href="#native-api">Open the API map</a></div>
+      </div>
+      <div class="boundary-visual" aria-label="Application calls the local OA inference service, which selects an eligible local engine or hosted provider">
+        <div class="boundary-app"><span>your application</span><strong>chat · audio · image · video</strong></div>
+        <div class="boundary-arrow"><span>native OA call</span></div>
+        <div class="boundary-runtime"><span>OA inference service</span><strong>rights · routing · budgets</strong></div>
+        <div class="boundary-branches">
+          <span>local engine</span><span>remote runtime</span><span>hosted API</span>
+        </div>
+      </div>
+    </section>
+
+    <p class="status-note inference-status"><strong>Current status.</strong> Current source implements all six modality profiles and the operator profile with controlled integration evidence. The generated schemas linked below and the <a href="https://github.com/openabstractions/abstraction-inference">standalone inference repository</a> are the public technical surface. Provider interoperability and release qualification vary. Use <a href="coverage.html">Coverage</a> for measured language and platform results; profile presence on a host is explicit and may cover only part of this family.</p>
+
+    <nav class="inference-nav" aria-label="On this page">
+      <a href="#modalities">Tasks and modalities</a><a href="#roles">Model, router, inference</a><a href="#placement">Placement and credentials</a><a href="#lifetimes">Streams and durable jobs</a><a href="#operators">Operator choices</a><a href="#native-api">Native API</a><a href="#adoption">Choose a path</a>
+    </nav>
+
+    <section id="modalities">
+      <p class="eyebrow">Choose by result</p>
+      <h2>Chat, audio, images and durable video generation</h2>
+      <p class="section-lead">Six service profiles cover chat, embeddings, transcription, speech, live voice and images. Video generation uses a durable inference job: submit a prompt and duration, follow progress, then retrieve the generated clip. A configured provider must support the requested task. <a href="#lifetimes">See how video jobs survive interruptions.</a></p>
+      <div class="modality-grid">
+        <article class="modality chat-modality">
+          <div class="modality-heading"><span class="modality-number">01</span><div><h3>Chat</h3><code>abstraction.inference/chat@1</code></div></div>
+          <p>Stream an assistant answer, tool call, or structured response. Messages can contain text, tool results, and authorized image digests for a vision-capable host.</p>
+          <div class="chat-sample" aria-label="Illustrative chat stream">
+            <p><span>You</span> Summarize the error in this screenshot.</p>
+            <p><span>Model</span> The build stopped because… <i>streaming</i></p>
+          </div>
+          <p class="modality-fit"><strong>Use it for</strong> assistants, coding help, classification, and tool-driven workflows.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Chat">Chat schema and methods</a></p>
+        </article>
+
+        <article class="modality embed-modality">
+          <div class="modality-heading"><span class="modality-number">02</span><div><h3>Embeddings</h3><code>abstraction.inference/embed@1</code></div></div>
+          <p>Convert up to a bounded batch of texts into numeric vectors in one call. Inputs and vectors remain absent from the inference audit.</p>
+          <div class="vector-sample" aria-label="Illustrative embedding neighborhood">
+            <span class="vector-query">“bike repair”</span><span>chain</span><span>workshop</span><span>tire</span><span class="vector-far">weather</span>
+          </div>
+          <p class="modality-fit"><strong>Use it for</strong> semantic search, retrieval, clustering, and similarity.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Embedder">Embedder schema and method</a></p>
+        </article>
+
+        <article class="modality transcription-modality">
+          <div class="modality-heading"><span class="modality-number">03</span><div><h3>Transcription</h3><code>abstraction.inference/transcription@1</code></div></div>
+          <p>Turn stored audio into ordered text segments or words with millisecond timestamps. The request names an authorized content digest.</p>
+          <div class="transcript-sample" aria-label="Illustrative timestamped transcription">
+            <div class="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p><time>00:04.2</time> “Open the project settings.”</p>
+          </div>
+          <p class="modality-fit"><strong>Use it for</strong> meeting notes, subtitles, searchable recordings, and voice commands.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Transcription">Transcription schema and methods</a></p>
+        </article>
+
+        <article class="modality speech-modality">
+          <div class="modality-heading"><span class="modality-number">04</span><div><h3>Speech</h3><code>abstraction.inference/speech@1</code></div></div>
+          <p>Stream synthesized audio from bounded text, then receive a digest-addressed final delivery whose bytes the client can verify.</p>
+          <div class="speech-sample" aria-label="Illustrative text to speech delivery">
+            <span>“Your export is ready.”</span><b aria-hidden="true">→</b><span class="audio-pill">▶ 2.8 s</span>
+          </div>
+          <p class="modality-fit"><strong>Use it for</strong> spoken notifications, narration, accessibility, and voice responses.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Speech">Speech schema and methods</a></p>
+        </article>
+
+        <article class="modality live-modality">
+          <div class="modality-heading"><span class="modality-number">05</span><div><h3>Live voice</h3><code>abstraction.inference/live@1</code></div></div>
+          <p>Send ordered PCM audio frames, commit the input turn, and observe transcript and audio output for one final response.</p>
+          <ol class="live-sequence" aria-label="Live voice session sequence"><li><span>Append</span> frames 0…n</li><li><span>Commit</span> finish input</li><li><span>Observe</span> one response</li></ol>
+          <p class="modality-fit"><strong>Use it for</strong> push-to-talk commands and one-turn voice interactions. A conversation creates a new session for each response.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Live">Live schema and methods</a></p>
+        </article>
+
+        <article class="modality image-modality">
+          <div class="modality-heading"><span class="modality-number">06</span><div><h3>Images</h3><code>abstraction.inference/image@1</code></div></div>
+          <p>Generate an image from a prompt or edit an authorized image and mask. Progress and ordered results lead to typed content deliveries.</p>
+          <div class="image-sample" aria-label="Illustrative image generation result">
+            <div class="image-prompt">“blueprint of a garden studio”</div><div class="image-result"><span>PNG</span><strong>sha256:9a7…</strong></div>
+          </div>
+          <p class="modality-fit"><strong>Use it for</strong> concept art, variations, masked edits, and generated assets.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Image">Image schema and methods</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roles">
+      <p class="eyebrow">Three cooperating abstractions</p>
+      <h2>Model lookup, routing, and inference answer different questions</h2>
+      <div class="role-comparison">
+        <article><p class="role-question">What is this model?</p><h3>Model</h3><p>Resolves a portable registry and repository reference into a manifest. The manifest can describe files, revisions, and how content is obtained.</p><code>abstraction.model/resolver@1</code><a href="catalogue.html#abstraction-model">Model catalogue entry</a></article>
+        <article><p class="role-question">Where can it run?</p><h3>Router</h3><p>Lists eligible models and hosts, then picks a host that matches the model, modality, guarantees, and placement.</p><code>abstraction.router/router@1</code><a href="abstraction.router.schema.html">Router schema</a></article>
+        <article><p class="role-question">How does this call run?</p><h3>Inference</h3><p>Checks admission, rights, content, capacity, credentials, and budget. It owns the upstream request and returns the modality result.</p><code>abstraction.inference/*@1</code><a href="abstraction.inference.api.schema.html">Inference schema</a></article>
+      </div>
+      <p>An application can use Model without running inference, and it can request inference with a model name already known to its workflow. The runtime composes the three when a call needs all of them.</p>
+    </section>
+
+    <section id="placement">
+      <p class="eyebrow">Execution boundary</p>
+      <h2>The application stays on local IPC while execution placement changes</h2>
+      <div class="placement-layout">
+        <div class="placement-choice">
+          <article><span class="placement-tag">local</span><h3>Resident host</h3><p>A model engine on the receiving machine performs the call. <code>local-only@1</code> constrains selection to this placement.</p></article>
+          <article><span class="placement-tag">remote</span><h3>Remote runtime</h3><p>The local OA service relays to a declared, mutually trusted runtime. The selected binding records remote execution.</p></article>
+          <article><span class="placement-tag">hosted</span><h3>Hosted API</h3><p><code>hosted-allowed@1</code> lets the router consider a configured hosted provider after eligible local hosts.</p></article>
+        </div>
+        <aside class="placement-rules">
+          <h3>Before bytes leave the service</h3>
+          <ul>
+            <li>Validate request shape, bounds, and required features.</li>
+            <li>Select a host that advertises the requested modality and model.</li>
+            <li>Decide <code>abstraction.inference/complete</code> for the caller on <code>host:&lt;name&gt;</code>.</li>
+            <li>Resolve content digests under the original caller's storage rights.</li>
+            <li>Check the credential ceiling and operation capacity.</li>
+            <li>Apply a hosted credential for the exact profile and target.</li>
+          </ul>
+        </aside>
+      </div>
+      <p>Vendor keys, base URLs, and request headers remain inside the service. Hosted credentials are named in requests and applied inside the receiving service. A remote runtime resolves digest references from its own authorized content store. Digest transfer between stores remains future work.</p>
+    </section>
+
+    <section id="lifetimes">
+      <p class="eyebrow">Pick the lifetime</p>
+      <h2>Interactive streams and durable batches solve different interruptions</h2>
+      <div class="lifetime-comparison">
+        <article class="lifetime-stream">
+          <div class="lifetime-title"><span>Bounded operation</span><strong>seconds to an active session</strong></div>
+          <h3>Chat, transcription, speech, live, and image profiles</h3>
+          <p><code>Start</code> returns an operation. <code>Observe</code> reads retained deltas from a cursor. <code>Cancel</code> explicitly stops the operation.</p>
+          <div class="cursor-track" aria-label="Operation deltas retained over a bounded window"><span>0</span><span>1</span><span>2</span><span>…</span><span>end</span></div>
+          <ul>
+            <li>A disconnected observer can reconnect while its retained window remains.</li>
+            <li>An idle operation closes when nobody observes it.</li>
+            <li>A cursor older than retained deltas returns <code>gap</code>.</li>
+          </ul>
+        </article>
+        <article class="lifetime-durable">
+          <div class="lifetime-title"><span>Durable job</span><strong>survives caller and service restart</strong></div>
+          <h3>Asynchronous image and video batches</h3>
+          <p>The application encodes the generated inference job request and submits it through <code>abstraction.job/acceptance@1</code>.</p>
+          <div class="receipt-visual"><span>request identity</span><b>→</b><span>receipt</span><b>→</b><span>observe / reconcile</span></div>
+          <ul>
+            <li>The receipt retains the original owner and guarantees.</li>
+            <li>A lost submission reply is reconciled with the same request identity.</li>
+            <li>Result documents carry authorized content references.</li>
+          </ul>
+          <p><a href="abstraction.inference.job.schema.html">Inference job schema</a> · <a href="reference.html#operations">Operation recovery reference</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="operators">
+      <p class="eyebrow">Operator control</p>
+      <h2>Providers can change while accepted work keeps its owner</h2>
+      <div class="operator-board">
+        <div class="host-list" aria-label="Illustrative configured host list">
+          <div><span class="host-state ready">ready</span><strong>studio-gpu</strong><small>chat · embed · image</small></div>
+          <div><span class="host-state ready">ready</span><strong>speech-service</strong><small>transcription · speech</small></div>
+          <div><span class="host-state idle">idle</span><strong>hosted-provider</strong><small>chat · image · credential: team-ai</small></div>
+        </div>
+        <div class="operator-copy">
+          <h3>Future resolutions see the new configuration</h3>
+          <p>An authorized operator can list, add, and remove hosts, inspect profile readiness and current credential spend, issue local gateway keys, and read the inference audit.</p>
+          <p>Removing a host leaves already admitted operations running to their defined end. Provider declaration and generation pinning prevent an existing binding from silently becoming a different provider.</p>
+          <p>Each host advertises specific profiles. A chat-only provider remains chat-only.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Operator">Operator schema and methods</a> · <a href="reference.html#authority">Identity and rights reference</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="native-api">
+      <p class="eyebrow">Developer API</p>
+      <h2>Resolve a typed client, then use the modality lifecycle</h2>
+      <div class="native-api-layout">
+        <div class="code-panel">
+          <div class="code-label">Go · chat client shape</div>
+          <pre><code>machine := facade.Discover()
+chat, err := machine.ResolveInference(ctx, facade.Requirements{
+    Scope: facade.ScopeLocal,
+})
+
+reply, err := chat.Complete(ctx, inference.Request{
+    Model: model,
+    Messages: messages,
+    Guarantees: []inference.RequestGuarantee{inference.RequestGuaranteeLocalOnly},
+})</code></pre>
+          <p>The facade currently exposes direct resolvers for chat, embeddings, and inference operator control. Generated modality clients bind transcription, speech, live, and image service endpoints.</p>
+        </div>
+        <div class="method-map">
+          <div><strong>Chat</strong><code>Start · Observe · Cancel</code><span>Go helpers: <code>Stream</code>, <code>Complete</code></span></div>
+          <div><strong>Embeddings</strong><code>Embed</code><span>Go helper: <code>Vectors</code></span></div>
+          <div><strong>Transcription</strong><code>Start · Observe · Cancel</code><span>Go helper: <code>Transcribe</code></span></div>
+          <div><strong>Speech</strong><code>Start · Observe · Cancel</code><span>Go helper: <code>Synthesize</code></span></div>
+          <div><strong>Live</strong><code>Start · Append · Commit · Observe · Cancel</code><span>One committed turn per session</span></div>
+          <div><strong>Image</strong><code>Start · Observe · Cancel</code><span>Go helper: <code>Generate</code></span></div>
+        </div>
+      </div>
+      <div class="schema-links" aria-label="Generated inference service schemas">
+        <a href="abstraction.inference.api.schema.html#service-Chat">Chat</a><a href="abstraction.inference.api.schema.html#service-Embedder">Embedder</a><a href="abstraction.inference.api.schema.html#service-Transcription">Transcription</a><a href="abstraction.inference.api.schema.html#service-Speech">Speech</a><a href="abstraction.inference.api.schema.html#service-Live">Live</a><a href="abstraction.inference.api.schema.html#service-Image">Image</a><a href="abstraction.inference.api.schema.html#service-Operator">Operator</a>
+      </div>
+      <p>Every streaming profile uses bounded pages, opaque operation identifiers, caller-scoped visibility, explicit cancellation, and typed terminal outcomes. <a href="reference.html#inference-modalities">The developer reference</a> lists the profiles beside their entry points.</p>
+    </section>
+
+    <section id="adoption">
+      <p class="eyebrow">Adoption choice</p>
+      <h2>Choose the smallest surface that matches the application</h2>
+      <div class="adoption-table-wrap" tabindex="0" role="region" aria-label="Inference adoption choices">
+        <table class="adoption-table">
+          <thead><tr><th>Your application needs</th><th>Start with</th><th>Plan for</th></tr></thead>
+          <tbody>
+            <tr><td>A complete text answer</td><td><code>ResolveInference</code> + <code>Complete</code></td><td>Typed refusals, host permission, model eligibility</td></tr>
+            <tr><td>Incremental text or tool calls</td><td><code>Stream</code> or <code>Start/Observe</code></td><td>Cursor gaps and cancellation when iteration ends</td></tr>
+            <tr><td>Semantic vectors</td><td><code>ResolveEmbeddings</code> + <code>Embed</code></td><td>Input count, dimensions, and provider support</td></tr>
+            <tr><td>Audio or image content</td><td>Storage content writer/reader plus the modality client</td><td>Digest authorization, media bounds, output delivery</td></tr>
+            <tr><td>One push-to-talk response</td><td><code>Live.Start/Append/Commit/Observe</code></td><td>PCM format, frame sequence, one response session</td></tr>
+            <tr><td>Work that must survive process exit</td><td>Generated inference job request through Jobs</td><td>Persist request identity and receipt before waiting</td></tr>
+            <tr><td>An OpenAI- or Anthropic-compatible program</td><td>Operator-managed loopback gateway window</td><td>Program-bound local key, explicit host rights, supported route subset</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="status-note">Generated records establish the API shape. Current platform, language, provider, and packaging evidence remains in <a href="coverage.html">Coverage</a>. The <a href="catalogue.html#abstraction-inference">catalogue entry</a> records the inference layer alongside its dependencies.</p>
+    </section>
+  </main>
+  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="reference.html">Reference</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Coverage</a></footer>
+</body>
+</html>

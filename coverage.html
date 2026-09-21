@@ -47,7 +47,7 @@
 <a class="right" href="https://github.com/openabstractions">github.com/openabstractions</a></nav>
 
 <h1>What you can use</h1>
-<p class="lead">One capability, your language. Open a cell for platforms and verification details.</p>
+<p class="lead">Find your capability and language. Open a cell to see supported access methods, tested platforms and remaining gaps.</p>
 <h2>Capability coverage</h2><p>API = handwritten public API; Interface = generated API; Types = record codec only. Tested = recorded layer checks; Service, Native and Adapter = scoped runtime evidence. Green availability is not a runtime PASS. Expand a cell for platforms and evidence.</p>
 <div class="table-wrap"><table class="coverage-grid"><thead><tr><th scope="col">Capability</th><th scope="col">Go</th><th scope="col">Python</th><th scope="col">C++</th><th scope="col">Rust</th><th scope="col">JavaScript</th></tr></thead><tbody>
 <tr><th scope="row">asks</th>
@@ -63,6 +63,7 @@
 <span class="badge good">Interface</span>
 </summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
@@ -79,10 +80,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">cas</th>
@@ -125,8 +128,50 @@
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: shared-native-ipc; shared-python-config-windows (PASS)</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: not recorded; config-cpp-windows-service (PASS)</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
+</ul></details></td>
+</tr>
+<tr><th scope="row">credentials</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+</summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
@@ -145,9 +190,9 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
 </tr>
@@ -161,18 +206,8 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge good">API</span>
 <span class="badge neutral">Types</span>
 </summary><ul>
-<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
-<li>Generated record types and codec only; no generated service interface established.</li>
-<li>Current layer verification pending.</li>
-</ul></details></td>
-<td><details class="coverage-cell"><summary>
-<span class="badge good">API</span>
-<span class="badge neutral">Types</span>
-</summary><ul>
-<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated record types and codec only; no generated service interface established.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
@@ -187,6 +222,14 @@
 </summary><ul>
 <li>Generated record types and codec only; no generated service interface established.</li>
 <li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge neutral">Types</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">facade</th>
@@ -199,9 +242,22 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
 <span class="badge good">Interface</span>
 </summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: not recorded; facade-cpp-windows-services (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
@@ -214,18 +270,12 @@
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
-</ul></details></td>
-<td><details class="coverage-cell"><summary>
-<span class="badge good">API</span>
-<span class="badge neutral">Types</span>
-</summary><ul>
-<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
-<li>Generated record types and codec only; no generated service interface established.</li>
-<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">identity</th>
@@ -238,9 +288,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
 <span class="badge neutral">Types</span>
 </summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated record types and codec only; no generated service interface established.</li>
+<li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
@@ -260,6 +313,46 @@
 <span class="badge good">API</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+</tr>
+<tr><th scope="row">inference</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
 </tr>
@@ -273,67 +366,80 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge good">API</span>
-<span class="badge good">Interface</span>
-</summary><ul>
-<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
-<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
-<li>Current layer verification pending.</li>
-</ul></details></td>
-<td><details class="coverage-cell"><summary>
-<span class="badge good">API</span>
-<span class="badge good">Interface</span>
-</summary><ul>
-<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
-<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
-<li>Current layer verification pending.</li>
-</ul></details></td>
-<td><details class="coverage-cell"><summary>
 <span class="badge good">Interface</span>
 </summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: shared-native-ipc; shared-cpp-inventory-windows (PASS)</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+</summary><ul>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">logging</th>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
-</ul></details></td>
-<td><details class="coverage-cell"><summary>
-<span class="badge good">Interface</span>
-</summary><ul>
-<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: not recorded; logging-go-windows-service (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: shared-native-ipc; shared-python-logging-windows (PASS)</li>
+</ul></details></td>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: not recorded; logging-cpp-windows-service (PASS); windows/amd64; host: go; transport: shared-native-ipc; shared-cpp-log-history-windows (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: shared-native-ipc; shared-rust-logging-windows (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">model</th>
@@ -356,10 +462,12 @@
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: shared-native-ipc; shared-cpp-model-windows (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">Interface</span>
@@ -368,10 +476,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">rights</th>
@@ -387,6 +497,7 @@
 <span class="badge good">Interface</span>
 </summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
@@ -403,10 +514,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">router</th>
@@ -422,14 +535,17 @@
 <span class="badge good">Interface</span>
 </summary><ul>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
 <span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
 <li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: not recorded; router-cpp-windows-service (PASS)</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">Interface</span>
@@ -438,10 +554,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
 <li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
 </ul></details></td>
 </tr>
 <tr><th scope="row">storage</th>
@@ -454,9 +572,12 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
 <span class="badge good">Interface</span>
 </summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
 <span class="badge good">API</span>
@@ -473,11 +594,25 @@
 <li>Current layer verification pending.</li>
 </ul></details></td>
 <td><details class="coverage-cell"><summary>
-<span class="badge neutral">Types</span>
+<span class="badge good">Interface</span>
+<span class="badge good">Service</span>
 </summary><ul>
-<li>Generated record types and codec only; no generated service interface established.</li>
+<li>Generated API source available; may be direct or service-based. Transport and runtime test PASS are not implied.</li>
+<li>Current layer verification pending.</li>
+<li>Service client: PASS. windows/amd64; host: go; transport: test-pipe-connector; shared-javascript-capabilities-windows (PASS)</li>
+</ul></details></td>
+</tr>
+<tr><th scope="row">storage-over-local-stores</th>
+<td><details class="coverage-cell"><summary>
+<span class="badge good">API</span>
+</summary><ul>
+<li>Handwritten public API source available; not a generated interface or runtime test PASS.</li>
 <li>Current layer verification pending.</li>
 </ul></details></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
+<td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
 <tr><th scope="row">watch</th>
 <td><details class="coverage-cell"><summary>
@@ -508,36 +643,52 @@
 <td><span class="coverage-empty" aria-label="No established level">—</span></td>
 </tr>
 </tbody></table></div>
+<section id="inference-profiles"><h2>Inside inference</h2><p>Chat, embeddings, speech, transcription, live voice and images are profiles of the inference abstraction. Each provider declares which profiles it supports. The layer-level badges above do not establish every profile on every provider.</p>
+<table><thead><tr><th>Profile</th><th>API methods</th></tr></thead><tbody>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Chat">abstraction.inference/chat@1</a></td><td>Start, Observe, Cancel</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Embedder">abstraction.inference/embed@1</a></td><td>Embed</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Transcription">abstraction.inference/transcription@1</a></td><td>Start, Observe, Cancel</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Speech">abstraction.inference/speech@1</a></td><td>Start, Observe, Cancel</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Live">abstraction.inference/live@1</a></td><td>Start, Append, Observe, Commit, Cancel</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Image">abstraction.inference/image@1</a></td><td>Start, Observe, Cancel</td></tr>
+<tr><td><a href="abstraction.inference.api.schema.html#service-Operator">abstraction.inference/operator@1</a></td><td>Hosts, AddHost, RemoveHost, Keys, IssueKey, RevokeKey, Audit, Gateway, SetGateway</td></tr>
+</tbody></table><p><a href="reference.html#inference-modalities">Inference API guide</a> · <a href="inference.html">Inference use cases</a></p></section>
 <details class="service-evidence"><summary>Service test evidence</summary>
 <p>Shared IPC runtime source: reusable C ABI client binding, C++ wrapper, native transport; source availability is separate from full identity provider conformance.</p>
 <h2>Service clients and focused checks</h2><p>Each scenario states the service/provider behavior actually exercised. Client transport and individual capability checks are separate from full capability conformance. These results never replace a provider failure or establish other platforms. Inputs and toolchain identity are recorded per scenario.</p>
-<div class="table-wrap"><table><tr><th>Check</th><th>Layer</th><th>Language</th><th>Scope</th><th>Platform</th><th>Verdict</th><th>Scenario</th><th>Toolchain</th></tr>
-<tr><td>config-cpp-windows-service</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>facade-cpp-windows-services</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>logging-cpp-windows-service</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>logging-go-windows-service</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>router-cpp-windows-service</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-cpp-inventory-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-cpp-log-history-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-cpp-model-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-python-config-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-python-logging-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
-<tr><td>shared-rust-logging-windows</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell unproven">UNPROVEN</span></td><td>missing input: research/facade-linking/go.mod</td><td>-</td></tr>
+<div class="table-wrap"><table><tr><th>Check</th><th>Repository</th><th>Language</th><th>Scope</th><th>Platform</th><th>Verdict</th><th>Scenario</th><th>Toolchain</th></tr>
+<tr><td>config-cpp-windows-service</td><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed C++ Config.Read -&gt; generated protocol -&gt; shared IPC -&gt; central Go host -&gt; same-user configuration provider; caller override/provenance/live reload/value-only stamp, malformed or missing provider source, typed request refusal, absence errors and no client-local state</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>facade-cpp-windows-services</td><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed C++ facade resolves Log/Config.Read/ConfigEditor.ReadUser/ReplaceUser/Router.Models/Hosts/Pick through the Go resolver to three production services; conventional endpoint overrides cannot select providers; resolver absence fails while providers remain live; service-owned configuration reload/provenance and revision-checked edits with stale-write refusal, verified logging identity and persistence, empty router inventory versus typed negative decisions, caller audit and no client-local state</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>logging-cpp-windows-service</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>independent C++ logging client with explicit endpoint -&gt; generated client -&gt; shared named-pipe IPC -&gt; identity-checked Go logging service -&gt; service-owned JSONL sink; multiline Unicode, zero level and empty attrs preserved; verified peer; record survives client exit; schema=2 refused; absent service errors; no client-local storage</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: Implementation changed since this check</td></tr>
+<tr><td>logging-go-windows-service</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>go</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>independent Go logging client with explicit endpoint -&gt; generated client -&gt; shared named-pipe IPC -&gt; identity-checked Go logging service -&gt; service-owned JSONL sink; multiline Unicode, zero level and empty attrs preserved; verified peer; record survives client exit; schema=2 refused; absent service errors; no client-local storage</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64</td></tr>
+<tr><td>router-cpp-windows-service</td><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed C++ Router.Models/Hosts/Pick -&gt; generated RPC -&gt; shared IPC -&gt; identity-bound Go router service and existing provider over isolated local HTTP fixtures; inventory/resident/denied choices, empty allowance versus absence, caller audit, typed refusals, GET-only provider reads and no client-local state; no central-host or GPU-cost claim</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-cpp-inventory-windows</td><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Fresh installed jobs-only C++ client through Go runtime: caller-scoped inventory continuation/replay/gap, policy refusal, bounded cancellation/deadline and accepted operation identity</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-cpp-log-history-windows</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Fresh installed C++ resolved logging history/config/router facade: retained records, bounded reader, selected endpoints, live conventional services cannot bypass absent resolver, no client store</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-cpp-model-windows</td><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>cpp</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Fresh installed aggregate and model-only C++ clients: typed model lookup, generated download request, real HTTP job result, private destination refusal and required package absence</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-javascript-capabilities-windows</td><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>javascript</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>npm-packed JavaScript packages installed offline with scripts disabled; metadata and dependency declarations; pure facade binding, deadlines and reference refusal with no native import; 27 generated methods through the test-only pipe connector against one production Go runtime: model lookup with the imported download Request, router models/hosts/pick with live fake hosts, job submit attempts/unavailable/cancel, log history observation, config read/edit/observe, rights decide/decideFor and operator list/set/revoke, storage changes and content writer begin/append/commit/abort with read-back, asks ask/observe/list/answer/retire; refusal codes forbidden, unavailable and policy_unavailable. Native server identity (run.py --run) is not part of this record</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; node: v24.19.0</td></tr>
+<tr><td>shared-python-config-windows</td><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>python</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed Python ConfigReader and ConfigEditor over shared native IPC: existing records/provenance, update, stale revision conflict, absent resolver, empty client home</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-python-logging-windows</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>python</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed Python logging client through generated resolver, shared native IPC and Go service: exact record and receiving identity, absent runtime, cancellation, frame limit, empty client home</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1</td></tr>
+<tr><td>shared-rust-logging-windows</td><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>rust</td><td>client</td><td>windows/amd64</td><td><span class="cell good">PASS</span></td><td>Installed Rust generated resolver/logging/history over shared native IPC: real Go service, exact record/history, requirement and malformed-reference refusal, absence, deadline and cancellation</td><td>python: Python 3.12.10; go: go version go1.26.5 windows/amd64; cmake: cmake version 4.3.1-msvc1; rust: rustc 1.98.0 (88d9e12ae 2026-08-18); cargo: cargo 1.98.0 (797e8a9bc 2026-08-05)</td></tr>
 </table></div>
 </details>
 <details class="coverage-audit"><summary>Build and conformance evidence</summary>
 <p>Recorded checks for exact source revisions. A changed revision needs fresh verification.</p>
-<p class="state" data-produced>Measured at commit <code>be7b913b</code> on 2026-09-16. Layer trees: <code>openabstractions-flat/abstraction-asks@2c3faeaf openabstractions-flat/abstraction-cas@8a50d10b openabstractions-flat/abstraction-config@fb44473f openabstractions-flat/abstraction-download@76a9eeaa openabstractions-flat/abstraction-facade@a735833c openabstractions-flat/abstraction-identity@f7a22bc5 openabstractions-flat/abstraction-job@10b0b832 openabstractions-flat/abstraction-logging@4c3c97d1 openabstractions-flat/abstraction-model@76d0872d openabstractions-flat/abstraction-rights@220547e3 openabstractions-flat/abstraction-router@3a74d33b openabstractions-flat/abstraction-storage@498fc8eb openabstractions-flat/abstraction-watch@f901b457</code>.
+<p class="state" data-produced>Measured at commit <code>0f4311f4</code> on 2026-09-21. Repository revisions: <code>abstraction-asks@5404570c abstraction-cas@71d68d0e abstraction-config@aaa3b70f abstraction-credentials@29f434ff abstraction-download@dc15c760 abstraction-facade@bd338a1b abstraction-identity@b60ed9d6 abstraction-inference@bd4719d1 abstraction-job@c2b844c4 abstraction-logging@6f8bd57b abstraction-model@cf22edd5 abstraction-rights@12a31510 abstraction-router@f785ff3d abstraction-storage@a24a7b79 storage-over-local-stores@7f65e90c abstraction-watch@86148f78</code>.
 The same grid, in the same run, is <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/MATRIX.txt"><code>docs/results/MATRIX.txt</code></a>.</p>
 <p>Native macOS results are recorded separately in <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/DARWIN1.txt"><code>DARWIN1.txt</code></a>. They supplement the local gate for the same layer revisions; failures remain visible.</p>
 
-<div class="warn"><p><strong>54 of the 54 implementations in this tree carry no verdict attributed to this tree.</strong>
-That is the honest headline. A cell is green here only when a recorded transcript says so about the tree as it is now —
-a cross-language harness transcript, or
-<a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/GATE.txt"><code>GATE.txt</code></a>, the per-cell
-record <code>scripts/check.sh --record</code> writes. Every one of those names the commit and the layer trees it judged,
-and goes back to <code>UNPROVEN</code> the moment a layer moves under it. Calling the rest green would be assuming a run
-nobody can point at.</p></div>
+<div class="warn"><p><strong>72 of 72 implementations need current whole-layer verification.</strong>
+These records apply to the source revisions they tested. Changed inputs return to <code>UNPROVEN</code> until checked again.
+The focused client results above cover narrower integration paths. Expand each cell to see its scope.</p></div>
 
 <h2 id="generators">IDL codec generator availability</h2>
 <p>This reports backend registration in the generator source. It does not establish
@@ -546,32 +697,33 @@ that a layer has an application client, a provider, or passing tests.</p>
 <tr><td>available</td><td>available</td><td>available</td><td>available</td><td>available</td></tr></table></div>
 
 <h2 id="grid">Legacy whole-layer verification</h2>
-<p>Beside each verdict is the toolchain that reached it, and <code>?</code> where the record it came from named none.
-A C++ cell is the reason this is here: a <span class="cell good">PASS</span> in the C++ column used to stand for a
-three-platform claim without naming a single compiler. This grid was recorded from a <code>fast</code>
-run, and every cell says which toolchains reached it.</p>
+<p>Each result names the compiler or interpreter used. A question mark indicates that the recorded check omitted it.
+Recorded mode: <code>fast</code>.</p>
 <div class="wrap"><table class="grid">
 <tr><th>layer</th><th>go</th><th>python</th><th>cpp</th><th>rust</th><th>javascript</th></tr>
-<tr><td>abstraction-asks</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-cas</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
-<tr><td>abstraction-config</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-download</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-facade</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-identity</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-job</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-logging</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-model</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-rights</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-router</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-storage</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
-<tr><td>abstraction-watch</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td></tr>
+<tr><td>storage-over-local-stores</td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell unproven">UNPROVEN</span></td><td><span class="cell dash">—</span></td><td><span class="cell dash">—</span></td></tr>
 </table></div>
 <p class="tally"><span class="cell good">PASS</span> 0 ·
 <span class="cell bad">FAIL</span> 0 ·
-<span class="cell unproven">UNPROVEN</span> 54 ·
+<span class="cell unproven">UNPROVEN</span> 72 ·
 <span class="cell absent">ABSENT</span> 0 ·
-no implementation 11. 65 cells over 13 layers.</p>
-<p id="platform-limitations"><strong>* Documented platform limitation.</strong> The current macOS IPC provider cannot supply the process proof required by these service tests. These cells remain counted as <code>FAIL</code>. See <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/DARWIN1.txt">the native Mac results</a> and the <a href="https://github.com/openabstractions/abstraction-identity/blob/main/CONTRACT.md">identity contract</a>.</p>
+no implementation 8. 80 cells over 16 layers.</p>
+<p id="platform-limitations"><strong>* Documented platform limitation.</strong> The current macOS IPC provider cannot supply the process proof required by these service tests. Any matching <code>FAIL*</code> cells remain failures; this note also applies when older evidence is stale. See <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/DARWIN1.txt">the native Mac results</a> and the <a href="https://github.com/openabstractions/abstraction-identity/blob/main/CONTRACT.md">identity contract</a>.</p>
 
 <h2 id="vocabulary">What a cell means</h2>
 <div class="wrap"><table>
@@ -592,71 +744,86 @@ run wrote down; <code>skipped</code> is a cell the last recorded run could not j
 runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they are very different gaps.</p>
 <div class="wrap"><table class="why">
 <tr><th>layer</th><th>language</th><th>cell</th><th>toolchain</th><th>reason</th><th>what proved it, or what did not</th></tr>
-<tr><td>abstraction-asks</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-asks@7e9ea82; the tree is openabstractions-flat/abstraction-asks@2c3faeaf</td></tr>
-<tr><td>abstraction-asks</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-asks</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-asks/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-asks</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-asks/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-asks</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-asks/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-cas</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-cas@cf455b4; the tree is openabstractions-flat/abstraction-cas@8a50d10b</td></tr>
-<tr><td>abstraction-cas</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-cas@cf455b4; the tree is openabstractions-flat/abstraction-cas@8a50d10b</td></tr>
-<tr><td>abstraction-cas</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-cas@cf455b4; the tree is openabstractions-flat/abstraction-cas@8a50d10b</td></tr>
-<tr><td>abstraction-cas</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
-<tr><td>abstraction-cas</td><td>javascript</td><td>—</td><td></td><td>undeclared</td><td>no javascript implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-cas</td></tr>
-<tr><td>abstraction-config</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-config@9c4cbe5; the tree is openabstractions-flat/abstraction-config@fb44473f</td></tr>
-<tr><td>abstraction-config</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-config@d93ae75; the tree is openabstractions-flat/abstraction-config@fb44473f</td></tr>
-<tr><td>abstraction-config</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-config/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-config</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-config/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-config</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-config/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-download</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-download@43ab3b5; the tree is openabstractions-flat/abstraction-download@76a9eeaa</td></tr>
-<tr><td>abstraction-download</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@037f545; the tree is openabstractions-flat/abstraction-download@76a9eeaa</td></tr>
-<tr><td>abstraction-download</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-download@037f545; the tree is openabstractions-flat/abstraction-download@76a9eeaa</td></tr>
-<tr><td>abstraction-download</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-download/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-download</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-download/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-facade</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-facade@4fee870; the tree is openabstractions-flat/abstraction-facade@a735833c</td></tr>
-<tr><td>abstraction-facade</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-facade</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-facade/cpp exists with 13 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-facade</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-facade/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-facade</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-facade/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-identity</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-identity@b812381; the tree is openabstractions-flat/abstraction-identity@f7a22bc5</td></tr>
-<tr><td>abstraction-identity</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-identity</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at openabstractions-flat/abstraction-identity@f02cf2a; the tree is openabstractions-flat/abstraction-identity@f7a22bc5</td></tr>
-<tr><td>abstraction-identity</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-identity/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-identity</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-identity/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-job</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-job@30ffc73; the tree is openabstractions-flat/abstraction-job@10b0b832</td></tr>
-<tr><td>abstraction-job</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-job@7cfad00; the tree is openabstractions-flat/abstraction-job@10b0b832</td></tr>
-<tr><td>abstraction-job</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-job@30ffc73; the tree is openabstractions-flat/abstraction-job@10b0b832</td></tr>
-<tr><td>abstraction-job</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-job/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-job</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-job/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-logging</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-logging@e1ffdaf; the tree is openabstractions-flat/abstraction-logging@4c3c97d1</td></tr>
-<tr><td>abstraction-logging</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-logging</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-logging/cpp exists with 2 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-logging</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-logging/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-logging</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-logging/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-model</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@00e86f5; the tree is openabstractions-flat/abstraction-model@76d0872d</td></tr>
-<tr><td>abstraction-model</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-model@00e86f5; the tree is openabstractions-flat/abstraction-model@76d0872d</td></tr>
-<tr><td>abstraction-model</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-model/cpp exists with 2 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-model</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-model/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-model</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-model/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-rights</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at openabstractions-flat/abstraction-rights@6fff1f5; the tree is openabstractions-flat/abstraction-rights@220547e3</td></tr>
-<tr><td>abstraction-rights</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-rights</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-rights/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-rights</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-rights/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-rights</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-rights/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-router</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-router@a56ecb2; the tree is openabstractions-flat/abstraction-router@3a74d33b</td></tr>
-<tr><td>abstraction-router</td><td>python</td><td>—</td><td></td><td>undeclared</td><td>no python implementation/client found; the inventory carries no row for openabstractions-flat/abstraction-router</td></tr>
-<tr><td>abstraction-router</td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-router/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-router</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-router/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-router</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-router/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-storage</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-storage@27bc58b; the tree is openabstractions-flat/abstraction-storage@498fc8eb</td></tr>
-<tr><td>abstraction-storage</td><td>python</td><td>—</td><td></td><td>none</td><td>no python implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-storage</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-storage@27bc58b; the tree is openabstractions-flat/abstraction-storage@498fc8eb</td></tr>
-<tr><td>abstraction-storage</td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-storage/rust exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-storage</td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>openabstractions-flat/abstraction-storage/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
-<tr><td>abstraction-watch</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-watch@27bd982; the tree is openabstractions-flat/abstraction-watch@f901b457</td></tr>
-<tr><td>abstraction-watch</td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-watch@27bd982; the tree is openabstractions-flat/abstraction-watch@f901b457</td></tr>
-<tr><td>abstraction-watch</td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at openabstractions-flat/abstraction-watch@27bd982; the tree is openabstractions-flat/abstraction-watch@f901b457</td></tr>
-<tr><td>abstraction-watch</td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
-<tr><td>abstraction-watch</td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at abstraction-asks@7e9ea82; the tree is abstraction-asks@5404570c</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-asks/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-asks/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-asks/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-asks">abstraction-asks</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-asks@842343f1; the tree is abstraction-asks@5404570c</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-cas@3b3891bc; the tree is abstraction-cas@71d68d0e</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-cas@3b3891bc; the tree is abstraction-cas@71d68d0e</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-cas@3b3891bc; the tree is abstraction-cas@71d68d0e</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for abstraction-cas</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-cas">abstraction-cas</a></td><td>javascript</td><td>—</td><td></td><td>undeclared</td><td>no javascript implementation/client found; the inventory carries no row for abstraction-cas</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at abstraction-config@9c4cbe5; the tree is abstraction-config@aaa3b70f</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-config@9be6b005; the tree is abstraction-config@aaa3b70f</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-config/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-config/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-config">abstraction-config</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-config@9be6b005; the tree is abstraction-config@aaa3b70f</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-credentials@2aec27ac; the tree is abstraction-credentials@29f434ff</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-credentials/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-credentials/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-credentials/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-credentials">abstraction-credentials</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-credentials/javascript exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at abstraction-download@43ab3b5; the tree is abstraction-download@dc15c760</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-download/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-download@43ab3b5; the tree is abstraction-download@dc15c760</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-download/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-download">abstraction-download</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-download@69d14875; the tree is abstraction-download@dc15c760</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-facade@4fee870; the tree is abstraction-facade@bd338a1b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-facade/py exists with 3 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at abstraction-facade@f00d37a0; the tree is abstraction-facade@bd338a1b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-facade/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-facade">abstraction-facade</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-facade@f00d37a0; the tree is abstraction-facade@bd338a1b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-identity@b812381; the tree is abstraction-identity@b60ed9d6</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-identity/py exists with 2 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at abstraction-identity@1253dd49; the tree is abstraction-identity@b60ed9d6</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-identity/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-identity">abstraction-identity</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at abstraction-identity@1253dd49; the tree is abstraction-identity@b60ed9d6</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-inference@5a1b60ce; the tree is abstraction-inference@bd4719d1</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-inference/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-inference/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-inference/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-inference">abstraction-inference</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-inference/javascript exists with 1 test file and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-job@30ffc73; the tree is abstraction-job@c2b844c4</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-job@d511c4b6; the tree is abstraction-job@c2b844c4</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-job@30ffc73; the tree is abstraction-job@c2b844c4</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-job/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-job">abstraction-job</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-job@d511c4b6; the tree is abstraction-job@c2b844c4</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-logging@2e08de55; the tree is abstraction-logging@6f8bd57b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-logging/py exists with 4 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at abstraction-logging@2e08de55; the tree is abstraction-logging@6f8bd57b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-logging/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-logging">abstraction-logging</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-logging@2e08de55; the tree is abstraction-logging@6f8bd57b</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-model@7cf857e; the tree is abstraction-model@cf22edd5</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-model@fd7b8c7c; the tree is abstraction-model@cf22edd5</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded UNPROVEN at abstraction-model@fd7b8c7c; the tree is abstraction-model@cf22edd5</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-model/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-model">abstraction-model</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-model@fd7b8c7c; the tree is abstraction-model@cf22edd5</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded FAIL at abstraction-rights@6fff1f5; the tree is abstraction-rights@12a31510</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-rights/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-rights/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-rights/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-rights">abstraction-rights</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-rights@d3cfa93d; the tree is abstraction-rights@12a31510</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-router@1d6a1525; the tree is abstraction-router@f785ff3d</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-router/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-router/cpp exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-router/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-router">abstraction-router</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-router@1d6a1525; the tree is abstraction-router@f785ff3d</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-storage@8f94fed2; the tree is abstraction-storage@a24a7b79</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>python</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-storage/py exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-storage@8f94fed2; the tree is abstraction-storage@a24a7b79</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>rust</td><td>UNPROVEN</td><td></td><td>unreached</td><td>abstraction-storage/rust exists with 0 test files and nothing the gate runs names it</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-storage">abstraction-storage</a></td><td>javascript</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-storage@8f94fed2; the tree is abstraction-storage@a24a7b79</td></tr>
+<tr><td>storage-over-local-stores</td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at storage-over-local-stores@1cf13364; the tree is storage-over-local-stores@7f65e90c</td></tr>
+<tr><td>storage-over-local-stores</td><td>python</td><td>—</td><td></td><td>undeclared</td><td>no python implementation/client found; the inventory carries no row for storage-over-local-stores</td></tr>
+<tr><td>storage-over-local-stores</td><td>cpp</td><td>—</td><td></td><td>undeclared</td><td>no cpp implementation/client found; the inventory carries no row for storage-over-local-stores</td></tr>
+<tr><td>storage-over-local-stores</td><td>rust</td><td>—</td><td></td><td>undeclared</td><td>no rust implementation/client found; the inventory carries no row for storage-over-local-stores</td></tr>
+<tr><td>storage-over-local-stores</td><td>javascript</td><td>—</td><td></td><td>undeclared</td><td>no javascript implementation/client found; the inventory carries no row for storage-over-local-stores</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td>go</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-watch@27bd982; the tree is abstraction-watch@86148f78</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td>python</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-watch@5ef871d9; the tree is abstraction-watch@86148f78</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td>cpp</td><td>UNPROVEN</td><td></td><td>drifted</td><td>GATE recorded PASS at abstraction-watch@27bd982; the tree is abstraction-watch@86148f78</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td>rust</td><td>—</td><td></td><td>none</td><td>no rust implementation/client found; no inventory claim establishes why it is missing</td></tr>
+<tr><td><a href="https://github.com/openabstractions/abstraction-watch">abstraction-watch</a></td><td>javascript</td><td>—</td><td></td><td>none</td><td>no javascript implementation/client found; no inventory claim establishes why it is missing</td></tr>
 </table></div>
 <div class="wrap"><table>
 <tr><th>reason</th><th>what it says about the cell</th></tr>
@@ -672,18 +839,16 @@ runs at all. All three are <span class="cell unproven">UNPROVEN</span> and they 
 </table></div>
 
 <h2 id="evidence">Where the evidence comes from</h2>
-<p>Six cross-language harnesses and one public suite. Five of the six say which language a result belongs to, and two of them
-leave a committed transcript naming the commit they judged. The rest of the grid rests on the gate itself, which builds and
+<p>Four harnesses and one public suite. Each harness says which language a result belongs to, and one of them
+leaves a committed transcript naming the commit it judged. The rest of the grid rests on the gate itself, which builds and
 tests most of these cells on every run: <code>scripts/check.sh --record</code> writes what it reached into
 <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/GATE.txt"><code>GATE.txt</code></a>, one line per
 cell. A cell still reads <code>gate</code> where no recorded run has judged it.</p>
 <div class="wrap"><table>
 <tr><th>harness</th><th>asks</th><th>says which language?</th><th>leaves a committed transcript?</th></tr>
-<tr><td><code>behaviour-conformance.sh</code></td><td>do the implementations <em>do</em> the same thing</td><td>yes — every scenario line names the languages that agreed, and an absent one is named too</td><td>yes, <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1.txt</code></a></td></tr>
-<tr><td><code>spec-conformance.sh</code></td><td>do they read a download spec the same way</td><td>yes — it prints its roster and names any implementation that did not run</td><td>no</td></tr>
-<tr><td><code>verdict-conformance.sh</code></td><td>do they <em>refuse</em> the same documents</td><td>yes — a divergence names the implementations on each side</td><td>no</td></tr>
-<tr><td><code>conformance.sh</code></td><td>can each language finish a job another started</td><td>yes — every step names the implementation that took it</td><td><a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/CONFORM1.txt"><code>CONFORM1.txt</code></a>, with no header naming the tree it measured</td></tr>
-<tr><td><code>obtain-conformance.sh</code></td><td>can a stranger get each implementation through its own front door</td><td>yes — one line per door</td><td>no</td></tr>
+<tr><td><code>behaviour-conformance.sh</code></td><td>does the Go implementation <em>do</em> what the contract pages state</td><td>yes — every scenario line names the languages that agreed, and an absent one is named too</td><td>yes, <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/BEHAVIOUR1.txt"><code>BEHAVIOUR1.txt</code></a></td></tr>
+<tr><td><code>spec-conformance.sh</code></td><td>does a reader read a download spec as the contract states</td><td>yes — it prints its roster and names any implementation that did not run</td><td>no</td></tr>
+<tr><td><code>obtain-conformance.sh</code></td><td>can a stranger get the Go implementation through its own front door</td><td>yes — one line per door</td><td>no</td></tr>
 <tr><td><code>identity-conformance.sh</code></td><td>do Go and Python group model names the same way</td><td>yes — it names the one that disagrees</td><td>no</td></tr>
 <tr><td><a href="https://github.com/openabstractions/abstractions/blob/main/conformance/run.sh"><code>conformance/run.sh</code></a></td><td>does one implementation keep the rules on the contract pages</td><td>no — it judges one driver per run and the driver is the caller's choice</td><td>no</td></tr>
 </table></div>
