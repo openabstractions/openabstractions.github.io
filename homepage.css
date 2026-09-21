@@ -735,5 +735,5 @@ select:focus-visible {
 .release-downloads { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 24px; margin: 24px 0 12px; }
 .release-link { font-weight: 700; text-underline-offset: 4px; }
 .release-platforms { display: flex; flex-wrap: wrap; gap: 16px; color: var(--muted); font-size: .9rem; }
-.release-platforms > span { display: inline-flex; align-items: center; gap: 6px; }
+.release-platforms > a { display: inline-flex; align-items: center; gap: 6px; }
 .release-platforms svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
