@@ -20,7 +20,16 @@
       <h1>What has been exercised, and at what boundary</h1>
       <p>A useful result names the source revision, environment, caller, provider, action, and observable outcome. Coverage turns those records into current capability verdicts.</p>
     </section>
-    <p class="status-note">The current feature checkpoint is complete in source with focused integration evidence. Release CI, package qualification, publication, and broad real-provider interoperability remain separate work. <a href="coverage.html">Open current coverage</a>.</p>
+    <section id="release-0-2-0">
+      <h2>0.2.0 is released</h2>
+      <p>One shared runtime now brings durable jobs and downloads, AI inference, service-held credentials, application presence and operator controls together. <a href="https://github.com/openabstractions/redist/releases/tag/v0.2.0">Download 0.2.0</a> or read the <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/release-0.2.0.md">release verification report</a>.</p>
+      <div class="page-grid">
+        <article class="page-card"><h3>Windows: installation through recovery</h3><p>Both per-user and machine installation passed on x64, including upgrade from 0.1.7, reinstall, failed-upgrade rollback, startup in a fresh session, crash recovery and removal. The MSI is unsigned. ARM64 is cross-built and has no hardware installation evidence.</p></article>
+        <article class="page-card"><h3>Linux: a real download through the installed service</h3><p>A disposable Ubuntu account installed the runtime under its systemd user manager, downloaded and verified bytes, observed the completed job and removed the installation while retaining user data. Installation and removal without a user manager also passed. ARM64 installation remains untested.</p></article>
+        <article class="page-card"><h3>macOS: package available, identity limit explicit</h3><p>The universal package is signed, notarised and stapled. Local launchd lifecycle checks passed separately. Protected service calls still lack the required caller proof; this release makes no macOS capability-readiness claim. The final signed package still needs end-user installation qualification.</p></article>
+        <article class="page-card"><h3>Trace the result</h3><p>The <a href="https://github.com/openabstractions/redist/actions/runs/35572834195">packaging candidate</a> and <a href="https://github.com/openabstractions/redist/actions/runs/35573550787">final release workflow</a> passed. All five downloaded packages matched <a href="https://github.com/openabstractions/redist/releases/download/v0.2.0/SHA256SUMS">SHA256SUMS</a>. Each capability's language checks retain their own scope in <a href="coverage.html">coverage</a>.</p></article>
+      </div>
+    </section>
     <h2>Current integration evidence</h2>
     <div class="page-grid">
       <article class="page-card"><h3>Provider substitution</h3><p>A coding-agent integration exercised chat through OA's mediated native provider route, including tool use, operation ownership, cancellation, lost-reply reconciliation, restart, audit attribution, and revoked-rights refusal.</p></article>
