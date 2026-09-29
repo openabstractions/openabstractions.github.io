@@ -13,7 +13,7 @@
 <body>
   <header class="site-header">
     <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page inference-page">
     <section class="inference-hero">
@@ -33,10 +33,10 @@
       </div>
     </section>
 
-    <p class="status-note inference-status"><strong>Current status.</strong> Current source implements all six modality profiles and the operator profile with controlled integration evidence. The generated schemas linked below and the <a href="https://github.com/openabstractions/abstraction-inference">standalone inference repository</a> are the public technical surface. Provider interoperability and release qualification vary. Use <a href="coverage.html">Coverage</a> for measured language and platform results; profile presence on a host is explicit and may cover only part of this family.</p>
+    <p class="status-note inference-status"><strong>Current status.</strong> Current source implements all six modality profiles and the operator profile with controlled integration evidence. The generated schemas linked below and the <a href="https://github.com/openabstractions/abstraction-inference">standalone inference repository</a> are the public technical surface. The loopback gateway and Realtime vendor connector now live in the <a href="https://github.com/openabstractions/abstractions/tree/main/openabstractions-flat/abstraction-inference/adapters/go">Go adapter module in the integration source</a>; the core module owns policy and service behavior. Provider interoperability and release qualification vary. Use <a href="coverage.html">Coverage</a> for measured language and platform results; profile presence on a host is explicit and may cover only part of this family.</p>
 
     <nav class="inference-nav" aria-label="On this page">
-      <a href="#modalities">Tasks and modalities</a><a href="#roles">Model, router, inference</a><a href="#placement">Placement and credentials</a><a href="#lifetimes">Streams and durable jobs</a><a href="#operators">Operator choices</a><a href="#native-api">Native API</a><a href="#adoption">Choose a path</a>
+      <a href="#modalities">Tasks and modalities</a><a href="#roles">Model, router, inference</a><a href="#placement">Placement and credentials</a><a href="#lifetimes">Streams and durable jobs</a><a href="#operators">Operator choices</a><a href="#native-api">Native API</a><a href="#gateway-window">Gateway window</a><a href="#adoption">Choose a path</a>
     </nav>
 
     <section id="modalities">
@@ -90,8 +90,8 @@
           <div class="modality-heading"><span class="modality-number">05</span><div><h3>Live voice</h3><code>abstraction.inference/live@1</code></div></div>
           <p>Send ordered PCM audio frames, commit the input turn, and observe transcript and audio output for one final response.</p>
           <ol class="live-sequence" aria-label="Live voice session sequence"><li><span>Append</span> frames 0…n</li><li><span>Commit</span> finish input</li><li><span>Observe</span> one response</li></ol>
-          <p class="modality-fit"><strong>Use it for</strong> push-to-talk commands and one-turn voice interactions. A conversation creates a new session for each response.</p>
-          <p><a href="abstraction.inference.api.schema.html#service-Live">Live schema and methods</a></p>
+          <p class="modality-fit"><strong>Use it for</strong> push-to-talk commands and one-turn voice interactions. A conversation creates a new session for each response. A program that speaks OpenAI's Realtime API reaches the same session through <code>GET /v1/realtime</code> on the gateway window.</p>
+          <p><a href="abstraction.inference.api.schema.html#service-Live">Live schema and methods</a> · <a href="#gateway-window">Realtime route</a></p>
         </article>
 
         <article class="modality image-modality">
@@ -201,10 +201,12 @@ chat, err := machine.ResolveInference(ctx, facade.Requirements{
     Scope: facade.ScopeLocal,
 })
 
-reply, err := chat.Complete(ctx, inference.Request{
+// Complete is Stream's non-streaming twin, observing a call to its
+// end and folding the deltas into one reply.
+reply, err := chat.Complete(ctx, wire.Request{
     Model: model,
     Messages: messages,
-    Guarantees: []inference.RequestGuarantee{inference.RequestGuaranteeLocalOnly},
+    Guarantees: []wire.RequestGuarantee{wire.RequestGuaranteeLocalOnly},
 })</code></pre>
           <p>The facade currently exposes direct resolvers for chat, embeddings, and inference operator control. Generated modality clients bind transcription, speech, live, and image service endpoints.</p>
         </div>
@@ -221,6 +223,31 @@ reply, err := chat.Complete(ctx, inference.Request{
         <a href="abstraction.inference.api.schema.html#service-Chat">Chat</a><a href="abstraction.inference.api.schema.html#service-Embedder">Embedder</a><a href="abstraction.inference.api.schema.html#service-Transcription">Transcription</a><a href="abstraction.inference.api.schema.html#service-Speech">Speech</a><a href="abstraction.inference.api.schema.html#service-Live">Live</a><a href="abstraction.inference.api.schema.html#service-Image">Image</a><a href="abstraction.inference.api.schema.html#service-Operator">Operator</a>
       </div>
       <p>Every streaming profile uses bounded pages, opaque operation identifiers, caller-scoped visibility, explicit cancellation, and typed terminal outcomes. <a href="reference.html#inference-modalities">The developer reference</a> lists the profiles beside their entry points.</p>
+    </section>
+
+    <section id="gateway-window">
+      <p class="eyebrow">The loopback window</p>
+      <h2>Nine OpenAI- and Anthropic-shaped routes, one contract underneath</h2>
+      <p class="section-lead">A program that only knows a base URL and an API key reaches the same rights decision and audit as the native route. The window listens on loopback only and is closed by default.</p>
+      <div class="adoption-table-wrap" tabindex="0" role="region" aria-label="Gateway window routes">
+        <table class="adoption-table">
+          <thead><tr><th>Route</th><th>Carries</th><th>Contract rule</th></tr></thead>
+          <tbody>
+            <tr><td><code>POST /v1/chat/completions</code></td><td>OpenAI chat, including tool calls and streaming</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>POST /v1/messages</code></td><td>Anthropic messages</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>GET /v1/models</code></td><td>The bound key's eligible models</td><td>INF-W1 – W5</td></tr>
+            <tr><td><code>POST /v1/embeddings</code></td><td>Embedding vectors</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>POST /v1/audio/transcriptions</code></td><td>Audio to text</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>POST /v1/audio/speech</code></td><td>Text to audio</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>POST /v1/images/generations</code></td><td>Image generation</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>POST /v1/images/edits</code></td><td>Authorized image edits</td><td>INF-W1 – W7</td></tr>
+            <tr><td><code>GET /v1/realtime</code></td><td>One <code>live@1</code> session per WebSocket connection, PCM16 at 24000 Hz</td><td>INF-W8</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>On the Realtime route, <code>abstraction.inference/complete</code> on the host the named model routes to is decided for the bound program before the WebSocket upgrade completes; a refusal is answered with the same status the other eight routes use, on the unupgraded connection. Every refusal after the upgrade is one <code>error</code> event, then the close. <!-- openabstractions-flat/abstraction-inference/CONTRACT.md, INF-W8 --></p>
+      <h3>A native provider, activated on first use</h3>
+      <p>A declared native <code>abstraction.inference/chat@1</code> provider with an explicit model allowlist — the model host is one — becomes a mediated local resolver candidate after the runtime's own, reached through the same generated client as any other host. <code>Resolve</code> itself never blocks: the first mediated call that needs an on-demand provider waits for its readiness inside the caller's own deadline, and never longer than the runtime's launch budget of 30 seconds. A caller whose deadline passes first reads <code>unavailable</code> with reason <code>activating:&lt;name&gt;</code>; the launch continues, and the next call finds the provider ready or refused with its reason. <!-- openabstractions-flat/abstraction-facade/CONTRACT.md, FAC-R2 and FAC-R8 --></p>
     </section>
 
     <section id="adoption">

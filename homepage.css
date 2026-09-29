@@ -65,9 +65,47 @@ footer a:focus-visible {
   padding: 86px 0;
 }
 
+.hero-aside {
+  padding: 28px 30px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.hero-aside h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.25rem;
+  letter-spacing: -.02em;
+}
+
+.hero-aside p {
+  max-width: none;
+  font-size: .98rem;
+  line-height: 1.55;
+}
+
+.hero-aside p:last-child { margin-bottom: 0; }
+
+@media (max-width: 1199px) {
+  .hero-aside { margin-top: 48px; }
+}
+
+.what-it-is p {
+  max-width: 760px;
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.what-it-is p:last-child {
+  margin-bottom: 0;
+}
+
 .hero {
   padding-top: 108px;
-  max-width: 900px;
 }
 
 .eyebrow {
@@ -82,7 +120,7 @@ footer a:focus-visible {
 .hero h1 {
   max-width: 850px;
   margin: 0;
-  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-size: clamp(3rem, 8vw, 5.5rem);
   line-height: .96;
   letter-spacing: -.065em;
 }
@@ -130,6 +168,18 @@ footer a:focus-visible {
   margin-top: 24px;
   color: var(--muted);
   font-size: .92rem;
+}
+
+@media (min-width: 1200px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 460px);
+    column-gap: 64px;
+    align-items: center;
+  }
+
+  .hero h1 { max-width: 16ch; }
+  .hero-copy { max-width: 62ch; }
 }
 
 .section-heading {
@@ -357,6 +407,15 @@ footer a:focus-visible {
   box-shadow: 0 15px 35px rgba(17, 24, 39, .05);
 }
 
+.capability-card.capability-card-highlight {
+  animation: capability-card-flash 600ms ease-out;
+}
+
+@keyframes capability-card-flash {
+  from { background: var(--accent-soft); }
+  to { background: var(--paper); }
+}
+
 .contract {
   margin: 0 0 7px;
   color: var(--accent);
@@ -367,6 +426,11 @@ footer a:focus-visible {
 .capability-card h3 {
   margin: 0;
   font-size: 2rem;
+}
+
+.tag-word {
+  cursor: help;
+  border-bottom: 1px dotted var(--muted);
 }
 
 .capability-card dl {
@@ -680,6 +744,12 @@ select:focus-visible {
   }
 }
 
+.capability-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-bottom: 8px; }
+.capability-group h3 { margin: 0 0 6px; padding: 0; border: 0; font-size: 1.05rem; }
+.capability-group > p { margin: 0 0 14px; color: var(--muted); font-size: .92rem; max-width: 46ch; }
+@media (max-width: 760px) {
+  .capability-groups { grid-template-columns: 1fr; }
+}
 .capability-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
 .capability-picker button { padding: 9px 13px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
 .capability-picker button[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
@@ -737,3 +807,45 @@ select:focus-visible {
 .release-platforms { display: flex; flex-wrap: wrap; gap: 16px; color: var(--muted); font-size: .9rem; }
 .release-platforms > a { display: inline-flex; align-items: center; gap: 6px; }
 .release-platforms svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+
+.release-note {
+  max-width: 620px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.measured {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+/* Tool carousel surface: a distinct background from .capability-card, so the
+   tools showcase lower on the page does not read as the same carousel. */
+.tool-slide.tool-carousel-surface {
+  background: var(--code);
+}
+
+/* Panel screenshots (index.html tools section, adopt.html): full content-column
+   width, at a readable size, with a link to the full-size image. */
+.panel-shot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.panel-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tool-preview > a,
+.adopt-panel-figures figure > a {
+  display: block;
+}
+
+.adopt-panel-figures {
+  flex-direction: column;
+}

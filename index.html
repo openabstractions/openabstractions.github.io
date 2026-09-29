@@ -19,28 +19,38 @@
       <img src="brand/mark-64.png" alt="" width="34" height="34">
       <span>Open Abstractions</span>
     </a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
 
   <main class="home">
     <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">Client libraries and a shared runtime</p>
-      <h1 id="hero-title">The next layer of software abstraction.</h1>
-      <p class="hero-copy">Add durable work, shared data, AI inference and interaction with other applications through common capability APIs. OA’s shared runtime connects them to operating-system facilities, existing engines and remote services. The same application integration works with compatible providers on different machines.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="adopt.html">Start building</a>
-        <a class="button secondary" href="#explorer-title">Explore capabilities</a>
+      <div class="hero-main">
+        <p class="eyebrow">Client libraries and a shared runtime</p>
+        <h1 id="hero-title">The next layer of software abstraction.</h1>
+        <p class="hero-copy">Add durable work, shared data, AI inference and interaction with other applications through common capability APIs. OA’s shared runtime connects them to operating-system facilities, existing engines and remote services. The same application integration works with compatible providers on different machines.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="adopt.html">Start building</a>
+          <a class="button secondary" href="#explorer-title">Explore capabilities</a>
+        </div>
+        <div class="release-downloads" aria-label="Download Open Abstractions">
+          <a class="release-link" href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">Download the runtime 0.3.0 <span aria-hidden="true">↓</span></a>
+          <span class="release-platforms">
+            <a href="adopt.html#install-windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4l9-1v8H2zm11-1l9-1v9h-9zM2 13h9v8l-9-1zm11 0h9v9l-9-1z"/></svg>Windows</a>
+            <a href="adopt.html#install-macos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2c.1 1.7-1.1 3.5-2.8 4-.3-1.6.9-3.4 2.8-4zM19.5 16.8c-.6 1.5-2 4.2-3.7 4.2-1 0-1.4-.6-2.7-.6s-1.9.6-2.8.6c-1.7 0-4.3-4-4.3-7.5 0-3.2 2-5.3 4.2-5.3 1.2 0 2 .7 2.9.7s1.9-.8 3.2-.7c1.4.1 2.5.7 3.2 1.7-2.8 1.6-2.4 5.5 0 6.9z"/></svg>macOS</a>
+            <a href="adopt.html#install-linux"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9V6a4 4 0 018 0v3l3 8-3 3H8l-3-3z" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="15" rx="3" ry="4" fill="none" stroke="currentColor"/><circle cx="10.5" cy="6" r=".8"/><circle cx="13.5" cy="6" r=".8"/><path d="M10 8h4l-2 2zM8 19l-4 3h6zm8 0l4 3h-6z"/></svg>Linux</a>
+          </span>
+        </div>
+        <p class="release-note">Today you install the runtime once yourself and the applications below connect to it. An application that adopts OA can bring it along in its own installer.</p>
+        <p class="availability">0.3.0 is the current runtime release. The <a href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">release notes</a> list available packages, checksums, signing state and package verification.</p>
       </div>
-      <div class="release-downloads" aria-label="Download Open Abstractions">
-        <a class="release-link" href="https://github.com/openabstractions/redist/releases/tag/v0.2.0">Download 0.2.0 <span aria-hidden="true">↓</span></a>
-        <span class="release-platforms">
-          <a href="adopt.html#install-windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4l9-1v8H2zm11-1l9-1v9h-9zM2 13h9v8l-9-1zm11 0h9v9l-9-1z"/></svg>Windows</a>
-          <a href="adopt.html#install-macos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2c.1 1.7-1.1 3.5-2.8 4-.3-1.6.9-3.4 2.8-4zM19.5 16.8c-.6 1.5-2 4.2-3.7 4.2-1 0-1.4-.6-2.7-.6s-1.9.6-2.8.6c-1.7 0-4.3-4-4.3-7.5 0-3.2 2-5.3 4.2-5.3 1.2 0 2 .7 2.9.7s1.9-.8 3.2-.7c1.4.1 2.5.7 3.2 1.7-2.8 1.6-2.4 5.5 0 6.9z"/></svg>macOS</a>
-          <a href="adopt.html#install-linux"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9V6a4 4 0 018 0v3l3 8-3 3H8l-3-3z" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="15" rx="3" ry="4" fill="none" stroke="currentColor"/><circle cx="10.5" cy="6" r=".8"/><circle cx="13.5" cy="6" r=".8"/><path d="M10 8h4l-2 2zM8 19l-4 3h6zm8 0l4 3h-6z"/></svg>Linux</a>
-        </span>
-      </div>
-      <p class="availability">0.2.0 is available: a shared runtime, Windows Panel, durable work, AI inference, named credentials and application interaction. <a href="evidence.html#release-0-2-0">See what shipped and how it was checked</a>.</p>
+      <aside class="hero-aside what-it-is" aria-labelledby="what-it-is-title">
+          <h2 id="what-it-is-title">What Open Abstractions is</h2>
+        <p>For developers: add one client library to your application and declare the OpenAbstractions runtime as a dependency your installer brings along, the way installers bring the Visual C++ Redistributable. Your code keeps its own shape; the runtime supplies the capability.</p>
+        <p>For people who use applications: one shared service on the machine that every adopting application uses, and a Panel that shows what is running and asks before an application gains a new permission. Today that means installing it once; no application bundles it yet.</p>
+        <p id="works-with-today">Connect model engines such as LM Studio, Ollama and Lemonade, add the OA download node to ComfyUI, or install the development provider for OpenCode. The <a href="adopters.html">application guide</a> lists each integration's setup and test evidence. See <a href="ai-apps.html">how AI applications can share models and memory</a>.</p>
+      </aside>
     </section>
+
 
     <section class="explorer" aria-labelledby="explorer-title">
       <div class="section-heading">
@@ -48,12 +58,60 @@
         <h2 id="explorer-title">Discover the capabilities</h2>
         <p>Choose a capability to see what it does and where it helps. Each example includes links to its API and current implementation.</p>
       </div>
-      <div class="capability-picker" id="capability-picker" role="group" aria-label="Choose a capability"></div>
-      <noscript><p><a href="catalogue.html">Browse the full capability catalogue</a>.</p></noscript>
+      <p class="carousel-help">Pick a capability, or step through them with Previous and Next.</p>
+      <div class="capability-groups">
+        <div class="capability-group">
+          <h3>Foundations</h3>
+          <p>Durable work, downloads, shared storage, configuration, logging, permissions, credentials, questions to the user, identity and finding the right service (resolution).</p>
+          <div class="capability-picker" id="capability-picker-foundations" role="group" aria-label="Choose a foundation capability"></div>
+        </div>
+        <div class="capability-group">
+          <h3>AI on this machine</h3>
+          <p>Model catalogue, routing, inference, the model host, sharing the graphics card, lending model files, the stores already on this machine, and the MCP gateway.</p>
+          <div class="capability-picker" id="capability-picker-ai" role="group" aria-label="Choose an AI capability"></div>
+        </div>
+      </div>
+      <noscript>
+        <p>The interactive capability carousel needs JavaScript. Here is the same list of capabilities it shows:</p>
+        <div class="capability-groups">
+          <div class="capability-group">
+            <h3>Foundations</h3>
+            <ul>
+              <li>Structured logging</li>
+              <li>Configuration</li>
+              <li>Jobs</li>
+              <li>Verified downloads</li>
+              <li>Shared content storage</li>
+              <li>Permissions</li>
+              <li>Questions and answers</li>
+              <li>Named credentials</li>
+              <li>Caller identity</li>
+              <li>Connecting applications · Facade</li>
+              <li>Applications and interaction</li>
+              <li>Safe file updates · CAS</li>
+              <li>Change observation · Watch</li>
+            </ul>
+          </div>
+          <div class="capability-group">
+            <h3>AI on this machine</h3>
+            <ul>
+              <li>Model catalogue</li>
+              <li>Router</li>
+              <li>AI inference</li>
+              <li>Model host</li>
+              <li>Sharing the graphics card</li>
+              <li>Lending a model file</li>
+              <li>The stores already on this machine</li>
+              <li>MCP gateway for assistants</li>
+            </ul>
+          </div>
+        </div>
+        <p><a href="catalogue.html">Browse the full capability catalogue</a>.</p>
+      </noscript>
       <div class="capability-carousel" id="capability-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Open Abstractions capabilities">
         <div class="carousel-controls">
           <button id="capability-previous" type="button" aria-label="Show previous capability">← Previous</button>
-          <p><span id="capability-position">1 of 16</span> · <strong id="capability-label">Jobs</strong></p>
+          <p><span id="capability-position">1 of 21</span> · <strong id="capability-group-label">Foundations</strong> · <strong id="capability-label">Structured logging</strong></p>
           <button id="capability-next" type="button" aria-label="Show next capability">Next →</button>
         </div>
         <article class="capability-card" id="capability-card" aria-live="polite" aria-atomic="true">
@@ -63,7 +121,7 @@
           <details class="capability-detail">
             <summary>Use this capability in your application</summary>
             <div class="capability-sample">
-              <span>Go usage example</span>
+              <span id="capability-sample-heading">Go usage example</span>
               <p id="capability-sample-context"></p>
               <pre><code id="capability-sample"></code></pre>
             </div>
@@ -121,7 +179,7 @@
       <button id="tool-tab-mcp" type="button" role="tab" aria-selected="false" aria-controls="tool-slide-mcp" tabindex="-1" data-tool-index="2">MCP gateway</button>
     </div>
 
-    <article class="tool-slide" id="tool-slide-panel" role="tabpanel" aria-labelledby="tool-tab-panel" tabindex="0" data-tool-slide>
+    <article class="tool-slide tool-carousel-surface" id="tool-slide-panel" role="tabpanel" aria-labelledby="tool-tab-panel" tabindex="0" data-tool-slide>
       <div class="tool-copy">
         <p class="tool-kicker">Control panel</p>
         <h3>See and manage what is happening</h3>
@@ -133,20 +191,17 @@
       </div>
       <figure class="tool-preview">
         <div class="tool-window-bar" aria-hidden="true"><span class="tool-window-dot"></span><span class="tool-window-dot"></span><span class="tool-window-dot"></span><span class="tool-window-title">OpenAbstractions panel</span></div>
-        <div class="tool-panel-preview" aria-hidden="true">
-          <div class="tool-panel-status"><div><span>Runtime</span><strong>Local services</strong></div><span class="tool-status-ready">Ready</span></div>
-          <div class="tool-panel-grid">
-            <div class="tool-panel-card"><span>Accepted work</span><strong>Observe and cancel</strong></div>
-            <div class="tool-panel-card"><span>Questions</span><strong>Answer a pending question</strong></div>
-            <div class="tool-panel-card"><span>Rights</span><strong>Review each program</strong></div>
-            <div class="tool-panel-card"><span>Logs</span><strong>Follow recent activity</strong></div>
-          </div>
-        </div>
-        <figcaption>Control panel illustration</figcaption>
+        <a href="images/panel/status-windows-light.png" target="_blank" rel="noopener">
+          <picture class="panel-shot">
+            <source srcset="images/panel/status-windows-dark.png" media="(prefers-color-scheme: dark)">
+            <img class="tool-panel-screenshot" src="images/panel/status-windows-light.png" alt="The Panel's status page on Windows, listing runtime health, accepted work, permission questions, rights, logs and identity." loading="lazy">
+          </picture>
+        </a>
+        <figcaption>The Panel on Windows: what is running, what each app may do, and the questions apps ask you. Open full size.</figcaption>
       </figure>
     </article>
 
-    <article class="tool-slide" id="tool-slide-cli" role="tabpanel" aria-labelledby="tool-tab-cli" tabindex="-1" data-tool-slide hidden>
+    <article class="tool-slide tool-carousel-surface" id="tool-slide-cli" role="tabpanel" aria-labelledby="tool-tab-cli" tabindex="-1" data-tool-slide hidden>
       <div class="tool-copy">
         <p class="tool-kicker">Central command</p>
         <h3>Run exact operations from scripts and terminals.</h3>
@@ -167,7 +222,7 @@
       </figure>
     </article>
 
-    <article class="tool-slide" id="tool-slide-mcp" role="tabpanel" aria-labelledby="tool-tab-mcp" tabindex="-1" data-tool-slide hidden>
+    <article class="tool-slide tool-carousel-surface" id="tool-slide-mcp" role="tabpanel" aria-labelledby="tool-tab-mcp" tabindex="-1" data-tool-slide hidden>
       <div class="tool-copy">
         <p class="tool-kicker">MCP gateway</p>
         <h3>Bring OA tools to your AI assistant</h3>

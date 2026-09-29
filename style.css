@@ -79,3 +79,40 @@ footer { margin-top: 48px; color: var(--dim); font-size: 14px; border-top: 1px s
 
 h1 .mark { vertical-align: -0.18em; margin-right: .4rem; }
 @media (max-width: 480px) { h1 .mark { width: 44px; height: 44px } }
+
+.nav-devs-label {
+  color: var(--dim);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  align-self: center;
+}
+
+.tool-panel-screenshot,
+.adopt-panel-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.adopt-panel-figures {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.adopt-panel-figures figure {
+  flex: 1 1 260px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.adopt-panel-figures figcaption {
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--dim);
+  border-top: 1px solid var(--line);
+}

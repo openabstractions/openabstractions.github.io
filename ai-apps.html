@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Abstractions — connect your AI applications</title>
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page">
+    <section class="intro">
+      <p class="eyebrow">AI applications</p>
+      <h1>Let your AI applications share the machine</h1>
+      <p>Your chat engine, coding assistant and image editor need models, memory and permission to act. OA gives them a common service for those needs. Applications keep their own interfaces; the runtime connects the capabilities they use.</p>
+      <p>The integrations below describe development work for 0.3.0. The <a href="adopt.html">installation guide</a> identifies the released package; the <a href="adopters.html">application guide</a> lists the available integrations and their limits.</p>
+    </section>
+    <section id="models">
+      <h2>Use the model files you already have</h2>
+      <p>OA's inventory finds model files across supported local stores. The model bridge can lend a compatible file to another engine using a link, with permission. The original file stays in its store. A successful unlend removes the placement OA owns; uncertain or replaced paths require reconciliation.</p>
+      <pre><code>openabstractions models lend &lt;store&gt;/&lt;id&gt; --to lmstudio
+openabstractions models lends
+openabstractions models unlend &lt;entry&gt;</code></pre>
+      <p>A link saves another copy of the weights. The receiving engine still needs to support that model's format and architecture. <a href="cases.html#lend-once">See the recorded LM Studio example</a> or read the <a href="https://github.com/openabstractions/abstraction-provider-modelbridge">model bridge setup and recovery guide</a>.</p>
+    </section>
+    <section id="memory">
+      <h2>Ask a loaded model to make room for another task</h2>
+      <p>An image workflow can request a memory reservation while a chat engine holds a model. The resource service checks permission and asks a supported holder to unload. It verifies the available capacity before admitting the new reservation.</p>
+      <p>The model host participates directly: it holds a lease for each resident model and can release that model when asked. Existing engines participate through supported unload operations. Active calls and a holder's refusal affect whether a request succeeds.</p>
+      <p><a href="cases.html#share-card">The ComfyUI and LM Studio experiment</a> exercised both a permitted yield and a denied request. Measurement and process attribution vary by platform; Windows currently retains conservative reservations when process attribution cannot be established. A reservation governs admission; it does not enforce a process's physical memory usage.</p>
+    </section>
+    <section id="routing">
+      <h2>Choose models in OpenCode through one provider</h2>
+      <p>OA's router lists the models that registered engines can serve. The OpenCode integration uses the runtime for chat and tool calls. The operator controls which model servers and credentials that program may use.</p>
+      <pre><code>openabstractions opencode configure --dry-run
+openabstractions opencode configure</code></pre>
+      <p>The first command previews the provider configuration. The second writes it from the router's available chat models. Install the development OpenCode provider and configure an eligible model server first. <a href="adopters.html#opencode">OpenCode setup and test evidence</a>.</p>
+    </section>
+    <section id="hosting">
+      <h2>Serve a local model file under a memory lease</h2>
+      <p>The optional model host starts an existing <code>llama-server</code> executable for an explicitly selected model. It keeps the engine resident for repeated calls and coordinates its memory reservation with the resource service. The runtime mediates application calls and checks their rights.</p>
+      <p>The operator supplies the engine and model. Installation alone starts no model. <a href="https://github.com/openabstractions/abstraction-provider-modelhost">Model host configuration and measured behavior</a>.</p>
+    </section>
+    <section id="control">
+      <h2>Give an assistant a clear, permitted action</h2>
+      <p>The OA MCP gateway makes OA tools available to an assistant. Registered applications can advertise their presence and supported interfaces. An application-specific adapter supplies actions such as previewing and applying a ComfyUI parameter change against a particular document revision.</p>
+      <p>The gateway has its own verified caller identity and grants. The ComfyUI presentation example checks the target and revision before applying a proposed change. <a href="cases.html#interaction">Application interaction example</a> · <a href="https://github.com/openabstractions/abstractions/tree/main/mcp-gateway">MCP gateway guide</a>.</p>
+    </section>
+    <p>Building an integration? The <a href="inference.html">inference guide</a> covers chat, embeddings, audio, images and durable video jobs. <a href="coverage.html">Coverage</a> separates available interfaces from tested behavior.</p>
+  </main>
+  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="adopters.html">Applications</a><a href="coverage.html">Coverage</a></footer>
+</body>
+</html>

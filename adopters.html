@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Abstractions — applications and integrations</title>
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page">
+    <section class="intro">
+      <p class="eyebrow">Applications and integrations</p>
+      <h1>Where you can try OA</h1>
+      <p>Connect OpenCode to OA inference, use OA downloads in ComfyUI, or expose OA tools through MCP. These OA-maintained integrations are being qualified for 0.3.0. Setup and evidence limits are listed with each integration.</p>
+      <p><a href="ai-apps.html">How the AI applications work together</a> · <a href="adopt.html">Install OA</a> · <a href="coverage.html">Capability and language evidence</a></p>
+    </section>
+    <section id="opencode">
+      <h2>OpenCode: one model provider for the runtime's chat models</h2>
+      <p>Use local or explicitly permitted hosted inference while OA manages routing, named credentials, streaming and cancellation. Revoking the OpenCode program's permission prevents subsequent provider requests.</p>
+      <p><strong>Setup:</strong> install the development OA provider for OpenCode, run OA with an eligible model server, then use <code>openabstractions opencode configure</code>. The provider's README describes source and package setup; npm publication remains pending.</p>
+      <p><strong>Evidence:</strong> the controlled Windows Bun integration covers chat, tool calls, cancellation, rights refusal and provider substitution. Live end-to-end runs with each supported engine remain separate acceptance work.</p>
+      <p><a href="https://github.com/openabstractions/abstractions/tree/main/adopters/opencode">OpenCode integration, setup and tests</a> · <a href="cases.html#opencode-local">Example</a></p>
+    </section>
+    <section id="comfyui">
+      <h2>ComfyUI: recover model downloads and coordinate memory</h2>
+      <p>The download node can return to work owned by OA after the editor restarts. Storage lookup can reuse known content. The resource experiment lets an image workflow request room from a supported model holder before it starts rendering.</p>
+      <p><strong>Setup:</strong> the OA download node and runtime supply the download path. Resource coordination and the presentation adapter are separate development integrations with their own setup and permissions.</p>
+      <p><strong>Evidence:</strong> the download adopter has executable recovery tests. A local ComfyUI/LM Studio experiment exercised memory yield and denial. The presentation adapter demonstrates a proposed parameter change, revision check, apply and readback.</p>
+      <p><a href="https://github.com/openabstractions/adopter-comfyui">Download node and tests</a> · <a href="https://github.com/openabstractions/abstractions/tree/main/adopters/comfyui-presentation">Presentation adapter</a> · <a href="cases.html#share-card">Memory experiment</a></p>
+    </section>
+    <section id="engines">
+      <h2>Ollama, LM Studio and Lemonade: model hosts behind the runtime</h2>
+      <p>OA connects to these engines through their supported server interfaces. Applications call OA's inference API; the runtime selects an eligible registered host. An engine's supported models, modalities and unload operations determine what OA can offer through it.</p>
+      <p><strong>Setup:</strong> install the engine, make a compatible model available and register its server with OA. The model bridge can lend supported local files to LM Studio, Lemonade or ComfyUI. The engine and file format must support that placement.</p>
+      <p><strong>Evidence:</strong> protocol tests cover the adapters. Local experiments record LM Studio memory release and model-file lending. The full live engine matrix is still being qualified for 0.3.0.</p>
+      <p><a href="https://github.com/openabstractions/abstraction-router">Router and model-server support</a> · <a href="https://github.com/openabstractions/abstraction-provider-modelbridge">Supported lending targets</a> · <a href="inference.html">Inference profiles</a></p>
+    </section>
+    <section id="mcp">
+      <h2>MCP clients: use OA through tools</h2>
+      <p>An assistant with MCP support can use the OA gateway's tools without adding OA libraries to its application. The local gateway process connects to the runtime, and OA applies the grants assigned to that gateway program.</p>
+      <p><strong>Setup:</strong> configure the OA MCP gateway in the assistant and grant the actions it needs. An application's presence in the registry and permission to invoke its tools are separate decisions.</p>
+      <p><a href="https://github.com/openabstractions/abstractions/tree/main/mcp-gateway">Gateway tools, configuration and tests</a> · <a href="cases.html#interaction">An application interaction</a></p>
+    </section>
+    <p>Providers such as the model host and NAS downloader implement capabilities behind OA. Their presence expands what an application can request. <a href="catalogue.html">Browse the capability and provider catalogue</a>.</p>
+  </main>
+  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="ai-apps.html">AI applications</a><a href="coverage.html">Coverage</a></footer>
+</body>
+</html>

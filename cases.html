@@ -12,13 +12,43 @@
 <body>
   <header class="site-header">
     <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html" aria-current="page">Cases</a><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html" aria-current="page">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page">
     <section class="intro">
       <p class="eyebrow">Cases</p>
       <h1>What applications gain from the service boundary</h1>
       <p>Each case starts with a task a person recognizes and one capability that can span an operating-system facility, a local program, or a remote service. OA checks permission and preserves the capability's meaning across those implementations.</p>
+      <p><a href="adopters.html">Find an application integration</a> · <a href="ai-apps.html">See how AI applications share models and memory</a>. Measurements below describe dated development experiments; current qualification is recorded in <a href="coverage.html">coverage</a>.</p>
+    </section>
+    <section id="share-card">
+      <h2>An image editor keeps rendering while a chat engine gives the card back</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. LM Studio is holding a model on the same card and neither program knows the other exists.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>ComfyUI asks the resource service for room on the graphics card. The service asks LM Studio to yield through LM Studio's own unload endpoint, then grants a lease once the bytes are free.</p></article>
+      </div>
+      <p>On the owner's machine, a render needing 106 GiB of a 124 GiB pool asked while LM Studio held one model. LM Studio gave back 21.4 GB of graphics memory (yielded, in OA's word) in 7.3 s, the reservation (lease) was granted, and the render finished in about 31 s and saved an image. A deny rule written for the same holder changed the identical ask into a refusal read from ComfyUI's own queue in about 150 ms, with LM Studio's model still loaded and nothing allocated.</p>
+      <p class="measured">Measured: 132,766,306,304 bytes (123.65 GiB) pool; 113,952,739,328 bytes (106.13 GiB) reserve; 21,446,795,264 bytes yielded in 7.305 s; render in 30.98 s; refusal in 146 ms. <code>research/resources/COMFY-CARD-2026-09-22.md</code>, sections 1 and 3.</p>
+      <p>LM Studio unloads its model, then ComfyUI loads its own weights into the freed memory. The <a href="https://github.com/openabstractions/abstraction-resource">resource repository</a> is preparing its first tagged release.</p>
+    </section>
+    <section id="opencode-local">
+      <h2>A coding assistant reaches every local model through one runtime</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>An OpenCode user with a local model wants to chat with it through OA, with nothing to type into OpenCode's own configuration.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p><code>openabstractions opencode configure</code> reads the router's servable chat families through the runtime and writes OpenCode's provider block for them.</p></article>
+      </div>
+      <p>Proven under a real Bun with installed selection on Windows: conversation, tool calls, provider substitution, attribution, and a refusal returned before any provider I/O runs. <!-- research/adoption/user-stories-2026-09-22.md, S1 --></p>
+      <p>Not yet proven: an end-to-end run against a live Ollama, LM Studio or Lemonade server through the runtime. A host is declared by hand today; the router's live survey of installed local servers has no recorded run through the runtime yet. <!-- research/adoption/user-stories-2026-09-22.md, G3 --></p>
+    </section>
+    <section id="lend-once">
+      <h2>A model file downloaded once is served by another engine</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>A model file (GGUF) sits in the Jan app's model folder (the <code>jan</code> store) on this machine. LM Studio never downloaded it and cannot see it.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The model bridge resolves the file through the storage inventory and lends it into LM Studio's own models folder by link, once the operator permits lending to that engine.</p></article>
+      </div>
+      <p>On 2026-09-22 a 46 MB GGUF from the <code>jan</code> store was hard-linked into LM Studio's models folder in 6.3 seconds end to end: the first lend attempt was refused <code>not_permitted</code>, the lend after the rule placed one hard link, and LM Studio listed the file under its own derived name inside a 30-second window. <code>unlend</code> removed the link and its directories again; the source file in the <code>jan</code> store never moved.</p>
+      <p class="measured">Measured: 45,949,216 bytes in 6.3 s end to end. <code>abstraction-provider-modelbridge/README.md</code>, "Measured".</p>
+      <p><a href="https://github.com/openabstractions/abstraction-provider-modelbridge">Model bridge source and recovery guide</a>. Its first tagged release is in preparation.</p>
     </section>
     <section id="provider-change">
       <h2>A coding assistant can change model providers</h2>
