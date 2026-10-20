@@ -8,27 +8,15 @@
     // --- Foundations ------------------------------------------------------
     {
       group: "foundations",
-      title: "Structured logging",
-      contract: "abstraction.logging/sink@1",
-      intro: "An application records useful events in one consistent format. An operator can choose where they go and inspect recent events from a separate tool.",
+      title: "Verified downloads",
+      contract: "abstraction.job/acceptance@1 + download request schema",
+      intro: "A download names its bytes by digest and enters the machine's one job table. A second request for the same digest reuses the accepted job, and the runtime delegates the transfer to a compatible provider.",
       sampleKind: "Go",
-      sample: "err := sink.LogContext(ctx, int64(slog.LevelInfo), \"model opened\", map[string]string{\n    \"model\": \"flux-dev\",\n})\nif err != nil { return err }",
-      sampleLabel: "Write a structured event",
-      sampleContext: "Application client. sink is a resolved logging client. This sends a structured event; successful submission is not a durable-storage receipt. Go excerpt; imports and client setup are omitted.",
-      evidence: "ComfyUI is a node-based image generation editor. Its OA source adopter can install an OA-backed root handler. The first-party OA Panel uses the reader and observer profiles for retained and live records.",
-      links: [["Logging contract", "https://github.com/openabstractions/abstraction-logging"], ["Generated schema", "abstraction.logging.schema.html"]]
-    },
-    {
-      group: "foundations",
-      title: "Configuration",
-      contract: "abstraction.config/reader@1",
-      intro: "You, or whoever administers the machine, change where OA stores jobs or sends logs. Applications and control tools see the same effective settings and where each value came from.",
-      sampleKind: "Go",
-      sample: "update, err := configObserver.ObserveContext(ctx, config.RunOverrides{}, \"\", 0)\nif err != nil { return err }\nif update.Outcome != config.ConfigObservationOutcomeSnapshot {\n    return fmt.Errorf(\"config: %s\", update.Outcome)\n}\nfmt.Printf(\"store=%s source=%s\\n\", update.Snapshot.Store, update.Snapshot.Origins.Store.Rung)",
-      sampleLabel: "Read effective settings",
-      sampleContext: "Application client. configObserver is a resolved configuration observer. An empty cursor reads the effective values and where they came from. Go excerpt; imports and client setup are omitted.",
-      evidence: "The first-party OA Panel reads and replaces revisioned user settings, then follows effective configuration while preserving the operator's editing draft. The fixed fields are Store, NasStore, LogSink, LogService, and Off; reads accept bounded RunOverrides and return provenance.",
-      links: [["Configuration contract", "https://github.com/openabstractions/abstraction-config"], ["Generated schema", "abstraction.config.schema.html"]]
+      sample: "window, err := jobs.GetHistoryWindow(ctx)\nif err != nil { return err }\n\nspec := request.Encode(&request.Request{\n    Artifact: request.Artifact{Digest: digest, Size: size},\n    Sources:  []request.Source{{Scheme: \"https\", Locator: sourceURL}},\n})\nresult, err := jobs.Submit(ctx, jobapi.Submission{\n    Identity: jobapi.RequestIdentity{Key: stableKey, HistoryEpoch: window.HistoryEpoch},\n    Kind: download.Kind, Spec: spec,\n})\nif err != nil { return err }\nif result.Outcome != jobapi.AcceptanceOutcomeAccepted {\n    return fmt.Errorf(\"download: %s\", result.Outcome)\n}",
+      sampleLabel: "Request a deduped download",
+      sampleContext: "Application client. Supply a pinned sourceURL, canonical sha256 digest and expected size. Persist the request identity and selected binding before submitting. Go excerpt; imports and client setup are omitted.",
+      evidence: "ComfyUI is a node-based image generation editor. Its OA source adopter uses this path for missing model files. The download request is encoded as job work in one table per machine; the schema defines sources, integrity, destination, network rules, and credential names.",
+      links: [["Download contract", "https://github.com/openabstractions/abstraction-download"], ["Download case", "cases.html"]]
     },
     {
       group: "foundations",
@@ -41,18 +29,6 @@
       sampleContext: "Application client. The job kind supplies kind and spec. Persist the request identity and selected binding before submitting; retain them to recover after interruption. Go excerpt; imports and client setup are omitted.",
       evidence: "The render illustrates the durable-job contract; it is not a claim of a shipped rendering provider. A compatible provider performs the work. The job API supplies acceptance, reconciliation, observation, cancellation and result retrieval. OA’s durable inference integration exercises background image generation through this job contract.",
       links: [["Job contract", "https://github.com/openabstractions/abstraction-job"], ["Durable inference example", "inference.html#lifetimes"]]
-    },
-    {
-      group: "foundations",
-      title: "Verified downloads",
-      contract: "abstraction.job/acceptance@1 + download request schema",
-      intro: "A download names its bytes by digest and enters the machine's one job table. A second request for the same digest reuses the accepted job, and the runtime delegates the transfer to a compatible provider.",
-      sampleKind: "Go",
-      sample: "window, err := jobs.GetHistoryWindow(ctx)\nif err != nil { return err }\n\nspec := request.Encode(&request.Request{\n    Artifact: request.Artifact{Digest: digest, Size: size},\n    Sources:  []request.Source{{Scheme: \"https\", Locator: sourceURL}},\n})\nresult, err := jobs.Submit(ctx, jobapi.Submission{\n    Identity: jobapi.RequestIdentity{Key: stableKey, HistoryEpoch: window.HistoryEpoch},\n    Kind: download.Kind, Spec: spec,\n})\nif err != nil { return err }\nif result.Outcome != jobapi.AcceptanceOutcomeAccepted {\n    return fmt.Errorf(\"download: %s\", result.Outcome)\n}",
-      sampleLabel: "Request a deduped download",
-      sampleContext: "Application client. Supply a pinned sourceURL, canonical sha256 digest and expected size. Persist the request identity and selected binding before submitting. Go excerpt; imports and client setup are omitted.",
-      evidence: "ComfyUI is a node-based image generation editor. Its OA source adopter uses this path for missing model files. The download request is encoded as job work in one table per machine; the schema defines sources, integrity, destination, network rules, and credential names.",
-      links: [["Download contract", "https://github.com/openabstractions/abstraction-download"], ["Download case", "cases.html"]]
     },
     {
       group: "foundations",
@@ -93,14 +69,38 @@
     {
       group: "foundations",
       title: "Named credentials",
-      contract: "abstraction.credentials/holder@1",
+      contract: "abstraction.credentials/holder@1 (the credential manager)",
       intro: "Save an AI provider API key once instead of copying it into every application’s settings. Applications name the credential; an approved OA service uses it for requests to that provider.",
       sampleKind: "Go",
-      sample: "defer clear(secret)\nresult, err := holder.Store(ctx, \"\", credentials.Registration{\n    Name: \"my-ai-api-key\", Kind: \"bearer\", Secret: secret,\n    Scope: credentials.Scope{\n        Targets:   []string{\"api.openai.com\"},\n        Consumers: []string{\"abstraction.inference/chat@1\"},\n    },\n})\nif err != nil { return err }\nif result.Outcome != credentials.StoreOutcomeStored {\n    return fmt.Errorf(\"credential: %s\", result.Outcome)\n}",
+      sample: "defer clear(secret)\nresult, err := manager.Store(ctx, \"\", credentials.Registration{\n    Name: \"my-ai-api-key\", Kind: \"bearer\", Secret: secret,\n    Scope: credentials.Scope{\n        Targets:   []string{\"api.openai.com\"},\n        Consumers: []string{\"abstraction.inference/chat@1\"},\n    },\n})\nif err != nil { return err }\nif result.Outcome != credentials.StoreOutcomeStored {\n    return fmt.Errorf(\"credential: %s\", result.Outcome)\n}",
       sampleLabel: "Save an API key",
-      sampleContext: "Operator setup. holder is a resolved credential holder. secret contains the entered API key as bytes; applications later refer to its name. Go excerpt; imports and client setup are omitted.",
+      sampleContext: "Operator setup. manager is a resolved credential manager. secret contains the entered API key as bytes; applications later refer to its name. Go excerpt; imports and client setup are omitted.",
       evidence: "OpenCode is a coding assistant. A controlled integration has exercised named credentials through OA, including revocation and checks that the secret does not appear in application output or logs. Applications read credential metadata; an authorized service applies the secret to its approved target.",
       links: [["Credentials source status", "coverage.html"], ["Catalogue entry", "catalogue.html"]]
+    },
+    {
+      group: "foundations",
+      title: "Structured logging",
+      contract: "abstraction.logging/sink@1",
+      intro: "An application records useful events in one consistent format. An operator can choose where they go and inspect recent events from a separate tool.",
+      sampleKind: "Go",
+      sample: "err := sink.LogContext(ctx, int64(slog.LevelInfo), \"model opened\", map[string]string{\n    \"model\": \"flux-dev\",\n})\nif err != nil { return err }",
+      sampleLabel: "Write a structured event",
+      sampleContext: "Application client. sink is a resolved logging client. This sends a structured event; successful submission is not a durable-storage receipt. Go excerpt; imports and client setup are omitted.",
+      evidence: "ComfyUI is a node-based image generation editor. Its OA source adopter can install an OA-backed root handler. The first-party OA Panel uses the reader and observer profiles for retained and live records.",
+      links: [["Logging contract", "https://github.com/openabstractions/abstraction-logging"], ["Generated schema", "abstraction.logging.schema.html"]]
+    },
+    {
+      group: "foundations",
+      title: "Configuration",
+      contract: "abstraction.config/reader@1",
+      intro: "You, or whoever administers the machine, change where OA stores jobs or sends logs. Applications and control tools see the same effective settings and where each value came from.",
+      sampleKind: "Go",
+      sample: "update, err := configObserver.ObserveContext(ctx, config.RunOverrides{}, \"\", 0)\nif err != nil { return err }\nif update.Outcome != config.ConfigObservationOutcomeSnapshot {\n    return fmt.Errorf(\"config: %s\", update.Outcome)\n}\nfmt.Printf(\"store=%s source=%s\\n\", update.Snapshot.Store, update.Snapshot.Origins.Store.Rung)",
+      sampleLabel: "Read effective settings",
+      sampleContext: "Application client. configObserver is a resolved configuration observer. An empty cursor reads the effective values and where they came from. Go excerpt; imports and client setup are omitted.",
+      evidence: "The first-party OA Panel reads and replaces revisioned user settings, then follows effective configuration while preserving the operator's editing draft. The fixed fields are Store, NasStore, LogSink, LogService, and Off; reads accept bounded RunOverrides and return provenance.",
+      links: [["Configuration contract", "https://github.com/openabstractions/abstraction-config"], ["Generated schema", "abstraction.config.schema.html"]]
     },
     {
       group: "foundations",
@@ -129,7 +129,7 @@
     {
       group: "foundations",
       title: "Applications and interaction",
-      contract: "abstraction.facade/applications@1",
+      contract: "abstraction.facade/applications@2",
       intro: "Ask your assistant to work in another application: find the open project, propose an edit, and show you what would change inside that application. OA lets participating applications advertise their available tools and current context. With permission, it can also start a registered application when needed.",
       sampleKind: "Go",
       sample: "page, err := applications.Observe(ctx, \"\", 0)\nif err != nil { return err }\nif page.Outcome != facadewire.ApplicationOutcomePage {\n    return fmt.Errorf(\"applications: %s\", page.Outcome)\n}\nfor _, app := range page.Applications {\n    for _, instance := range app.Instances {\n        fmt.Printf(\"%s: %d contexts\\n\", app.Descriptor.Title, len(instance.Contexts))\n    }\n}",
@@ -179,12 +179,12 @@
     {
       group: "ai",
       title: "Router",
-      intro: "Find a suitable host for an AI model. A model already loaded on one host may serve the next request without loading another copy elsewhere, and the router reads the machine's own resource table to know what is really resident instead of asking each host to say so.",
+      intro: "Find a suitable model server for an AI model. A model already loaded on one server may serve the next request without loading another copy elsewhere, and the router reads the machine's own resource table to know what is really resident instead of asking each server to say so.",
       contract: "abstraction.router/router@1",
       sampleKind: "Go",
       sample: "result, err := routerClient.PickContext(ctx, router.PickRequest{\n    Model: modelName, Fresh: true, Profile: \"chat\",\n})\nif err != nil { return err }\nfmt.Printf(\"verdict=%s host=%s model=%s\\n\",\n    result.Decision.Verdict, result.Decision.Host, result.Decision.Model)",
-      sampleLabel: "Choose a model host",
-      sampleContext: "Application client. routerClient is a resolved router. Picking a host reports a choice; inference performs the model request. Go excerpt; imports and client setup are omitted.",
+      sampleLabel: "Choose a model server",
+      sampleContext: "Application client. routerClient is a resolved router. Picking a model server reports a choice; inference performs the model request. Go excerpt; imports and client setup are omitted.",
       // evidence: research/abstraction-seats-2026-09-22.md §11 (router row: "it reads declarations and the resource table instead of its compiled-in list and private residency")
       evidence: "Router reports model availability and route decisions. Loading and executing a model belong to the serving provider.",
       links: [["API and source", "https://github.com/openabstractions/abstraction-router"], ["Implementation support", "coverage.html"]]
@@ -204,13 +204,13 @@
     },
     {
       group: "ai",
-      title: "Model host",
+      title: "Local model server",
       contract: "abstraction.inference/chat@1 (served by abstraction-provider-modelhost), under abstraction.resource/leases@1",
-      intro: "Point OA at a llama.cpp binary already installed on this machine. It loads the one file a caller asks for, answers chat and embeddings on it, and gives the card back under its own lease once nothing has touched it or the card is needed elsewhere.",
+      intro: "Stage the pinned llama.cpp build once with modelhostd engine install, then name a model file this machine holds. OA loads the one file a caller asks for, answers chat and embeddings on it, and gives the card back under its own lease once nothing has touched it or the card is needed elsewhere.",
       sampleKind: "CLI",
       sample: "openabstractions models host jan/model.gguf --engine C:\\path\\to\\llama-server.exe\nopenabstractions models hosts",
       sampleLabel: "Host a file this machine already has",
-      sampleContext: "Operator setup. The declaration names the store, the object and an installed llama-server binary; the runtime writes the provider one card:0 hold rule. An application then calls chat@1 with the declared name. CLI excerpt.",
+      sampleContext: "Operator setup. The declaration names the store, the object and the staged llama-server; the runtime writes the provider hold rules on card:0 and awake. An application then calls chat@1 with the declared name. CLI excerpt.",
       // evidence: openabstractions-flat/abstraction-provider-modelhost/README.md, "Measured" section
       evidence: "On 2026-09-22, hosting an 88,201,792-byte GGUF: the first chat call loaded it in 868 ms, the second reused the same load in 145 ms, and an embed@1 call answered in 10.6 ms. It answers only a caller that goes through chat@1; nothing here shares a loaded model with a program that did not.",
       links: [["Source status", "catalogue.html#abstraction-provider-modelhost"], ["Sharing the card", "cases.html#share-card"]]
@@ -257,7 +257,7 @@
     {
       group: "ai",
       title: "MCP gateway for assistants",
-      contract: "Development MCP gateway over abstraction.inference/*@1 and abstraction.facade/applications@1",
+      contract: "Development MCP gateway over abstraction.inference/*@1 and abstraction.facade/applications@2",
       intro: "Give an MCP-compatible assistant a bounded set of OA tools: list models and open applications, ask a model a bounded question, and submit, watch or cancel a durable inference job.",
       sampleKind: "MCP tools",
       sample: "oa_applications_list\noa_models_list\noa_inference_complete\noa_inference_job_submit\noa_inference_job_status\noa_inference_job_cancel",
@@ -281,7 +281,7 @@
     "AI inference": `<figure><figcaption>Different model tasks, one family of capabilities · examples</figcaption>
       <dl class="modality-grid"><div><dt>Chat</dt><dd>Stream an assistant’s answer</dd></div><div><dt>Embeddings</dt><dd>Represent text for similarity search</dd></div><div><dt>Speech</dt><dd>Turn text into audio</dd></div><div><dt>Transcription</dt><dd>Turn audio into text</dd></div><div><dt>Realtime voice</dt><dd>One WebSocket turn over the gateway window</dd></div><div><dt>Images</dt><dd>Submit generation as durable work</dd></div><div><dt>Video</dt><dd>Generate a clip as a durable job</dd></div></dl>
       <p>Each task has its own request and result. Provider support and the requested execution location determine availability.</p><p><a href="inference.html">Explore inference capabilities →</a></p></figure>`,
-    "Model host": `<figure class="content-example"><figcaption>One file, loaded once, answered under a lease · illustration</figcaption>
+    "Local model server": `<figure class="content-example"><figcaption>One file, loaded once, answered under a lease · illustration</figcaption>
       <div class="content-apps"><span>Coding assistant</span><span>Chat app</span></div>
       <div class="content-center"><small>Hosted object</small><code>jan/model.gguf</code><strong>One resident load</strong></div>
       <p>Every caller that reaches it through chat@1 shares that one load. Asking the card back stops the engine and releases the lease.</p></figure>`,
@@ -329,7 +329,7 @@
       <p>“Allow for this host” retains the answer for this caller and host. “Allow once” answers the current request. “Refuse” declines it. The service still enforces the caller’s permissions.</p></figure>`,
     "Named credentials": `<figure class="credential-example"><figcaption>One AI API key for your coding assistant and image editor · illustration</figcaption>
       <div class="credential-name"><span>Application request</span><code>credential: my-ai-api-key</code></div>
-      <div class="secret-card"><strong>OA credential holder</strong><code>my-ai-api-key → ••••••••••••</code><small>Use restricted to an approved target</small></div>
+      <div class="secret-card"><strong>OA credential manager</strong><code>my-ai-api-key → ••••••••••••</code><small>Use restricted to an approved target</small></div>
       <p>Your coding assistant and image editor refer to the saved key by name. The inference service uses it only for an approved provider target. Revoke access centrally when an application no longer needs it.</p></figure>`,
     "Caller identity": `<figure class="identity-example"><figcaption>Know which application you are granting access to · illustrative permission prompt</figcaption>
       <div class="question-card"><small>Application requesting access · OpenCode</small><h4>Let OpenCode use your saved AI API key?</h4><dl class="identity-record"><div><dt>Calling program</dt><dd><code>…/OpenCode/opencode.exe</code></dd></div><div><dt>Requested credential</dt><dd><code>my-ai-api-key</code></dd></div><div><dt>Purpose</dt><dd>Send inference requests to its approved AI provider</dd></div></dl><div class="answer-options"><span>Allow this application</span><span>Refuse</span></div></div>

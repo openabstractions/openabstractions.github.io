@@ -25,28 +25,28 @@
 
     <h2 id="for-people">For people who use applications</h2>
     <h3 id="install">Install the shared runtime</h3>
-    <p><a href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">Install 0.3.0</a> to use the current shared runtime. The release notes list each asset's contents and package verification, including Windows Panel availability.</p>
+    <p><a href="https://github.com/openabstractions/redist/releases/latest">Install the latest shared runtime</a>. The release notes list each asset's contents and package verification, including Panel availability.</p>
     <p>Historical 0.2.0 platform evidence remains in the <a href="evidence.html#release-0-2-0">previous release record</a>.</p>
     <div class="page-grid">
-      <article class="page-card" id="install-windows"><h3>Windows</h3><p>Download the <a href="https://github.com/openabstractions/redist/releases/download/v0.3.0/abstraction-x64.msi">x64 MSI</a> or <a href="https://github.com/openabstractions/redist/releases/download/v0.3.0/abstraction-arm64.msi">ARM64 MSI</a>. The installer defaults to <em>Just me</em>. <em>Everyone</em> requires administrator access. Adding commands to PATH is optional. Open the installed Panel to inspect runtime readiness and permissions.</p></article>
-      <article class="page-card" id="install-linux"><h3>Linux</h3><p>Download the <a href="https://github.com/openabstractions/redist/releases/download/v0.3.0/abstraction-0.3.0-linux-amd64.tar.gz">amd64 archive</a> or <a href="https://github.com/openabstractions/redist/releases/download/v0.3.0/abstraction-0.3.0-linux-arm64.tar.gz">ARM64 archive</a>, extract it and follow its <code>install.sh</code> instructions for the current user. See the release notes for installation verification and platform limits.</p></article>
-      <article class="page-card" id="install-macos"><h3>macOS</h3><p>Download the <a href="https://github.com/openabstractions/redist/releases/download/v0.3.0/abstraction-0.3.0-macos-universal.pkg">0.3.0 universal package</a>. Its signing state and installation limits are listed in the release notes.</p></article>
+      <article class="page-card" id="install-windows"><h3>Windows</h3><p>Download the latest <a href="https://github.com/openabstractions/redist/releases/latest/download/abstraction-x64.msi">x64 MSI</a> or <a href="https://github.com/openabstractions/redist/releases/latest/download/abstraction-arm64.msi">ARM64 MSI</a>. The installer defaults to <em>Just me</em>. <em>Everyone</em> requires administrator access. Adding commands to PATH is optional. Open the installed Panel to inspect runtime readiness and permissions.</p></article>
+      <article class="page-card" id="install-linux"><h3>Linux</h3><p>Download the amd64 or ARM64 archive from the <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release</a>, extract it and follow its <code>install.sh</code> instructions for the current user. See the release notes for installation verification and platform limits.</p></article>
+      <article class="page-card" id="install-macos"><h3>macOS</h3><p>Download the universal package from the <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release</a>. Its notes identify the signing state, tested systems and installation checks. The <a href="evidence.html#release-0-3-0">retained 0.3.0 evidence</a> records that earlier package's arm64 installation, runtime/XPC readiness, reinstall and removal checks. Older-system qualification remains open.</p></article>
     </div>
-    <p>Windows and Linux packages are unsigned; Windows may show a SmartScreen warning. ARM64 packages are cross-built and are not installation-tested. Check the release <code>SHA256SUMS</code> before installing. Current macOS source uses XPC for program identity; the release notes identify the package signing state and installed-test scope.</p>
+    <p>Windows and Linux packages are unsigned; Windows may show a SmartScreen warning. ARM64 packages are cross-built and are not installation-tested. Check the release <code>SHA256SUMS</code> before installing. Current macOS source uses XPC for program identity; the installed-package acceptance does not establish crash-recovery behavior.</p>
     <p class="status-note">Windows Panel: one approved native start on WebView2 runtime 153.0.4234.48 rendered the Panel and coincided with one Windows Event 4625 naming <code>msedgewebview2.exe</code> with bad-password status. The event’s initiating code path is unknown. No supported mitigation or repeated-start safety is established. Avoid repeated native starts on affected systems; runtime commands remain available.</p>
     <p>After installation, check the runtime from a terminal. If you left PATH unchanged, use the installed executable’s full path.</p>
     <pre><code>openabstractions status --json
 openabstractions probe --json</code></pre>
     <p><code>status</code> reports readiness; <code>probe</code> checks bounded service reads. <code>status --json</code> prints each capability's readiness as one JSON document. <code>probe --json</code> prints one JSON document per probe result. An application still needs permission for its requested actions and a compatible provider. The <a href="https://github.com/openabstractions/redist#installing">installation guide</a> describes setup; the <a href="https://github.com/openabstractions/abstractions/blob/main/docs/results/release-0.2.0.md">0.2.0 upgrade report</a> records migration from 0.1.7.</p>
     <h4 id="install-features">Installed runtime features</h4>
-    <p>The 0.3.0 Windows installer offers feature choices. Check the release notes to see which optional tools are included in each asset before configuring an assistant.</p>
+    <p>The Windows installer offers feature choices. Check the release notes to see which optional tools are included in each asset before configuring an assistant.</p>
     <table class="example-table">
       <thead><tr><th>Feature</th><th>Installs</th><th>Default</th><th>What it does</th></tr></thead>
       <tbody>
         <tr><td>Runtime</td><td>The service, Panel and command line</td><td>On</td><td>&#8212;</td></tr>
         <tr><td>Local model stores</td><td><code>inventoryd.exe</code> and the declaration file that registers it as an <code>abstraction.storage/inventory-source@1</code> provider</td><td>On</td><td>Finds the model files your other apps already downloaded.</td></tr>
         <tr><td>MCP gateway</td><td><code>openabstractions-mcp</code>, with no runtime declaration (unlike the other features, it installs no declaration file in <code>tools\declarations\</code>, so the runtime does not know it exists or start it; an assistant launches it directly by its path, and it holds no rights until granted)</td><td>Off</td><td>Lets an AI assistant use OA's tools.</td></tr>
-        <tr><td>Model host</td><td><code>modelhostd.exe</code> only; <code>openabstractions models host</code> writes its provider declaration later</td><td>Off</td><td>Loads a model file with an engine already on the machine and serves it.</td></tr>
+        <tr><td>Model host</td><td><code>modelhostd.exe</code> only; <code>openabstractions models host</code> writes its provider declaration later</td><td>Off</td><td>Serves chat and embeddings from a model file on this machine with the pinned llama.cpp build, which <code>modelhostd engine install</code> stages from the publisher's archive you download.</td></tr>
         <tr><td>NAS downloads</td><td>Nothing; the delegator runs inside the download service already</td><td>Held, hidden, never installed</td><td>&#8212;</td></tr>
       </tbody>
     </table>
@@ -137,8 +137,8 @@ DisplayName = "OpenAbstractions Downloads"
 requires-comfyui = ">=0.35.0"</code></pre>
     <p>If OA is not running, Manager keeps working as before and the node explains what is missing rather than failing silently.</p>
     <h3 id="opencode-node">OpenCode: one command</h3>
-    <p>Once the adapter is installed and OpenCode points at it, one command writes OpenCode's provider block from what this machine can actually serve.</p>
-    <pre><code>openabstractions opencode configure</code></pre>
+    <p>The adapter ships its own <code>configure.js</code>. One command writes OpenCode's provider block from what this machine can actually serve.</p>
+    <pre><code>node adopters/opencode/configure.js configure</code></pre>
     <p>It reads the router's servable chat families through the runtime and writes or updates the <code>provider.&lt;id&gt;</code> block. If no default model is set, it also selects one of those families. Other configuration keys stay untouched, and running it again with nothing changed leaves the file unchanged.</p>
     <h3 id="mcp">Connect an assistant through the MCP gateway</h3>
     <p>The MCP gateway is a separate optional stdio program. When the selected asset includes it, an assistant launches it directly. The gateway source and guide describe its tools and permission model.</p>

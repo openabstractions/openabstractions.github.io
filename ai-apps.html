@@ -19,7 +19,7 @@
       <p class="eyebrow">AI applications</p>
       <h1>Let your AI applications share the machine</h1>
       <p>Your chat engine, coding assistant and image editor need models, memory and permission to act. OA gives them a common service for those needs. Applications keep their own interfaces; the runtime connects the capabilities they use.</p>
-      <p>The integrations below describe development work for 0.3.0. The <a href="adopt.html">installation guide</a> identifies the released package; the <a href="adopters.html">application guide</a> lists the available integrations and their limits.</p>
+      <p>OpenCode inventory refresh and saved preferences, prepared Comfy workflows, and Lemonade-to-Comfy GPU handover are development previews with separately recorded evidence. The <a href="adopt.html">installation guide</a> identifies the latest released package; the <a href="adopters.html">application guide</a> lists current integrations and their limits.</p>
     </section>
     <section id="models">
       <h2>Use the model files you already have</h2>
@@ -27,20 +27,20 @@
       <pre><code>openabstractions models lend &lt;store&gt;/&lt;id&gt; --to lmstudio
 openabstractions models lends
 openabstractions models unlend &lt;entry&gt;</code></pre>
-      <p>A link saves another copy of the weights. The receiving engine still needs to support that model's format and architecture. <a href="cases.html#lend-once">See the recorded LM Studio example</a> or read the <a href="https://github.com/openabstractions/abstraction-provider-modelbridge">model bridge setup and recovery guide</a>.</p>
+      <p>The link uses the existing file. The weights occupy disk space once. The receiving engine still needs to support that model's format and architecture. <a href="cases.html#lend-once">See the recorded LM Studio example</a> or read the <a href="https://github.com/openabstractions/abstraction-provider-modelbridge">model bridge setup and recovery guide</a>.</p>
     </section>
     <section id="memory">
       <h2>Ask a loaded model to make room for another task</h2>
       <p>An image workflow can request a memory reservation while a chat engine holds a model. The resource service checks permission and asks a supported holder to unload. It verifies the available capacity before admitting the new reservation.</p>
-      <p>The model host participates directly: it holds a lease for each resident model and can release that model when asked. Existing engines participate through supported unload operations. Active calls and a holder's refusal affect whether a request succeeds.</p>
-      <p><a href="cases.html#share-card">The ComfyUI and LM Studio experiment</a> exercised both a permitted yield and a denied request. Measurement and process attribution vary by platform; Windows currently retains conservative reservations when process attribution cannot be established. A reservation governs admission; it does not enforce a process's physical memory usage.</p>
+      <p>The model host participates directly: it holds a lease for each resident model and can release that model when asked. Existing engines participate through supported unload operations. Active calls and a holder's refusal affect whether a request succeeds. <a href="cases.html#comfy-klein-result">See the prepared ComfyUI workflow and generated image.</a></p>
+      <p><a href="cases.html#share-card">The ComfyUI and LM Studio experiment</a> exercised both a permitted yield and a denied request. A separate demonstration waited until Lemonade was idle, then asked Lemonade to unload its model before Comfy rendered. The run remains under qualification. <a href="cases.html#idle-gpu-handover">See the handover and its limits.</a> Measurement and process attribution vary by platform; Windows currently retains conservative reservations when process attribution cannot be established. A reservation governs admission; it does not enforce a process's physical memory usage.</p>
     </section>
     <section id="routing">
       <h2>Choose models in OpenCode through one provider</h2>
-      <p>OA's router lists the models that registered engines can serve. The OpenCode integration uses the runtime for chat and tool calls. The operator controls which model servers and credentials that program may use.</p>
-      <pre><code>openabstractions opencode configure --dry-run
-openabstractions opencode configure</code></pre>
-      <p>The first command previews the provider configuration. The second writes it from the router's available chat models. Install the development OpenCode provider and configure an eligible model server first. <a href="adopters.html#opencode">OpenCode setup and test evidence</a>.</p>
+      <p>OA's router lists the models that registered engines can serve. The OpenCode integration uses the runtime for chat and tool calls. The operator controls which model servers and credentials that program may use. A live TUI demonstration refreshed the local model chooser in the same running process. In a separate API demonstration, one saved preference sent the first turn to Lemonade and the next fresh turn to Ollama after Lemonade became unavailable. OA recorded the actual host and model for both answers; the preference alias has not yet been shown in the rendered picker.</p>
+      <pre><code>node adopters/opencode/configure.js configure --dry-run
+node adopters/opencode/configure.js configure</code></pre>
+      <p>The first command previews the provider configuration. The second writes it from the router's available chat models. Install the development OpenCode provider and configure an eligible model server first. <a href="adopters.html#opencode">OpenCode setup and test evidence</a> · <a href="cases.html#opencode-policy">Saved-preference example</a>.</p>
     </section>
     <section id="hosting">
       <h2>Serve a local model file under a memory lease</h2>

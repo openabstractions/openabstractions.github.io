@@ -13,7 +13,7 @@
 <h1>Schema</h1>
 <p class="lead">Use this reference to inspect fields, methods, accepted values and failure outcomes. For setup and working examples, start with the <a href="reference.html">API guide</a>.</p>
 <p>Definition: <code>abstraction.logging</code></p>
-<nav aria-label="Schema sections" class="meta"><a href="#service-Sink">Sink</a> · <a href="#service-HistoryReader">HistoryReader</a> · <a href="#service-HistoryObserver">HistoryObserver</a> · <a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#encoding">Encoding</a> · <a href="#refusals">Refusals</a></nav>
+<nav aria-label="Schema sections" class="meta"><a href="#service-Sink">Sink</a> · <a href="#service-HistoryReader">HistoryReader</a> · <a href="#service-HistoryObserver">HistoryObserver</a> · <a href="#service-ApplicationHistoryReader">ApplicationHistoryReader</a> · <a href="#service-ApplicationHistoryObserver">ApplicationHistoryObserver</a> · <a href="#service-SourceReader">SourceReader</a> · <a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#encoding">Encoding</a> · <a href="#refusals">Refusals</a></nav>
 <h2 id="service-Sink">Service <code>Sink</code> <span class="tag">[DEF-S1]</span></h2>
 <p>A sink for structured log records across a service boundary.</p>
 <p>Wire identity: <code>abstraction.logging/sink@1</code></p>
@@ -50,6 +50,56 @@
 <li>Argument 3: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
 <li>Argument 4: <code>i64</code> <code>wait_ms</code> (required, including zero/false/empty)</li>
 </ul>
+<h2 id="service-ApplicationHistoryReader">Service <code>ApplicationHistoryReader</code> <span class="tag">[DEF-S1]</span></h2>
+<p></p>
+<p>Wire identity: <code>abstraction.logging/reader@2</code></p>
+<p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Read one or all emitting programs. Bounds are 1..256 returned records and 1..65536 encoded Record bytes; scan work is independently bounded. Empty cursor starts earliest retained history; end fixes the current physical end. One consistent Rights snapshot governs selection and concrete outgoing emitters. No fallback to account-wide reader@1 is permitted.</p>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code></p><ul>
+<li>Argument 1: <code>ApplicationLogTarget</code> <code>target</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+</ul>
+<h2 id="service-ApplicationHistoryObserver">Service <code>ApplicationHistoryObserver</code> <span class="tag">[DEF-S1]</span></h2>
+<p></p>
+<p>Wire identity: <code>abstraction.logging/observer@2</code></p>
+<p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Read with reader@2 semantics, waiting once at an empty physical end for 0..30000 ms. Unrelated writes can produce filtered progress. Cancellation, fixed deadline and bounded waiter capacity apply. Authorization is reevaluated before delivery; no decision is retained across waits or pages.</p>
+<h3><code>Observe</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code></p><ul>
+<li>Argument 1: <code>ApplicationLogTarget</code> <code>target</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+<li>Argument 5: <code>i64</code> <code>wait_ms</code> (required, including zero/false/empty)</li>
+</ul>
+<h2 id="service-SourceReader">Service <code>SourceReader</code> <span class="tag">[DEF-S1]</span></h2>
+<p>Authorized bounded reads from fixed, read-only operating-system log sources.</p>
+<p>Wire identity: <code>abstraction.logging/source-reader@1</code></p>
+<p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>List the runtime&#39;s fixed platform source identifiers and current access status. Source IDs are not paths or query expressions. Per-source OA rights are checked before native probing; a refused source is listed as permission_denied without a native access attempt.</p>
+<h3><code>Sources</code></h3><p><code>request-response</code> <code>SourceCatalog</code></p><ul>
+</ul>
+<p>Read one fixed source with bounds of 1..256 entries and 1..65536 encoded SourceRecord bytes. The service checks the exact source-specific right before native access. A provider without a source returns unsupported; OA policy denial returns not_permitted, known native access denial returns forbidden and uncertainty returns unavailable. Invalid semantic bounds return invalid. Refusals contain no records, preserve the supplied cursor and never announce end. Empty cursor starts at the earliest visible retained entry the native API exposes. Cursors bind source ID and reader instance; source mismatch, restart or retention loss returns gap and preserves the cursor. No cross-source ordering, complete-capture claim or observation guarantee is made.</p>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>SourcePage</code></p><ul>
+<li>Argument 1: <code>string</code> <code>source_id</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+</ul>
+<p>Return an opaque baseline cursor at the source&#39;s current end without returning records. The exact source-specific right is checked before native access and rechecked before the cursor is returned. A source without a safe current-position operation returns unsupported. Use the returned cursor with Read to request entries that follow this observed end; an empty source produces a valid empty baseline. If no native entry exists at the baseline, a later retention loss before the first read may be undetectable. Cursors bind source ID and reader instance; restart or detectable retention loss returns gap. This is a cursor operation, not a watch or complete-capture guarantee.</p>
+<h3><code>StartAtEnd</code></h3><p><code>request-response</code> <code>SourcePage</code></p><ul>
+<li>Argument 1: <code>string</code> <code>source_id</code> (required, including zero/false/empty)</li>
+</ul>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
@@ -67,8 +117,10 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>PageOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
-<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code> <code>list&lt;Record&gt;</code></td></tr>
+<tr><td>built in</td><td><code>ApplicationLogSelection</code> <code>HistoryPageOutcome</code> <code>PageOutcome</code> <code>SourceAvailability</code> <code>SourceCatalogOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>declared below</td><td><code>ProducerClaim</code> <code>Record</code></td></tr>
+<tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;SourceLimitation&gt;</code></td></tr>
+<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code> <code>list&lt;Record&gt;</code> <code>list&lt;SourceDescriptor&gt;</code> <code>list&lt;SourceRecord&gt;</code></td></tr>
 <tr><td>string map <span class="tag">[DEF-A10]</span></td><td><code>map&lt;string,string&gt;</code></td></tr>
 </tbody></table></div>
 <h3 id="named-types">Named types <span class="tag">[DEF-T2]</span></h3>
@@ -121,6 +173,81 @@
 <tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-ApplicationLogTarget"><code>ApplicationLogTarget</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>selection</code></td><td><code>ApplicationLogSelection</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>program</code></td><td><code>string</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ApplicationLogResource"><code>ApplicationLogResource</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>program</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>captured_file_key</code></td><td><code>string</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ApplicationLogPage"><code>ApplicationLogPage</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>HistoryPageOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>records</code></td><td><code>list&lt;Record&gt;</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-SourceDescriptor"><code>SourceDescriptor</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>id</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>availability</code></td><td><code>SourceAvailability</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>limitations</code></td><td><code>list&lt;SourceLimitation&gt;</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-SourceCatalog"><code>SourceCatalog</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>sources</code></td><td><code>list&lt;SourceDescriptor&gt;</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>outcome</code></td><td><code>SourceCatalogOutcome</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ProducerClaim"><code>ProducerClaim</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>provider</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>2</td><td><code>program</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>3</td><td><code>exe</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>4</td><td><code>user</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>5</td><td><code>pid</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>6</td><td><code>uid</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+<tr><td>7</td><td><code>gid</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-SourceRecord"><code>SourceRecord</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>source_id</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>record</code></td><td><code>Record</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>producer</code></td><td><code>ProducerClaim</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-SourcePage"><code>SourcePage</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>HistoryPageOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>records</code></td><td><code>list&lt;SourceRecord&gt;</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
 <h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
 <p>Enum fields carry JSON strings containing exact member wire spellings, never numeric IDs. Unknown names are preserved with grant and refused as bad_enum with refuse on read and write. Optional absent fields preserve presence separately from an empty string.</p>
 <p class="meta">An enumeration is a closed vocabulary of wire names, and each one says on its own what a reader does with a member it has never heard of <span class="tag">[DEF-A5]</span>.</p>
@@ -137,12 +264,70 @@
 <tr><td>6</td><td><code>corrupt</code></td><td><code>corrupt</code></td></tr>
 <tr><td>7</td><td><code>unsupported</code></td><td><code>unsupported</code></td></tr>
 </tbody></table></div>
+<h3 id="enum-HistoryPageOutcome"><code>HistoryPageOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>page</code></td><td><code>page</code></td></tr>
+<tr><td>2</td><td><code>gap</code></td><td><code>gap</code></td></tr>
+<tr><td>3</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>4</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>5</td><td><code>record_too_large</code></td><td><code>record_too_large</code></td></tr>
+<tr><td>6</td><td><code>corrupt</code></td><td><code>corrupt</code></td></tr>
+<tr><td>7</td><td><code>unsupported</code></td><td><code>unsupported</code></td></tr>
+<tr><td>8</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+<tr><td>9</td><td><code>not_permitted</code></td><td><code>not_permitted</code></td></tr>
+<tr><td>10</td><td><code>os_authorization_required</code></td><td><code>os_authorization_required</code></td></tr>
+<tr><td>11</td><td><code>os_authorization_pending</code></td><td><code>os_authorization_pending</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-ApplicationLogSelection"><code>ApplicationLogSelection</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>one_app</code></td><td><code>one_app</code></td></tr>
+<tr><td>2</td><td><code>all_apps</code></td><td><code>all_apps</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-SourceAvailability"><code>SourceAvailability</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>available</code></td><td><code>available</code></td></tr>
+<tr><td>2</td><td><code>permission_denied</code></td><td><code>permission_denied</code></td></tr>
+<tr><td>3</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>4</td><td><code>unsupported</code></td><td><code>unsupported</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-SourceLimitation"><code>SourceLimitation</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>retention</code></td><td><code>retention</code></td></tr>
+<tr><td>2</td><td><code>native_redaction</code></td><td><code>native_redaction</code></td></tr>
+<tr><td>3</td><td><code>collection_policy</code></td><td><code>collection_policy</code></td></tr>
+<tr><td>4</td><td><code>native_access</code></td><td><code>native_access</code></td></tr>
+<tr><td>5</td><td><code>visibility_unknown</code></td><td><code>visibility_unknown</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-SourceCatalogOutcome"><code>SourceCatalogOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>catalog</code></td><td><code>catalog</code></td></tr>
+<tr><td>2</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+<tr><td>3</td><td><code>not_permitted</code></td><td><code>not_permitted</code></td></tr>
+<tr><td>4</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>5</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+</tbody></table></div>
 <h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>name</th><th>type</th><th>value</th></tr></thead>
 <tbody>
 <tr><td><code>history_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user, policy_unavailable, forbidden</code></td></tr>
 <tr><td><code>history_cursor_words</code></td><td><code>list&lt;string&gt;</code></td><td><code>end</code></td></tr>
+<tr><td><code>history_identity_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user</code></td></tr>
 </tbody></table></div>
 <h2 id="refusals">Refusal words <span class="tag">[DEF-R1]</span></h2>
 <div class="wrap"><table>

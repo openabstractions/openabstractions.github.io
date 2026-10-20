@@ -8,6 +8,7 @@
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
   <script src="explorer.js" defer></script>
   <script src="tabs.js" defer></script>
   <link rel="stylesheet" href="tools.css">
@@ -26,14 +27,15 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-main">
         <p class="eyebrow">Client libraries and a shared runtime</p>
-        <h1 id="hero-title">The next layer of software abstraction.</h1>
-        <p class="hero-copy">Add durable work, shared data, AI inference and interaction with other applications through common capability APIs. OA’s shared runtime connects them to operating-system facilities, existing engines and remote services. The same application integration works with compatible providers on different machines.</p>
+        <h1 id="hero-title">One API for each kind of work, done by the program the person chooses.</h1>
+        <p class="hero-copy">OpenAbstractions is a background service plus client libraries. It gives applications one API each for downloads, background jobs, model calls, shared files, secrets and questions to the person. The person who runs the computer chooses which program does the work, such as curl, Ollama, LM Studio, a NAS or OpenRouter.</p>
+        <p class="hero-copy">For developers: add one client library to your application and declare the OpenAbstractions runtime as a dependency your installer brings along, the way installers bring the Visual C++ Redistributable. Your code keeps its own shape; the runtime supplies the capability. This is SLF4J’s idea applied to machine services.</p>
         <div class="hero-actions">
           <a class="button primary" href="adopt.html">Start building</a>
           <a class="button secondary" href="#explorer-title">Explore capabilities</a>
         </div>
         <div class="release-downloads" aria-label="Download Open Abstractions">
-          <a class="release-link" href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">Download the runtime 0.3.0 <span aria-hidden="true">↓</span></a>
+          <a class="release-link" href="https://github.com/openabstractions/redist/releases/latest">Download the latest runtime <span aria-hidden="true">↓</span></a>
           <span class="release-platforms">
             <a href="adopt.html#install-windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4l9-1v8H2zm11-1l9-1v9h-9zM2 13h9v8l-9-1zm11 0h9v9l-9-1z"/></svg>Windows</a>
             <a href="adopt.html#install-macos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2c.1 1.7-1.1 3.5-2.8 4-.3-1.6.9-3.4 2.8-4zM19.5 16.8c-.6 1.5-2 4.2-3.7 4.2-1 0-1.4-.6-2.7-.6s-1.9.6-2.8.6c-1.7 0-4.3-4-4.3-7.5 0-3.2 2-5.3 4.2-5.3 1.2 0 2 .7 2.9.7s1.9-.8 3.2-.7c1.4.1 2.5.7 3.2 1.7-2.8 1.6-2.4 5.5 0 6.9z"/></svg>macOS</a>
@@ -41,98 +43,15 @@
           </span>
         </div>
         <p class="release-note">Today you install the runtime once yourself and the applications below connect to it. An application that adopts OA can bring it along in its own installer.</p>
-        <p class="availability">0.3.0 is the current runtime release. The <a href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">release notes</a> list available packages, checksums, signing state and package verification.</p>
+        <p class="availability">The <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release notes</a> list available packages, checksums, signing state and package verification.</p>
       </div>
       <aside class="hero-aside what-it-is" aria-labelledby="what-it-is-title">
           <h2 id="what-it-is-title">What Open Abstractions is</h2>
-        <p>For developers: add one client library to your application and declare the OpenAbstractions runtime as a dependency your installer brings along, the way installers bring the Visual C++ Redistributable. Your code keeps its own shape; the runtime supplies the capability.</p>
         <p>For people who use applications: one shared service on the machine that every adopting application uses, and a Panel that shows what is running and asks before an application gains a new permission. Today that means installing it once; no application bundles it yet.</p>
         <p id="works-with-today">Connect model engines such as LM Studio, Ollama and Lemonade, add the OA download node to ComfyUI, or install the development provider for OpenCode. The <a href="adopters.html">application guide</a> lists each integration's setup and test evidence. See <a href="ai-apps.html">how AI applications can share models and memory</a>.</p>
       </aside>
     </section>
 
-
-    <section class="explorer" aria-labelledby="explorer-title">
-      <div class="section-heading">
-        <p class="eyebrow">Explore Open Abstractions</p>
-        <h2 id="explorer-title">Discover the capabilities</h2>
-        <p>Choose a capability to see what it does and where it helps. Each example includes links to its API and current implementation.</p>
-      </div>
-      <p class="carousel-help">Pick a capability, or step through them with Previous and Next.</p>
-      <div class="capability-groups">
-        <div class="capability-group">
-          <h3>Foundations</h3>
-          <p>Durable work, downloads, shared storage, configuration, logging, permissions, credentials, questions to the user, identity and finding the right service (resolution).</p>
-          <div class="capability-picker" id="capability-picker-foundations" role="group" aria-label="Choose a foundation capability"></div>
-        </div>
-        <div class="capability-group">
-          <h3>AI on this machine</h3>
-          <p>Model catalogue, routing, inference, the model host, sharing the graphics card, lending model files, the stores already on this machine, and the MCP gateway.</p>
-          <div class="capability-picker" id="capability-picker-ai" role="group" aria-label="Choose an AI capability"></div>
-        </div>
-      </div>
-      <noscript>
-        <p>The interactive capability carousel needs JavaScript. Here is the same list of capabilities it shows:</p>
-        <div class="capability-groups">
-          <div class="capability-group">
-            <h3>Foundations</h3>
-            <ul>
-              <li>Structured logging</li>
-              <li>Configuration</li>
-              <li>Jobs</li>
-              <li>Verified downloads</li>
-              <li>Shared content storage</li>
-              <li>Permissions</li>
-              <li>Questions and answers</li>
-              <li>Named credentials</li>
-              <li>Caller identity</li>
-              <li>Connecting applications · Facade</li>
-              <li>Applications and interaction</li>
-              <li>Safe file updates · CAS</li>
-              <li>Change observation · Watch</li>
-            </ul>
-          </div>
-          <div class="capability-group">
-            <h3>AI on this machine</h3>
-            <ul>
-              <li>Model catalogue</li>
-              <li>Router</li>
-              <li>AI inference</li>
-              <li>Model host</li>
-              <li>Sharing the graphics card</li>
-              <li>Lending a model file</li>
-              <li>The stores already on this machine</li>
-              <li>MCP gateway for assistants</li>
-            </ul>
-          </div>
-        </div>
-        <p><a href="catalogue.html">Browse the full capability catalogue</a>.</p>
-      </noscript>
-      <div class="capability-carousel" id="capability-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Open Abstractions capabilities">
-        <div class="carousel-controls">
-          <button id="capability-previous" type="button" aria-label="Show previous capability">← Previous</button>
-          <p><span id="capability-position">1 of 21</span> · <strong id="capability-group-label">Foundations</strong> · <strong id="capability-label">Structured logging</strong></p>
-          <button id="capability-next" type="button" aria-label="Show next capability">Next →</button>
-        </div>
-        <article class="capability-card" id="capability-card" aria-live="polite" aria-atomic="true">
-          <h3 id="capability-title"></h3>
-          <p class="capability-intro" id="capability-intro"></p>
-          <div class="capability-example" id="capability-example"></div>
-          <details class="capability-detail">
-            <summary>Use this capability in your application</summary>
-            <div class="capability-sample">
-              <span id="capability-sample-heading">Go usage example</span>
-              <p id="capability-sample-context"></p>
-              <pre><code id="capability-sample"></code></pre>
-            </div>
-            <p class="contract">Contract: <span id="capability-contract"></span></p>
-            <p id="capability-evidence"></p>
-            <div class="capability-links" id="capability-links"></div>
-          </details>
-        </article>
-        <p class="carousel-help">Browse with the buttons above or the arrow keys when the carousel is focused.</p>
-      </div>
-    </section>
 
     <section class="boundary" aria-labelledby="boundary-title">
       <div class="section-heading">
@@ -159,11 +78,115 @@
         <li>
           <span class="step">4</span>
           <strong>Provider</strong>
-          <span>does the work using an OS facility, engine or remote service</span>
+          <span>does the work: curl, Ollama, LM Studio, a NAS or OpenRouter</span>
         </li>
       </ol>
       <p class="architecture-link"><a href="https://github.com/openabstractions/abstraction-facade">Explore service discovery →</a></p>
     </section>
+
+    <section class="cases-home" aria-labelledby="cases-title">
+      <div class="section-heading">
+        <p class="eyebrow">On a real machine</p>
+        <h2 id="cases-title">What a shared service changes</h2>
+        <p>Each case is a task a person recognizes, what OA did, and what was measured on the owner's development machine.</p>
+      </div>
+      <h3>An image editor keeps rendering while a chat engine gives the card back</h3>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. LM Studio is holding a model on the same card, and neither program knows the other exists.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>ComfyUI asks the resource service for room on the card. The service asks LM Studio to give its memory back through LM Studio's own unload endpoint, then grants ComfyUI a lease once the memory is free.</p></article>
+      </div>
+      <p>LM Studio gave back 21.4 GB of graphics memory in 7.3 s, and the render finished in about 31 s. A deny rule for the same holder turned the identical request into a refusal in about 150 ms, with LM Studio's model still loaded. <a href="cases.html#share-card">Measurements and source</a>.</p>
+      <h3>A model file downloaded once is served by another engine</h3>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>A model file sits in the Jan app's model folder. LM Studio never downloaded it and cannot see it.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The model bridge finds the file in the storage inventory and links it into LM Studio's models folder, once the person permits lending to that engine.</p></article>
+      </div>
+      <p>A 46 MB file appeared in LM Studio's list 6.3 seconds after the request, and the source file never moved. <a href="cases.html#lend-once">Measurements and source</a>.</p>
+      <p class="architecture-link"><a href="cases.html">All cases →</a></p>
+    </section>
+
+    <section class="explorer" aria-labelledby="explorer-title">
+      <div class="section-heading">
+        <p class="eyebrow">Explore Open Abstractions</p>
+        <h2 id="explorer-title">Discover the capabilities</h2>
+        <p>Choose a capability to see what it does and where it helps. Each example includes links to its API and current implementation.</p>
+      </div>
+      <p class="carousel-help">Pick a capability, or step through them with Previous and Next.</p>
+      <div class="capability-groups">
+        <div class="capability-group">
+          <h3>Foundations</h3>
+          <p>Downloads, durable work, shared storage, permissions, questions to the user, credentials, logging, configuration, identity and finding the right service (resolution).</p>
+          <div class="capability-picker" id="capability-picker-foundations" role="group" aria-label="Choose a foundation capability"></div>
+        </div>
+        <div class="capability-group">
+          <h3>AI on this machine</h3>
+          <p>Model catalogue, routing, inference, a local model server, sharing the graphics card, lending model files, the stores already on this machine, and the MCP gateway.</p>
+          <div class="capability-picker" id="capability-picker-ai" role="group" aria-label="Choose an AI capability"></div>
+        </div>
+      </div>
+      <noscript>
+        <p>The interactive capability carousel needs JavaScript. Here is the same list of capabilities it shows:</p>
+        <div class="capability-groups">
+          <div class="capability-group">
+            <h3>Foundations</h3>
+            <ul>
+              <li>Verified downloads</li>
+              <li>Jobs</li>
+              <li>Shared content storage</li>
+              <li>Permissions</li>
+              <li>Questions and answers</li>
+              <li>Named credentials</li>
+              <li>Structured logging</li>
+              <li>Configuration</li>
+              <li>Caller identity</li>
+              <li>Connecting applications · Facade</li>
+              <li>Applications and interaction</li>
+              <li>Safe file updates · CAS</li>
+              <li>Change observation · Watch</li>
+            </ul>
+          </div>
+          <div class="capability-group">
+            <h3>AI on this machine</h3>
+            <ul>
+              <li>Model catalogue</li>
+              <li>Router</li>
+              <li>AI inference</li>
+              <li>Local model server</li>
+              <li>Sharing the graphics card</li>
+              <li>Lending a model file</li>
+              <li>The stores already on this machine</li>
+              <li>MCP gateway for assistants</li>
+            </ul>
+          </div>
+        </div>
+        <p><a href="catalogue.html">Browse the full capability catalogue</a>.</p>
+      </noscript>
+      <div class="capability-carousel" id="capability-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Open Abstractions capabilities">
+        <div class="carousel-controls">
+          <button id="capability-previous" type="button" aria-label="Show previous capability">← Previous</button>
+          <p><span id="capability-position">1 of 21</span> · <strong id="capability-group-label">Foundations</strong> · <strong id="capability-label">Verified downloads</strong></p>
+          <button id="capability-next" type="button" aria-label="Show next capability">Next →</button>
+        </div>
+        <article class="capability-card" id="capability-card" aria-live="polite" aria-atomic="true">
+          <h3 id="capability-title"></h3>
+          <p class="capability-intro" id="capability-intro"></p>
+          <div class="capability-example" id="capability-example"></div>
+          <details class="capability-detail">
+            <summary>Use this capability in your application</summary>
+            <div class="capability-sample">
+              <span id="capability-sample-heading">Go usage example</span>
+              <p id="capability-sample-context"></p>
+              <pre><code id="capability-sample"></code></pre>
+            </div>
+            <p class="contract">Contract: <span id="capability-contract"></span></p>
+            <p id="capability-evidence"></p>
+            <div class="capability-links" id="capability-links"></div>
+          </details>
+        </article>
+        <p class="carousel-help">Browse with the buttons above or the arrow keys when the carousel is focused.</p>
+      </div>
+    </section>
+
 
 <section class="tools" id="tool-showcase" aria-labelledby="tool-title">
   <div class="section-heading">
@@ -256,71 +279,70 @@
       <div class="section-heading">
         <p class="eyebrow">For developers</p>
         <h2 id="code-title">Start with a familiar language</h2>
-        <p>This example connects to OA’s logging service. Your application records an event; the service manages where it is stored.</p>
+        <p>This example asks a model a question through OA. The person chooses which model server answers, and the service keeps any API key out of your application.</p>
       </div>
       <div class="code-browser" data-tabs>
         <div class="tab-list" role="tablist" aria-label="Language examples">
           <button id="tab-go" type="button" role="tab" aria-selected="true" aria-controls="panel-go" tabindex="0">Go</button>
           <button id="tab-python" type="button" role="tab" aria-selected="false" aria-controls="panel-python" tabindex="-1">Python</button>
-          <button id="tab-cpp" type="button" role="tab" aria-selected="false" aria-controls="panel-cpp" tabindex="-1">C++</button>
         </div>
         <div id="panel-go" role="tabpanel" aria-labelledby="tab-go">
 <pre><code>package main
 
 import (
     "context"
+    "fmt"
     "log"
     "time"
 
     facade "github.com/openabstractions/abstraction-facade/go"
+    wire "github.com/openabstractions/abstraction-inference/go/abstraction/inference/api"
 )
 
 func main() {
-    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
     defer cancel()
-    events, err := facade.Discover().ResolveLog(ctx, facade.Requirements{})
+    chat, err := facade.Discover().ResolveInference(ctx, facade.Requirements{})
     if err != nil {
         log.Fatal(err)
     }
-    if err := events.LogContext(ctx, 0, "worker started", map[string]string{"component": "worker"}); err != nil {
+    reply, err := chat.Complete(ctx, wire.Request{
+        Model: "qwen3:8b",
+        Messages: []wire.Message{{Role: wire.RoleUser, Parts: []wire.Part{
+            {Kind: wire.PartKindText, Text: "Say hello in five words."},
+        }}},
+    })
+    if err != nil {
         log.Fatal(err)
+    }
+    if reply.Outcome != wire.ReplyOutcomeCompleted {
+        log.Fatalf("chat %s: %s", reply.Outcome, reply.Reason)
+    }
+    for _, part := range reply.Message.Parts {
+        fmt.Print(part.Text)
     }
 }</code></pre>
         </div>
         <div id="panel-python" role="tabpanel" aria-labelledby="tab-python" hidden>
 <pre><code>import time
-from datetime import datetime, timezone
+
+import abstraction.inference.api as api
 from abstraction.facade.client import Machine
-from abstraction.facade import Scope
-from abstraction.logging import Record
 
-machine = Machine(deadline=time.monotonic() + 2)
-sink = machine.resolve_log(scope=Scope.LOCAL)
-sink.write(Record(
-    schema=1,
-    time=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-    level=0,
-    msg="worker started",
-    attrs={"component": "worker"},
-))</code></pre>
-        </div>
-        <div id="panel-cpp" role="tabpanel" aria-labelledby="tab-cpp" hidden>
-<pre><code>#include &lt;abstraction/facade/client.hpp&gt;
-#include &lt;iostream&gt;
-
-int main() {
-    try {
-        abstraction::facade::Machine machine;
-        auto events = machine.log();
-        events.log(0, "worker started", {{"component", "worker"}});
-    } catch (const std::exception&amp; error) {
-        std::cerr &lt;&lt; error.what() &lt;&lt; '\n';
-        return 1;
-    }
-}</code></pre>
+machine = Machine(deadline=time.monotonic() + 30)
+chat = machine.resolve_inference()
+reply = chat.complete(api.Request(
+    model="qwen3:8b",
+    messages=[api.Message(role=api.Role.USER, parts=[
+        api.Part(kind=api.PartKind.TEXT, text="Say hello in five words."),
+    ])],
+))
+if reply.outcome != api.ReplyOutcome.COMPLETED:
+    raise SystemExit(f"chat {reply.outcome.value}: {reply.reason}")
+print("".join(part.text for part in reply.message.parts))</code></pre>
         </div>
       </div>
-      <p class="code-note">All five languages can use OA’s shared native IPC. Go, Python and C++ include it in their default client entry points. Rust and JavaScript use separate native connector packages. See the <a href="https://github.com/openabstractions/abstraction-facade">language setup guides</a> for dependencies and runtime identity checks.</p>
+      <p class="code-note">All five languages can use OA’s shared native IPC. Go, Python and C++ include it in their default client entry points. Rust and JavaScript use separate native connector packages. See the <a href="https://github.com/openabstractions/abstraction-facade">language setup guides</a> for C++, Rust and JavaScript, dependencies and runtime identity checks.</p>
     </section>
 
     <section class="resources" aria-labelledby="resources-title">
@@ -341,6 +363,7 @@ int main() {
     <a href="https://github.com/openabstractions/abstractions">Source</a>
     <a href="schema.html">Schemas</a>
     <a href="coverage.html">Coverage</a>
+    <span>Maintained by Reinis Lusis</span>
   </footer>
 </body>
 </html>

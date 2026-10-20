@@ -20,6 +20,7 @@
       <h1>What applications gain from the service boundary</h1>
       <p>Each case starts with a task a person recognizes and one capability that can span an operating-system facility, a local program, or a remote service. OA checks permission and preserves the capability's meaning across those implementations.</p>
       <p><a href="adopters.html">Find an application integration</a> · <a href="ai-apps.html">See how AI applications share models and memory</a>. Measurements below describe dated development experiments; current qualification is recorded in <a href="coverage.html">coverage</a>.</p>
+      <p class="status-note"><strong>Development preview:</strong> the OpenCode refresh and saved preference, Comfy workflow, and Lemonade-to-Comfy examples below retain their separately recorded verification and limits. The <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release notes</a> identify shipped packages.</p>
     </section>
     <section id="share-card">
       <h2>An image editor keeps rendering while a chat engine gives the card back</h2>
@@ -35,10 +36,18 @@
       <h2>A coding assistant reaches every local model through one runtime</h2>
       <div class="page-grid">
         <article class="page-card"><h3>The task</h3><p>An OpenCode user with a local model wants to chat with it through OA, with nothing to type into OpenCode's own configuration.</p></article>
-        <article class="page-card"><h3>OA's role</h3><p><code>openabstractions opencode configure</code> reads the router's servable chat families through the runtime and writes OpenCode's provider block for them.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The adapter's <code>configure.js</code> reads the router's servable chat families through the runtime and writes OpenCode's provider block for them.</p></article>
       </div>
-      <p>Proven under a real Bun with installed selection on Windows: conversation, tool calls, provider substitution, attribution, and a refusal returned before any provider I/O runs. <!-- research/adoption/user-stories-2026-09-22.md, S1 --></p>
-      <p>Not yet proven: an end-to-end run against a live Ollama, LM Studio or Lemonade server through the runtime. A host is declared by hand today; the router's live survey of installed local servers has no recorded run through the runtime yet. <!-- research/adoption/user-stories-2026-09-22.md, G3 --></p>
+      <p><strong>Observed UI demonstration:</strong> the patched OpenCode 1.18.31 TUI refreshed its model chooser in the same running process after Ctrl+Alt+R. A newly advertised local model appeared from a deterministic fixture; the check sent no prompt.</p>
+    </section>
+    <section id="opencode-policy">
+      <h2>Keep one model preference when a local engine goes offline</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>A coding session should keep using its chosen model family when one local engine is unavailable.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>A saved, ordered selection policy names eligible local candidates. Each new request selects an available candidate and records the model that answered.</p></article>
+      </div>
+      <p><strong>Observed API demonstration:</strong> two completed turns in one OpenCode session used the same saved preference. Lemonade answered the first; after it became unavailable, Ollama answered the next fresh request. OA identified the actual host and model for each answer. The preference alias has not yet been shown in OpenCode's rendered model picker, and first-use policy setup was not observed.</p>
+      <p class="measured">Controlled local-provider run; no hosted account, model download, or paid request.</p>
     </section>
     <section id="lend-once">
       <h2>A model file downloaded once is served by another engine</h2>
@@ -65,6 +74,28 @@
         <article class="page-card"><h3>OA's role</h3><p>The editor submits one retained job. OA owns progress and settlement. The editor saves the returned operation reference and observes the same accepted work after restart.</p></article>
       </div>
       <p>The <a href="https://github.com/openabstractions/adopter-comfyui">ComfyUI source adopter</a> supplies this integration path. Storage lookup can reuse matching content before the editor requests another transfer.</p>
+    </section>
+    <section id="comfy-klein-result">
+      <h2>Verify workflow assets, approve the canvas change, and render in ComfyUI</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>Prepare a pinned FLUX.2 Klein workflow with its diffusion model, text encoder, and VAE, then produce an image in ComfyUI.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The adopter checks the required files, verifies their declared digests, and asks before replacing the current canvas. ComfyUI remains in control of the final Run action and image generation.</p></article>
+      </div>
+      <p><strong>Observed ComfyUI demonstration:</strong> all three verified assets were already present. The run checked readiness, received approval for one canvas replacement, then invoked ComfyUI Run. The editable 512 × 512 workflow completed a four-step CPU render. This confirms prepared workflow use; first-time asset acquisition through the UI remains untested.</p>
+      <figure>
+        <img src="images/flux2-klein-fox-espresso.png" width="512" height="512" loading="lazy" alt="A red fox making espresso in a sunlit greenhouse, generated by the ComfyUI FLUX.2 Klein workflow">
+        <figcaption>Example ComfyUI output from the prepared FLUX.2 Klein workflow. OA supplied verified workflow assets and the canvas approval step; ComfyUI generated the image.</figcaption>
+      </figure>
+      <p class="measured">This was a repeat-use demonstration with all required files present. The first-time UI download path and matched setup savings remain unmeasured.</p>
+    </section>
+    <section id="idle-gpu-handover">
+      <h2>A Comfy render can use GPU memory after Lemonade becomes idle</h2>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>A Comfy workflow needs the graphics card while Lemonade is serving a local chat request.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The resource service tracks the holder and grants Comfy a reservation after Lemonade yields its model. Canceling Comfy's waiting request releases its reservation while the chat request continues.</p></article>
+      </div>
+      <p><strong>Observed ComfyUI and Lemonade demonstration:</strong> while Qwen was serving a chat request, Comfy's first card request waited. The demonstration canceled the Comfy waiter; the card status showed no reservation and no model entries, while Qwen continued and completed. After Qwen became idle, a later Comfy request asked Lemonade to unload its model. Lemonade then reported no loaded model, the resource service granted Comfy a reservation, and the workflow rendered. The instrument attributed 15.1 GB of GPU memory to the Comfy process.</p>
+      <p class="measured">The render and handover were observed, but the full scenario remains under qualification: its final process-measurement check failed, and the corrected scenario has not been rerun. The configured admission threshold is not the workflow's hardware requirement or a guarantee against other GPU users.</p>
     </section>
     <section id="interaction">
       <h2>An assistant can open an app and propose a specific action</h2>
