@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Abstractions — inference</title>
+  <title>OpenAbstractions — inference</title>
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
@@ -12,8 +12,8 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page inference-page">
     <section class="inference-hero">
@@ -33,7 +33,7 @@
       </div>
     </section>
 
-    <p class="status-note inference-status"><strong>Current status.</strong> Current source implements all six modality profiles and the operator profile with controlled integration evidence. The generated schemas linked below and the <a href="https://github.com/openabstractions/abstraction-inference">standalone inference repository</a> are the public technical surface. The loopback gateway and Realtime vendor connector now live in the <a href="https://github.com/openabstractions/abstractions/tree/main/openabstractions-flat/abstraction-inference/adapters/go">Go adapter module in the integration source</a>; the core module owns policy and service behavior. Provider interoperability and release qualification vary. Use <a href="coverage.html">Coverage</a> for measured language and platform results; profile presence on a host is explicit and may cover only part of this family.</p>
+    <p class="status-note inference-status"><strong>Current status.</strong> Current source implements all six modality profiles and the operator profile with controlled integration evidence. The generated schemas linked below and the <a href="https://github.com/openabstractions/abstraction-inference">standalone inference repository</a> are the public technical surface. The loopback gateway and Realtime vendor connector now live in the <a href="https://github.com/openabstractions/abstractions/tree/main/openabstractions-flat/abstraction-inference/adapters/go">Go adapter module in the integration source</a>; the core module owns policy and service behavior. Provider interoperability and release qualification vary. <a href="coverage.html#m-inference">Language support</a> lists the languages that call inference and the platform of each check; profile presence on a host is explicit and may cover only part of this family.</p>
 
     <nav class="inference-nav" aria-label="On this page">
       <a href="#modalities">Tasks and modalities</a><a href="#roles">Model, router, inference</a><a href="#placement">Placement and credentials</a><a href="#lifetimes">Streams and durable jobs</a><a href="#operators">Operator choices</a><a href="#native-api">Native API</a><a href="#gateway-window">Gateway window</a><a href="#adoption">Choose a path</a>
@@ -45,8 +45,8 @@
       <p class="section-lead">Six service profiles cover chat, embeddings, transcription, speech, live voice and images. Video generation uses a durable inference job: submit a prompt and duration, follow progress, then retrieve the generated clip. A configured provider must support the requested task. <a href="#lifetimes">See how video jobs survive interruptions.</a></p>
       <div class="modality-grid">
         <article class="modality chat-modality">
-          <div class="modality-heading"><span class="modality-number">01</span><div><h3>Chat</h3><code>abstraction.inference/chat@1</code></div></div>
-          <p>Stream an assistant answer, tool call, or structured response. Messages can contain text, tool results, and authorized image digests for a vision-capable host.</p>
+          <div class="modality-heading"><span class="modality-number">01</span><div><h3><a href="reference.html#concept-inference.chat-service">Chat</a></h3><code>abstraction.inference/chat@1</code></div></div>
+          <p><a href="reference.html#concept-inference.chat-service">Chat</a> streams an assistant answer, tool call, or structured response. Messages can contain text, tool results, and authorized image digests for a vision-capable host.</p>
           <div class="chat-sample" aria-label="Illustrative chat stream">
             <p><span>You</span> Summarize the error in this screenshot.</p>
             <p><span>Model</span> The build stopped because… <i>streaming</i></p>
@@ -124,7 +124,7 @@
       <div class="placement-layout">
         <div class="placement-choice">
           <article><span class="placement-tag">local</span><h3>Resident host</h3><p>A model engine on the receiving machine performs the call. <code>local-only@1</code> constrains selection to this placement.</p></article>
-          <article><span class="placement-tag">remote</span><h3>Remote runtime</h3><p>The local OA service relays to a declared, mutually trusted runtime. The selected binding records remote execution.</p></article>
+          <article><span class="placement-tag">remote</span><h3>Remote runtime</h3><p>The local OA service relays to a declared, mutually trusted runtime. The selected <a href="reference.html#concept-facade.service-binding">binding</a> records remote execution.</p></article>
           <article><span class="placement-tag">hosted</span><h3>Hosted API</h3><p><code>hosted-allowed@1</code> lets the router consider a configured hosted provider after eligible local hosts.</p></article>
         </div>
         <aside class="placement-rules">
@@ -268,9 +268,9 @@ reply, err := chat.Complete(ctx, wire.Request{
           </tbody>
         </table>
       </div>
-      <p class="status-note">Generated records establish the API shape. Current platform, language, provider, and packaging evidence remains in <a href="coverage.html">Coverage</a>. The <a href="catalogue.html#abstraction-inference">catalogue entry</a> records the inference layer alongside its dependencies.</p>
+      <p class="status-note">Generated records establish the API shape. <a href="coverage.html#m-inference">Language support</a> lists the language clients and the platform of each check; the <a href="https://github.com/openabstractions/redist/releases/latest">release notes</a> list packages. The <a href="catalogue.html#abstraction-inference">catalogue entry</a> records the inference layer alongside its dependencies.</p>
     </section>
   </main>
-  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="reference.html">Reference</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Coverage</a></footer>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="reference.html">Reference</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Language support</a></footer>
 </body>
 </html>

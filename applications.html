@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAbstractions — application MCP</title>
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page">
+    <section class="intro">
+      <p class="eyebrow">Application MCP</p>
+      <h1>Work with an application's current document</h1>
+      <p>An assistant can read an application's open document or workflow, suggest a change, and invoke an action the application declares. The application keeps its state, interface and commit points. OpenAbstractions' application profile gives those interactions shared meanings across integrations.</p>
+      <p class="status-note"><strong>Development for 0.8.0.</strong> Contracts and shared JavaScript/Python SDK source exist. Native mediation and the narrow ComfyUI demonstrator below have reviewed source implementations. Integration and actual installed acceptance remain pending; source tests establish their named scope. Check <a href="adopt.html">released-package guidance</a> and <a href="cases.html#interaction">recorded interaction evidence</a> for available behavior. The published 0.4 gateway's curated tools have a separate scope.</p>
+    </section>
+    <section id="flow">
+      <h2>Assistant → OA → application</h2>
+      <ol>
+        <li><strong>Discover and read.</strong> The assistant learns the application's declared commands and open contexts. A context identifies one document or workflow in a particular application instance and epoch.</li>
+        <li><strong>Check and route.</strong> For OA-mediated calls, the runtime checks the caller's identity, current permission and selected application. A description or native label supplies information; enforcement needs actual identity and lifecycle evidence.</li>
+        <li><strong>Commit and report.</strong> The application validates the request, owns its domain rules, and reports the result. The assistant reads the resulting state or follows accepted work.</li>
+      </ol>
+      <p>An entity is an application-defined item, such as a node in a workflow. Its kind describes properties and their roles. The projection includes entities and collections; snapshots also carry selections. Selection and ephemeral fields stay outside the revisioned projection, and secret fields stay outside published state and changes. An integration chooses this projection rather than exposing every internal object.</p>
+    </section>
+    <section id="revision">
+      <h2>A suggestion stays tied to what was read</h2>
+      <p>Imagine an assistant reads a workflow at revision R and proposes changing a node parameter. The person then edits the workflow. If the assistant applies its proposal with the old expected revision R, the call returns <code>conflict</code> and changes nothing. It can read the new state and prepare another suggestion. The person's direct in-app Apply follows the application's own rules. Reopening or replacing the context changes its epoch, making old references stale.</p>
+      <p>Revisions are opaque tokens. Changes let a client follow the application's commit points; a lost position requires a fresh snapshot. A proposal records a suggestion without changing the document. Apply performs the declared action. For an undoable edit, one undo group covers the steps owned by that call, subject to the contract's later-edit checks.</p>
+      <p>Long-running work can answer <code>accepted</code> with a job handle. The client follows that job for its outcome. Losing a reply after sending a command leaves an <code>unknown</code> outcome: inspect state, the job or the recorded idempotency result before deciding what to do. The bridge never automatically resends a sent call.</p>
+    </section>
+    <section id="layers">
+      <h2>What each layer contributes</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="MCP and OA responsibilities">
+        <table class="reference-table">
+          <thead><tr><th>Layer</th><th>Contribution</th></tr></thead>
+          <tbody>
+            <tr><td>Standard MCP</td><td>Discovery and invocation of tools, resource access, schemas, JSON-RPC messages and transport conventions.</td></tr>
+            <tr><td>OA application profile</td><td>Shared context, revision, proposal, command, undo and job records, plus consistent outcomes and recovery rules.</td></tr>
+            <tr><td>OA native mediation</td><td>Verified process identity, current rights, owned channel lifecycle and audit at the receiving boundaries. These guarantees require enforcement and appropriate platform proof.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Command classes describe effects such as read, edit, spend or send. Classification helps OA select the right permission check. A class or MCP annotation grants no permission. The application still owns its business rules and daily limits.</p>
+      <p><a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools">MCP tools</a> and <a href="https://modelcontextprotocol.io/specification/2025-11-25/server/resources">resources</a> already support application integrations. OA composes them with its application profile and native policy boundary. <a href="https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx">MCP Apps</a> addresses a related presentation layer: servers provide UI resources for a host to render, with negotiated UI communication. This page describes operating application-owned state and actions; an MCP Apps interface can be considered separately.</p>
+    </section>
+    <section id="comfyui">
+      <h2>The current ComfyUI source demonstrator</h2>
+      <p>The reviewed implementation exposes a bounded view of built-in KSampler nodes and their <code>steps</code> values. An assistant can read that context, reveal one node, display a proposed before-and-after value in ComfyUI, and request a separately authorized <code>node.set_widget</code> edit. The edit accepts only an integer from 1 to 10,000 for <code>steps</code>. The shared application core owns proposals and revisions; the app-owned interface shows the suggestion and preserves the person's selection and focus.</p>
+      <p>The runtime checks the kept signed application declaration, actual host ownership and current permission, and records mediated calls. The ComfyUI adapter checks the current workflow, node, widget and before value immediately before writing; an enabled or unverified auto-queue mode refuses the edit. These are source-level controls. A real installed browser/backend demonstration remains unproven. Queueing, templates, arbitrary widgets and full-editor control are outside this demonstrator.</p>
+    </section>
+    <section id="gateway-tools">
+      <h2>The gateway's tool list</h2>
+      <p>The local stdio gateway <code>openabstractions-mcp</code> lists a fixed set of twenty-four tools. Its <code>--help</code> prints the list, and the <a href="https://github.com/openabstractions/abstractions/blob/main/mcp-gateway/CONTRACT.md">gateway contract</a> holds each tool's class and bound. OA identifies the caller from the gateway executable. MCP client metadata and tool arguments select no OA caller and grant no right.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Gateway tools">
+        <table class="reference-table">
+          <thead><tr><th>Group</th><th>Tools</th><th>Class</th></tr></thead>
+          <tbody>
+            <tr><td>Generic API</td><td><code>oa_api_describe</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_api_read</code></td><td>read</td></tr>
+            <tr><td>Applications</td><td><code>oa_applications_list</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_applications_describe</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_applications_enrollment_read</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_applications_commands_list</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_applications_command_call</code></td><td>command</td></tr>
+            <tr><td>Models and setup</td><td><code>oa_models_list</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_models_connect</code></td><td>setup</td></tr>
+            <tr><td></td><td><code>oa_setup_fit</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_setup_prepare</code></td><td>effect</td></tr>
+            <tr><td>One bounded response</td><td><code>oa_inference_complete</code></td><td>effect</td></tr>
+            <tr><td>Inference requests</td><td><code>oa_inference_requests</code></td><td>read</td></tr>
+            <tr><td>Durable inference jobs</td><td><code>oa_inference_job_submit</code></td><td>submit</td></tr>
+            <tr><td></td><td><code>oa_inference_job_status</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_inference_job_diagnose</code></td><td>read</td></tr>
+            <tr><td></td><td><code>oa_inference_job_cancel</code></td><td>cancel</td></tr>
+            <tr><td>Jobs</td><td><code>oa_jobs_follow</code></td><td>read</td></tr>
+            <tr><td>Logs</td><td><code>oa_logs_follow</code></td><td>read</td></tr>
+            <tr><td>Questions and choices</td><td><code>oa_asks_request_answering</code></td><td>effect</td></tr>
+            <tr><td></td><td><code>oa_asks_list_answerable</code></td><td>read_open</td></tr>
+            <tr><td></td><td><code>oa_asks_list_choices</code></td><td>read_open</td></tr>
+            <tr><td></td><td><code>oa_asks_answer</code></td><td>effect</td></tr>
+            <tr><td></td><td><code>oa_asks_answer_choice</code></td><td>effect</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The three application-model tools (<code>oa_applications_describe</code>, <code>oa_applications_commands_list</code> and <code>oa_applications_command_call</code>) use <code>abstraction.facade/applications@3</code>. The runtime decides each call from the kept manifest, the command's class and the caller's rights. A refusal keeps its own outcome and reason, and the tool result carries <code>isError</code>.</p>
+      <h3 id="gateway-setup">Setup tools</h3>
+      <p><code>oa_setup_fit</code> takes one <code>use</code> (<code>chat</code>, <code>code</code>, <code>vision</code>, <code>embed</code>, <code>image</code> or <code>video</code>) and returns the catalogue's entries in rank order. Each entry carries a title, a family, a fit word (<code>fits</code> or <code>no</code>; <code>slow</code> is reserved for later), whether a runtime already serves it, its download and need in bytes, and which entry is this computer's pick. The call needs the router's <code>inventory.read</code> right and downloads, selects and hosts nothing.</p>
+      <p><code>oa_setup_prepare</code> takes <code>code</code> or <code>image</code> and asks OpenAbstractions' setup step for that use. The reply is <code>asked</code>, <code>already_set_up</code> or <code>cannot_run</code> with a reason; <code>invalid</code>, <code>forbidden</code> and <code>unavailable</code> report a refused or unreachable request. The person answers OA's own setup question, which names the application, and the reply never carries that answer. After the person answers Not now, OA asks for no application for 24 hours or until the person starts Setup from Settings. The application restarts after the person sets the use up.</p>
+      <h3 id="gateway-messages">Messages between agents</h3>
+      <p>A separate, dedicated native composition adds messaging tools for Claude, Codex and OpenCode once its kept application instance has opened an inbox. <code>oa_messages_inbox_open</code> takes an optional <code>context</code> and uses the connection's own context when it is omitted. <code>oa_messages_prepare</code> names a receiver and returns <code>send_arguments</code> for <code>oa_messages_send</code>; without a live inbox it answers <code>receiver_withdrawn</code> (the receiver's connection closed), <code>receiver_lapsed</code> (the connection stopped renewing) or <code>receiver_unavailable</code> (no authorized live inbox is visible). Only the person can allow a direction through <code>oa_messages_request_access</code>. Source tests establish these behaviors; installed receiving and idle wake keep their own acceptance.</p>
+    </section>
+    <section id="developers">
+      <h2>Developer details</h2>
+      <p>The standalone binding uses standard MCP newline stdio. OA's signed native host recipe uses an explicit private length-framed carrier with the same shared MCP session semantics. It is a custom MCP transport, with no autodetection or fallback to ordinary stdio. The <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">MCP transport specification</a> describes standard and custom transports.</p>
+      <p>Generated application records preserve opaque JSON bytes. Canonical record text is authoritative in the tool's text content; structured content supplies the corresponding JSON view. This keeps raw numeric values and record validation intact across bindings. The SDK handles that detail while the application declares its state and actions.</p>
+      <p>Start with the <a href="reference.html#applications">application reference</a>, <a href="https://github.com/openabstractions/abstraction-facade/blob/main/CONTRACT.md">released facade contract</a> and <a href="adopt.html#mcp">gateway setup</a>. Development profile and native integration work must complete their acceptance before release availability is claimed.</p>
+    </section>
+  </main>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="adopters.html">Applications</a><a href="coverage.html">Language support</a></footer>
+</body>
+</html>

@@ -2,11 +2,11 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open Abstractions — schema</title>
+<title>OpenAbstractions — schema</title>
 <link rel="stylesheet" href="style.css">
 
 <main>
-<nav class="site" aria-label="Primary navigation"><a class="name" href="index.html">Open Abstractions</a>
+<nav class="site" aria-label="Primary navigation"><a class="name" href="index.html">OpenAbstractions</a>
 <a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
 
 
@@ -21,7 +21,7 @@
 <tr><td><code>indent</code></td><td><code>2</code></td><td><span class="tag">[DEF-E3]</span></td></tr>
 <tr><td><code>map_keys</code></td><td><code>utf8-bytes</code></td><td><span class="tag">[DEF-E4]</span></td></tr>
 <tr><td><code>numbers</code></td><td><code>integer-decimal</code></td><td><span class="tag">[DEF-E5]</span></td></tr>
-<tr><td><code>opaque</code></td><td><code>verbatim</code></td><td><span class="tag">[DEF-E6]</span></td></tr>
+<tr><td><code>opaque</code></td><td><code>reindent</code></td><td><span class="tag">[DEF-E6]</span></td></tr>
 <tr><td><code>terminator</code></td><td><code>newline</code></td><td><span class="tag">[DEF-E7]</span></td></tr>
 <tr><td><code>duplicate_keys</code></td><td><code>refuse</code></td><td><span class="tag">[DEF-E8]</span></td></tr>
 <tr><td><code>depth_limit</code></td><td><code>64</code></td><td><span class="tag">[DEF-E9]</span></td></tr>
@@ -55,7 +55,7 @@
 <tr><td>4</td><td><code>done</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 <tr><td>5</td><td><code>total</code></td><td><code>i64</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 </tbody></table></div>
-<h3 id="struct-Progress"><code>Progress</code></h3>
+<h3 id="struct-Progress"><a href="https://openabstractions.github.io/reference.html#concept-job.progress"><code>Progress</code></a></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
 <div class="wrap"><table>
 <thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
@@ -75,7 +75,7 @@
 <tr><td>3</td><td><code>at</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>until</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
-<h3 id="struct-Lease"><code>Lease</code></h3>
+<h3 id="struct-Lease"><a href="https://openabstractions.github.io/reference.html#concept-job.lease"><code>Lease</code></a></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
 <div class="wrap"><table>
 <thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
@@ -94,7 +94,7 @@
 <tr><td>2</td><td><code>external_id</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>3</td><td><code>delivered</code></td><td><code>bool</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 </tbody></table></div>
-<h3 id="struct-Intent"><code>Intent</code></h3>
+<h3 id="struct-Intent"><a href="https://openabstractions.github.io/reference.html#concept-job.intent"><code>Intent</code></a></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
 <div class="wrap"><table>
 <thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
@@ -175,7 +175,7 @@
 <tr><td>3</td><td><code>verifies_content</code></td><td><code>verifies_content</code></td><td><code>checked</code></td></tr>
 <tr><td>4</td><td><code>delegates</code></td><td><code>delegates</code></td><td><code>trusted</code></td></tr>
 </tbody></table></div>
-<h3 id="enum-Verdict"><code>Verdict</code></h3>
+<h3 id="enum-Verdict"><a href="https://openabstractions.github.io/reference.html#concept-job.wire-verdict"><code>Verdict</code></a></h3>
 <p class="meta">a member this reader does not know is <code>grant</code></p>
 <div class="wrap"><table>
 <thead><tr><th>id</th><th>member</th><th>wire</th><th>transcript</th></tr></thead>

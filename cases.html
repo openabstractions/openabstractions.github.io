@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Abstractions — current application cases</title>
+  <title>OpenAbstractions — current application cases</title>
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
@@ -11,26 +11,25 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html" aria-current="page">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html" aria-current="page">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page">
     <section class="intro">
       <p class="eyebrow">Cases</p>
       <h1>What applications gain from the service boundary</h1>
       <p>Each case starts with a task a person recognizes and one capability that can span an operating-system facility, a local program, or a remote service. OA checks permission and preserves the capability's meaning across those implementations.</p>
-      <p><a href="adopters.html">Find an application integration</a> · <a href="ai-apps.html">See how AI applications share models and memory</a>. Measurements below describe dated development experiments; current qualification is recorded in <a href="coverage.html">coverage</a>.</p>
-      <p class="status-note"><strong>Development preview:</strong> the OpenCode refresh and saved preference, Comfy workflow, and Lemonade-to-Comfy examples below retain their separately recorded verification and limits. The <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release notes</a> identify shipped packages.</p>
+      <p><a href="adopters.html">Find an application integration</a> · <a href="ai-apps.html">See how AI applications share models and memory</a>. Measurements below describe dated development experiments. The <a href="https://github.com/openabstractions/redist/releases/latest">release notes</a> record current qualification.</p>
+      <p class="status-note"><strong>Development preview:</strong> the OpenCode refresh and saved preference and Comfy workflow examples below retain their separately recorded verification and limits. The <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release notes</a> identify shipped packages.</p>
     </section>
     <section id="share-card">
-      <h2>An image editor keeps rendering while a chat engine gives the card back</h2>
+      <h2>An image editor and OA's own engines take turns on the graphics card</h2>
       <div class="page-grid">
-        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. LM Studio is holding a model on the same card and neither program knows the other exists.</p></article>
-        <article class="page-card"><h3>OA's role</h3><p>ComfyUI asks the resource service for room on the graphics card. The service asks LM Studio to yield through LM Studio's own unload endpoint, then grants a lease once the bytes are free.</p></article>
+        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. OA's model server holds a model on the same card, and a stock chat engine such as LM Studio may hold another.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>Integrated programs hold a <a href="reference.html#concept-resource.lease">lease</a> for the memory they use: OA's own engines, and ComfyUI with OA's integration. When ComfyUI asks for room, the resource service asks those lease holders to yield and grants the lease once its own measurement shows the memory free. A stock engine holds memory under no lease. OA measures it as memory it does not manage and names that program to the person.</p></article>
       </div>
-      <p>On the owner's machine, a render needing 106 GiB of a 124 GiB pool asked while LM Studio held one model. LM Studio gave back 21.4 GB of graphics memory (yielded, in OA's word) in 7.3 s, the reservation (lease) was granted, and the render finished in about 31 s and saved an image. A deny rule written for the same holder changed the identical ask into a refusal read from ComfyUI's own queue in about 150 ms, with LM Studio's model still loaded and nothing allocated.</p>
-      <p class="measured">Measured: 132,766,306,304 bytes (123.65 GiB) pool; 113,952,739,328 bytes (106.13 GiB) reserve; 21,446,795,264 bytes yielded in 7.305 s; render in 30.98 s; refusal in 146 ms. <code>research/resources/COMFY-CARD-2026-09-22.md</code>, sections 1 and 3.</p>
-      <p>LM Studio unloads its model, then ComfyUI loads its own weights into the freed memory. The <a href="https://github.com/openabstractions/abstraction-resource">resource repository</a> is preparing its first tagged release.</p>
+      <p>The ComfyUI connector takes the card lease for the models ComfyUI loads. OA's model server stops an idle engine when asked and answers once the measurement confirms the memory fell. The <a href="https://github.com/openabstractions/abstraction-resource">resource repository</a> is preparing its first tagged release.</p>
+      <p class="measured">Earlier design, 2026-09-22: OA drove stock LM Studio's unload endpoint, and LM Studio yielded 21,446,795,264 bytes in 7.305 s; a deny rule refused the same ask in 146 ms. <code>research/resources/COMFY-CARD-2026-09-22.md</code>, sections 1 and 3. OA now measures and names stock engines and drives only integrated ones.</p>
     </section>
     <section id="opencode-local">
       <h2>A coding assistant reaches every local model through one runtime</h2>
@@ -65,7 +64,7 @@
         <article class="page-card"><h3>The task</h3><p>A coding assistant streams an answer from a requested model. The operator may run that model locally today and through a remote host tomorrow.</p></article>
         <article class="page-card"><h3>OA's role</h3><p>The assistant requests a model and execution placement. OA checks its rights, selects an eligible declared host, and mediates a connection pinned to that provider declaration.</p></article>
       </div>
-      <p>The same inference family also carries embeddings, speech synthesis, transcription, live sessions, and image generation. Each modality has a defined request and a streamed or final result. Current modality and language results live in <a href="coverage.html">coverage</a>.</p>
+      <p>The same inference family also carries embeddings, speech synthesis, transcription, live sessions, and image generation. Each modality has a defined request and a streamed or final result. <a href="coverage.html#m-inference">Language support</a> lists the languages that call inference; each provider declares the modalities it serves.</p>
     </section>
     <section id="durable-work">
       <h2>An image editor can return to the same download</h2>
@@ -89,13 +88,13 @@
       <p class="measured">This was a repeat-use demonstration with all required files present. The first-time UI download path and matched setup savings remain unmeasured.</p>
     </section>
     <section id="idle-gpu-handover">
-      <h2>A Comfy render can use GPU memory after Lemonade becomes idle</h2>
+      <h2>A Comfy render waits for OA's Lemonade build to finish its chat request</h2>
       <div class="page-grid">
-        <article class="page-card"><h3>The task</h3><p>A Comfy workflow needs the graphics card while Lemonade is serving a local chat request.</p></article>
-        <article class="page-card"><h3>OA's role</h3><p>The resource service tracks the holder and grants Comfy a reservation after Lemonade yields its model. Canceling Comfy's waiting request releases its reservation while the chat request continues.</p></article>
+        <article class="page-card"><h3>The task</h3><p>A Comfy workflow needs the graphics card while OA's Lemonade build is serving a local chat request.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>OA's Lemonade build holds a card <a href="reference.html#concept-resource.lease">lease</a> for its engines. When ComfyUI with OA's integration asks for room, the resource service asks that holder to yield. The holder stops its engine once no request uses it, and the service grants ComfyUI its lease after its own measurement confirms the memory fell. A stock Lemonade holds memory under no lease. OA measures it as memory it does not manage and names the program to the person.</p></article>
       </div>
-      <p><strong>Observed ComfyUI and Lemonade demonstration:</strong> while Qwen was serving a chat request, Comfy's first card request waited. The demonstration canceled the Comfy waiter; the card status showed no reservation and no model entries, while Qwen continued and completed. After Qwen became idle, a later Comfy request asked Lemonade to unload its model. Lemonade then reported no loaded model, the resource service granted Comfy a reservation, and the workflow rendered. The instrument attributed 15.1 GB of GPU memory to the Comfy process.</p>
-      <p class="measured">The render and handover were observed, but the full scenario remains under qualification: its final process-measurement check failed, and the corrected scenario has not been rerun. The configured admission threshold is not the workflow's hardware requirement or a guarantee against other GPU users.</p>
+      <p>A chat request still running keeps its engine until it returns (resource CONTRACT.md RES-L3), and ComfyUI's request waits for it.</p>
+      <p class="measured">Earlier design: a demonstration asked a stock Lemonade to unload its model once Qwen became idle, and the Comfy workflow then rendered. That scenario's final process-measurement check failed and was never rerun. OA now measures and names stock engines and drives only integrated ones (resource CONTRACT.md RES-L3).</p>
     </section>
     <section id="interaction">
       <h2>An assistant can open an app and propose a specific action</h2>
@@ -104,7 +103,7 @@
         <article class="page-card"><h3>OA's role</h3><p>With permission, OA activates an operator-registered app and waits for that app to report readiness from the same signed-in session. The app reports its current document and revision.</p></article>
       </div>
       <p>The OA Model Context Protocol (MCP) gateway lists visible applications under its own verified program identity. Activation uses the facade API. A separate image-editor adapter owns the preview, apply, and readback tools. A proposal carries the exact app instance, document, and revision; a changed document produces a stale result. Presentation stays inside the requesting task and application tool surface.</p>
-      <p>This is a scoped development composition with current live evidence. OA defines no universal application UI protocol. <a href="coverage.html">Coverage</a> records the tested source and limits.</p>
+      <p>This is a scoped development composition with current live evidence. OA defines no universal application UI protocol. <a href="coverage.html">Language support</a> records the tested source and limits.</p>
     </section>
     <section id="operator">
       <h2>An operator can see and control the boundary</h2>
@@ -121,6 +120,6 @@
       <li>Current feature evidence uses controlled integrations and actual local applications. Release packaging and broader provider interoperability require their own evidence.</li>
     </ul>
   </main>
-  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Coverage</a></footer>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Language support</a></footer>
 </body>
 </html>

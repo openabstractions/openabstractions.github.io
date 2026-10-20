@@ -111,7 +111,7 @@
       sample: "caller, err := machine.ObserveCaller(ctx)\nif err != nil { return err }\nif caller.Outcome != facadewire.CallerOutcomeObserved {\n    return fmt.Errorf(\"identity: %s\", caller.Outcome)\n}\nfmt.Printf(\"account=%s program=%s bindable=%t\\n\",\n    caller.Account, caller.Program, caller.Bindable)",
       sampleLabel: "Inspect caller evidence",
       sampleContext: "Runtime diagnostic. machine is the installed OA runtime binding. This returns the caller evidence observed by that runtime. Go excerpt; imports and client setup are omitted.",
-      evidence: "Identity is shared infrastructure for local connections. Its proof strength depends on the operating system and connection; the coverage page records platform limitations.",
+      evidence: "Identity is shared infrastructure for local connections. Its proof strength depends on the operating system and connection; the Language support page records platform limitations.",
       links: [["API and source", "https://github.com/openabstractions/abstraction-identity"], ["Implementation support", "coverage.html"]]
     },
     {
@@ -161,6 +161,19 @@
       sampleContext: "Provider utility. Supply values and revision stamps. A quiet notice reports that the value settled for the chosen interval. Go excerpt; imports and client setup are omitted.",
       evidence: "Watch provides Poll, Push and Settle utilities. Standalone adopter proof remains open. Applications use each capability’s observation API for job progress, settings or logs.",
       links: [["API and source", "https://github.com/openabstractions/abstraction-watch"], ["Implementation support", "coverage.html"]]
+    },
+    {
+      group: "foundations",
+      title: "Who holds the graphics card",
+      contract: "abstraction.resource/table@1 + abstraction.resource/leases@1",
+      intro: "See which programs hold graphics memory now, measured where the system can measure it. When a program asks for room, OA asks the current holders to give some back before it says no.",
+      sampleKind: "Go",
+      sample: "table, err := machine.ResolveResourceTable(ctx, client.Requirements{})\nif err != nil { return err }\nrows, err := table.Holders(ctx, \"card:0\", true)\nif err != nil { return err }\n\nleases, err := machine.ResolveResourceLeases(ctx, client.Requirements{})\nif err != nil { return err }\nlease, err := leases.Acquire(ctx, resource.AcquireRequest{Resource: \"card:0\", AmountBytes: needed})\nif err != nil { return err }\nif lease.Outcome != resource.AcquireOutcomeAcquired {\n    return fmt.Errorf(\"card:0: %s\", lease.Outcome)\n}",
+      sampleLabel: "Ask for room on the card",
+      sampleContext: "Application or provider client. table and leases are resolved resource clients. An app running OA's integration holds leases; a program without it is measured as foreign memory. Go excerpt; imports and client setup are omitted.",
+      // evidence: openabstractions-flat/abstraction-resource/CONTRACT.md RES-L2 and RES-L3; adopters/comfyui/connector/card.go
+      evidence: "Integrated programs hold leases and yield them when asked: OA's model server stops an idle engine and answers once the measurement confirms the memory fell, and ComfyUI with OA's integration takes a card lease for the models it loads. A stock engine such as LM Studio holds memory under no lease; OA measures it as memory it does not manage and names the program.",
+      links: [["Sharing the card, in full", "cases.html#share-card"], ["Source status", "catalogue.html#abstraction-resource"]]
     },
     // --- AI on this machine ---------------------------------------------
     {
@@ -217,19 +230,6 @@
     },
     {
       group: "ai",
-      title: "Sharing the graphics card",
-      contract: "abstraction.resource/table@1 + abstraction.resource/leases@1",
-      intro: "See which programs hold graphics memory now, measured where the system can measure it. When a program asks for room, OA asks the current holders to give some back before it says no.",
-      sampleKind: "Go",
-      sample: "table, err := machine.ResolveResourceTable(ctx, client.Requirements{})\nif err != nil { return err }\nrows, err := table.Holders(ctx, \"card:0\", true)\nif err != nil { return err }\n\nleases, err := machine.ResolveResourceLeases(ctx, client.Requirements{})\nif err != nil { return err }\nlease, err := leases.Acquire(ctx, resource.AcquireRequest{Resource: \"card:0\", AmountBytes: needed})\nif err != nil { return err }\nif lease.Outcome != resource.AcquireOutcomeAcquired {\n    return fmt.Errorf(\"card:0: %s\", lease.Outcome)\n}",
-      sampleLabel: "Ask for room on the card",
-      sampleContext: "Application or provider client. table and leases are resolved resource clients. A holder that predates OA is yielded through its own unload mechanism. Go excerpt; imports and client setup are omitted.",
-      // evidence: research/resources/COMFY-CARD-2026-09-22.md, sections 1 and 3
-      evidence: "On the owner's machine a render asked for 106.13 GiB of a 123.65 GiB pool while LM Studio held one model; LM Studio yielded 21,446,795,264 bytes in 7.305 s, the lease was granted, and the render proceeded on the freed bytes. A deny rule on the same host changed the same ask to a refusal in 146 ms, with LM Studio's model still loaded.",
-      links: [["Sharing the card, in full", "cases.html#share-card"], ["Source status", "catalogue.html#abstraction-resource"]]
-    },
-    {
-      group: "ai",
       title: "Lending a model file",
       contract: "abstraction.storage/lend@1",
       intro: "A model file one store already holds — Ollama's blobs, the Hugging Face cache, LM Studio, Jan — is linked into another installed engine's own folder, so that engine serves it without a second download.",
@@ -257,14 +257,14 @@
     {
       group: "ai",
       title: "MCP gateway for assistants",
-      contract: "Development MCP gateway over abstraction.inference/*@1 and abstraction.facade/applications@2",
-      intro: "Give an MCP-compatible assistant a bounded set of OA tools: list models and open applications, ask a model a bounded question, and submit, watch or cancel a durable inference job.",
+      contract: "Development MCP gateway over abstraction.inference/*@1, abstraction.model/catalog@1 and abstraction.facade/applications@2 and @3",
+      intro: "Give an MCP-compatible assistant a bounded set of OA tools: list models and open applications, rank the catalogue for a use, ask OA to set that use up, ask a model a bounded question, and submit, watch or cancel a durable inference job.",
       sampleKind: "MCP tools",
-      sample: "oa_applications_list\noa_models_list\noa_inference_complete\noa_inference_job_submit\noa_inference_job_status\noa_inference_job_cancel",
-      sampleLabel: "The gateway's six tools",
+      sample: "oa_applications_list\noa_applications_describe\noa_applications_enrollment_read\noa_api_describe\noa_api_read\noa_applications_commands_list\noa_applications_command_call\noa_models_list\noa_models_connect\noa_setup_fit\noa_setup_prepare\noa_inference_complete\noa_inference_requests\noa_inference_job_submit\noa_inference_job_status\noa_inference_job_diagnose\noa_inference_job_cancel\noa_jobs_follow\noa_logs_follow\noa_asks_request_answering\noa_asks_list_answerable\noa_asks_list_choices\noa_asks_answer\noa_asks_answer_choice",
+      sampleLabel: "The gateway's twenty-four tools",
       sampleContext: "Source-built development adapter, run over stdio. OA checks permissions against the gateway executable's own program identity; every session using that executable shares its permissions. Tool-name excerpt.",
-      // evidence: ARCHITECTURE.md, "the development MCP gateway exposes a curated set of OA capabilities under an explicitly authorized integration principal"
-      evidence: "Application editing needs a separate, application-specific adapter; this gateway's own application-listing tool exposes discovery metadata and no edit capability of its own.",
+      // evidence: mcp-gateway/CONTRACT.md MCPG-T1, the fixed tool inventory
+      evidence: "Application commands run through OA's native mediation under the application's own declaration and the caller's rights. Setup requests reach the person as OA's own question, and the reply never carries the person's answer.",
       links: [["Gateway setup", "adopt.html#mcp"], ["Implementation support", "coverage.html"]]
     }
   ];
@@ -285,7 +285,7 @@
       <div class="content-apps"><span>Coding assistant</span><span>Chat app</span></div>
       <div class="content-center"><small>Hosted object</small><code>jan/model.gguf</code><strong>One resident load</strong></div>
       <p>Every caller that reaches it through chat@1 shares that one load. Asking the card back stops the engine and releases the lease.</p></figure>`,
-    "Sharing the graphics card": `<figure class="download-example"><figcaption>Two programs, one card · illustration</figcaption>
+    "Who holds the graphics card": `<figure class="download-example"><figcaption>Two programs, one card · illustration</figcaption>
       <div class="download-file"><strong>card:0</strong><span>106.13 GiB asked, 100.13 GiB free</span></div>
       <dl class="check-values"><div><dt>Holder asked</dt><dd><code>host:lmstudio</code></dd></div><div><dt>Answer</dt><dd><code>yielded, 21.4 GB, 7.3 s</code></dd></div></dl>
       <p class="example-success">Lease granted → render proceeds</p><p>A deny rule on the same holder turns the identical ask into a refusal in under a second, with the model still loaded.</p></figure>`,
@@ -298,7 +298,7 @@
       <p>The inventory reads directory listings, sizes and each store’s own index. It writes nothing.</p></figure>`,
     "MCP gateway for assistants": `<figure class="content-example"><figcaption>A curated tool surface for an assistant · illustration</figcaption>
       <div class="content-apps"><span>Discovery</span><span>One response</span><span>Durable jobs</span></div>
-      <div class="content-center"><small>Six tools</small><code>oa_*</code><strong>Bound to the gateway’s own identity</strong></div>
+      <div class="content-center"><small>Twenty-four tools</small><code>oa_*</code><strong>Bound to the gateway’s own identity</strong></div>
       <p>OA checks permission against the gateway executable itself. Editing an application’s own document needs that application’s separate adapter.</p></figure>`,
     "Structured logging": `<figure class="log-example"><figcaption>One view of events from several programs · illustrative log</figcaption>
       <pre><code>12:04:01  editor      info   model requested

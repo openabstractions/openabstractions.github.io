@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Abstractions — Shared capabilities for your applications</title>
-  <meta name="description" content="Give your application durable jobs, shared storage, AI inference and more. Adopt one capability at a time and let users choose compatible providers.">
+  <title>OpenAbstractions — Shared capabilities for your applications</title>
+  <meta name="description" content="Give your application durable jobs, shared storage, permissions, logging, AI inference and more. Adopt one capability at a time and let users choose compatible providers.">
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
@@ -16,25 +16,31 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Open Abstractions home">
+    <a class="brand" href="index.html" aria-label="OpenAbstractions home">
       <img src="brand/mark-64.png" alt="" width="34" height="34">
-      <span>Open Abstractions</span>
+      <span>OpenAbstractions</span>
     </a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
 
   <main class="home">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-main">
         <p class="eyebrow">Client libraries and a shared runtime</p>
-        <h1 id="hero-title">One API for each kind of work, done by the program the person chooses.</h1>
-        <p class="hero-copy">OpenAbstractions is a background service plus client libraries. It gives applications one API each for downloads, background jobs, model calls, shared files, secrets and questions to the person. The person who runs the computer chooses which program does the work, such as curl, Ollama, LM Studio, a NAS or OpenRouter.</p>
-        <p class="hero-copy">For developers: add one client library to your application and declare the OpenAbstractions runtime as a dependency your installer brings along, the way installers bring the Visual C++ Redistributable. Your code keeps its own shape; the runtime supplies the capability. This is SLF4J’s idea applied to machine services.</p>
+        <h1 id="hero-title">The next layer of software abstraction.</h1>
+        <div class="application-choices" aria-label="Choose an application journey">
+          <a href="adopters.html#opencode"><strong>Code with OpenCode</strong><span>Use chat and tools through OA’s model routing.</span></a>
+          <a href="adopters.html#comfyui"><strong>Create with ComfyUI</strong><span>Recover model downloads and coordinate graphics memory.</span></a>
+          <a href="adopters.html#mcp"><strong>Connect an MCP assistant</strong><span>Ask it to use OA’s tools with the permissions you choose.</span></a>
+        </div>
+        <p class="hero-copy">Add durable work, shared data, AI inference and interaction with other applications through common capability APIs. OA’s shared runtime connects them to operating-system facilities, existing engines and remote services. The same application integration works with compatible providers on different machines.</p>
+        <p class="application-scope">Each guide explains setup and its evidence. These integrations have source and development evidence; a qualified 0.8.0 application release remains pending.</p>
+        <p class="hero-copy">Developers ship or depend on the OA runtime the way they ship the Visual C++ Redistributable, and people meet one shared service on their machine.</p>
         <div class="hero-actions">
           <a class="button primary" href="adopt.html">Start building</a>
           <a class="button secondary" href="#explorer-title">Explore capabilities</a>
         </div>
-        <div class="release-downloads" aria-label="Download Open Abstractions">
+        <div class="release-downloads" aria-label="Download OpenAbstractions">
           <a class="release-link" href="https://github.com/openabstractions/redist/releases/latest">Download the latest runtime <span aria-hidden="true">↓</span></a>
           <span class="release-platforms">
             <a href="adopt.html#install-windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4l9-1v8H2zm11-1l9-1v9h-9zM2 13h9v8l-9-1zm11 0h9v9l-9-1z"/></svg>Windows</a>
@@ -43,12 +49,12 @@
           </span>
         </div>
         <p class="release-note">Today you install the runtime once yourself and the applications below connect to it. An application that adopts OA can bring it along in its own installer.</p>
-        <p class="availability">The <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release notes</a> list available packages, checksums, signing state and package verification.</p>
+        <p class="availability">The <a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 runtime release notes</a> list available packages and checksums. Windows MSIs and Setup are signed; Linux tarballs are unsigned; the macOS package is signed, notarised and stapled. <a href="evidence.html#release-0-4-0">Installation evidence and architecture limits</a>.</p>
       </div>
       <aside class="hero-aside what-it-is" aria-labelledby="what-it-is-title">
-          <h2 id="what-it-is-title">What Open Abstractions is</h2>
+          <h2 id="what-it-is-title">What OpenAbstractions is</h2>
         <p>For people who use applications: one shared service on the machine that every adopting application uses, and a Panel that shows what is running and asks before an application gains a new permission. Today that means installing it once; no application bundles it yet.</p>
-        <p id="works-with-today">Connect model engines such as LM Studio, Ollama and Lemonade, add the OA download node to ComfyUI, or install the development provider for OpenCode. The <a href="adopters.html">application guide</a> lists each integration's setup and test evidence. See <a href="ai-apps.html">how AI applications can share models and memory</a>.</p>
+        <p id="works-with-today">The <a href="adopters.html">application guide</a> lists each integration's setup and test evidence.</p>
       </aside>
     </section>
 
@@ -59,7 +65,7 @@
         <h2 id="boundary-title">Add one capability at a time</h2>
         <p>Use the capabilities your application needs. The OA runtime runs on the user’s machine and connects them to compatible implementations, including services on other machines. Users manage permissions and provider choices in one place.</p>
       </div>
-      <ol class="flow" aria-label="Request path through Open Abstractions">
+      <ol class="flow" aria-label="Request path through OpenAbstractions">
         <li>
           <span class="step">1</span>
           <strong>Application</strong>
@@ -78,36 +84,24 @@
         <li>
           <span class="step">4</span>
           <strong>Provider</strong>
-          <span>does the work: curl, Ollama, LM Studio, a NAS or OpenRouter</span>
+          <span>does the work: the operating system, curl, a NAS or a remote service</span>
         </li>
       </ol>
       <p class="architecture-link"><a href="https://github.com/openabstractions/abstraction-facade">Explore service discovery →</a></p>
     </section>
 
-    <section class="cases-home" aria-labelledby="cases-title">
+    <section class="boundary" id="messages" aria-labelledby="messages-title">
       <div class="section-heading">
-        <p class="eyebrow">On a real machine</p>
-        <h2 id="cases-title">What a shared service changes</h2>
-        <p>Each case is a task a person recognizes, what OA did, and what was measured on the owner's development machine.</p>
+        <p class="eyebrow">OpenAbstractions Messages · 0.8.0 preview</p>
+        <h2 id="messages-title">One messaging capability for connected agents</h2>
+        <p>OpenAbstractions Messages is a shared service for agent notes. In the 0.8.0 preview, Claude can send notes to Codex through the <a href="reference.html#first-words">OpenAbstractions runtime</a>.</p>
       </div>
-      <h3>An image editor keeps rendering while a chat engine gives the card back</h3>
-      <div class="page-grid">
-        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. LM Studio is holding a model on the same card, and neither program knows the other exists.</p></article>
-        <article class="page-card"><h3>OA's role</h3><p>ComfyUI asks the resource service for room on the card. The service asks LM Studio to give its memory back through LM Studio's own unload endpoint, then grants ComfyUI a lease once the memory is free.</p></article>
-      </div>
-      <p>LM Studio gave back 21.4 GB of graphics memory in 7.3 s, and the render finished in about 31 s. A deny rule for the same holder turned the identical request into a refusal in about 150 ms, with LM Studio's model still loaded. <a href="cases.html#share-card">Measurements and source</a>.</p>
-      <h3>A model file downloaded once is served by another engine</h3>
-      <div class="page-grid">
-        <article class="page-card"><h3>The task</h3><p>A model file sits in the Jan app's model folder. LM Studio never downloaded it and cannot see it.</p></article>
-        <article class="page-card"><h3>OA's role</h3><p>The model bridge finds the file in the storage inventory and links it into LM Studio's models folder, once the person permits lending to that engine.</p></article>
-      </div>
-      <p>A 46 MB file appeared in LM Studio's list 6.3 seconds after the request, and the source file never moved. <a href="cases.html#lend-once">Measurements and source</a>.</p>
-      <p class="architecture-link"><a href="cases.html">All cases →</a></p>
+      <p>Review connection <a href="reference.html#authority">permissions</a> and retained message activity in the <a href="reference.html#panel-work-messages">Panel</a>.</p>
     </section>
 
     <section class="explorer" aria-labelledby="explorer-title">
       <div class="section-heading">
-        <p class="eyebrow">Explore Open Abstractions</p>
+        <p class="eyebrow">Explore OpenAbstractions</p>
         <h2 id="explorer-title">Discover the capabilities</h2>
         <p>Choose a capability to see what it does and where it helps. Each example includes links to its API and current implementation.</p>
       </div>
@@ -115,12 +109,12 @@
       <div class="capability-groups">
         <div class="capability-group">
           <h3>Foundations</h3>
-          <p>Downloads, durable work, shared storage, permissions, questions to the user, credentials, logging, configuration, identity and finding the right service (resolution).</p>
+          <p>Downloads, durable work, shared storage, permissions, questions to the user, credentials, logging, configuration, identity, who holds the graphics card and finding the right service (resolution).</p>
           <div class="capability-picker" id="capability-picker-foundations" role="group" aria-label="Choose a foundation capability"></div>
         </div>
         <div class="capability-group">
           <h3>AI on this machine</h3>
-          <p>Model catalogue, routing, inference, a local model server, sharing the graphics card, lending model files, the stores already on this machine, and the MCP gateway.</p>
+          <p>Model catalogue, routing, inference, a local model server, lending model files, the stores already on this machine, and the MCP gateway.</p>
           <div class="capability-picker" id="capability-picker-ai" role="group" aria-label="Choose an AI capability"></div>
         </div>
       </div>
@@ -143,6 +137,7 @@
               <li>Applications and interaction</li>
               <li>Safe file updates · CAS</li>
               <li>Change observation · Watch</li>
+              <li>Who holds the graphics card</li>
             </ul>
           </div>
           <div class="capability-group">
@@ -152,7 +147,6 @@
               <li>Router</li>
               <li>AI inference</li>
               <li>Local model server</li>
-              <li>Sharing the graphics card</li>
               <li>Lending a model file</li>
               <li>The stores already on this machine</li>
               <li>MCP gateway for assistants</li>
@@ -161,7 +155,7 @@
         </div>
         <p><a href="catalogue.html">Browse the full capability catalogue</a>.</p>
       </noscript>
-      <div class="capability-carousel" id="capability-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Open Abstractions capabilities">
+      <div class="capability-carousel" id="capability-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="OpenAbstractions capabilities">
         <div class="carousel-controls">
           <button id="capability-previous" type="button" aria-label="Show previous capability">← Previous</button>
           <p><span id="capability-position">1 of 21</span> · <strong id="capability-group-label">Foundations</strong> · <strong id="capability-label">Verified downloads</strong></p>
@@ -187,6 +181,27 @@
       </div>
     </section>
 
+
+    <section class="cases-home" aria-labelledby="cases-title">
+      <div class="section-heading">
+        <p class="eyebrow">On a real machine</p>
+        <h2 id="cases-title">What a shared service changes</h2>
+        <p>Each case is a task a person recognizes, what OA did, and what was measured or tested on the owner's development machine.</p>
+      </div>
+      <h3>A download outlives the program that started it</h3>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>A program starts a multi-gigabyte download, and the person closes the program and opens it again.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>The program submits one retained job. OA keeps the job's record, and the program finds the same accepted work after it reopens.</p></article>
+      </div>
+      <p>The ComfyUI download node's tests reopen it and list the same retained job (abstraction-job, adopter-comfyui). <a href="cases.html#durable-work">The case and its source</a>.</p>
+      <h3>An image editor and OA's own engines take turns on the graphics card</h3>
+      <div class="page-grid">
+        <article class="page-card"><h3>The task</h3><p>ComfyUI needs more of the graphics card than is free. OA's model server holds a model on the same card, and a stock chat engine such as LM Studio may hold another.</p></article>
+        <article class="page-card"><h3>OA's role</h3><p>OA's own engines and ComfyUI with OA's integration each hold a <a href="reference.html#concept-resource.lease">lease</a> and give the memory back when asked. A stock engine is measured as memory OA does not manage and named to the person.</p></article>
+      </div>
+      <p>The ComfyUI connector takes the card lease for the models ComfyUI loads, and OA's model server yields its lease once the measurement confirms the memory fell. <a href="cases.html#share-card">The case and its source</a>.</p>
+      <p class="architecture-link"><a href="cases.html">All cases →</a></p>
+    </section>
 
 <section class="tools" id="tool-showcase" aria-labelledby="tool-title">
   <div class="section-heading">
@@ -249,21 +264,27 @@
       <div class="tool-copy">
         <p class="tool-kicker">MCP gateway</p>
         <h3>Bring OA tools to your AI assistant</h3>
-        <p>Connect an MCP-compatible assistant to OA for application and model discovery, model responses, and background inference jobs.</p>
+        <p>Connect an MCP-compatible assistant to OA for application and model discovery, setup requests, model responses, and background inference jobs.</p>
         <ul class="tool-actions" aria-label="MCP gateway uses">
-          <li>Discover</li><li>Complete</li><li>Submit</li><li>Status</li><li>Cancel</li>
+          <li>Discover</li><li>Set up</li><li>Complete</li><li>Submit</li><li>Status</li><li>Cancel</li>
         </ul>
-        <p class="tool-limit">Source-built development adapter. Its six tools include read-only application discovery. Application editing uses a separate application adapter.</p>
+        <p class="tool-limit">Source-built development adapter with twenty-four tools. Application commands run through OA's native mediation, which applies the application's own declaration and the caller's rights.</p>
 
       </div>
       <figure class="tool-preview">
         <div class="tool-window-bar" aria-hidden="true"><span class="tool-window-dot"></span><span class="tool-window-dot"></span><span class="tool-window-dot"></span><span class="tool-window-title">Curated MCP surface</span></div>
         <div class="tool-mcp-preview" aria-hidden="true">
-          <div class="tool-mcp-group"><h4>Discovery</h4><ul class="tool-mcp-tools"><li><code>oa_applications_list</code></li><li><code>oa_models_list</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Generic API</h4><ul class="tool-mcp-tools"><li><code>oa_api_describe</code></li><li><code>oa_api_read</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Applications</h4><ul class="tool-mcp-tools"><li><code>oa_applications_list</code></li><li><code>oa_applications_describe</code></li><li><code>oa_applications_enrollment_read</code></li><li><code>oa_applications_commands_list</code></li><li><code>oa_applications_command_call</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Models and setup</h4><ul class="tool-mcp-tools"><li><code>oa_models_list</code></li><li><code>oa_models_connect</code></li><li><code>oa_setup_fit</code></li><li><code>oa_setup_prepare</code></li></ul></div>
           <div class="tool-mcp-group"><h4>One bounded response</h4><ul class="tool-mcp-tools"><li><code>oa_inference_complete</code></li></ul></div>
-          <div class="tool-mcp-group"><h4>Durable inference jobs</h4><ul class="tool-mcp-tools"><li><code>oa_inference_job_submit</code></li><li><code>oa_inference_job_status</code></li><li><code>oa_inference_job_cancel</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Inference requests</h4><ul class="tool-mcp-tools"><li><code>oa_inference_requests</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Durable inference jobs</h4><ul class="tool-mcp-tools"><li><code>oa_inference_job_submit</code></li><li><code>oa_inference_job_status</code></li><li><code>oa_inference_job_diagnose</code></li><li><code>oa_inference_job_cancel</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Jobs</h4><ul class="tool-mcp-tools"><li><code>oa_jobs_follow</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Logs</h4><ul class="tool-mcp-tools"><li><code>oa_logs_follow</code></li></ul></div>
+          <div class="tool-mcp-group"><h4>Questions and choices</h4><ul class="tool-mcp-tools"><li><code>oa_asks_request_answering</code></li><li><code>oa_asks_list_answerable</code></li><li><code>oa_asks_list_choices</code></li><li><code>oa_asks_answer</code></li><li><code>oa_asks_answer_choice</code></li></ul></div>
         </div>
-        <figcaption>The six current gateway tools</figcaption>
+        <figcaption>The twenty-four current gateway tools</figcaption>
       </figure>
     </article>
 
@@ -279,10 +300,48 @@
       <div class="section-heading">
         <p class="eyebrow">For developers</p>
         <h2 id="code-title">Start with a familiar language</h2>
-        <p>This example asks a model a question through OA. The person chooses which model server answers, and the service keeps any API key out of your application.</p>
+        <p>The first example sends your program's log records to the shared log service, where the Panel and other tools read them. The second asks a model a question through OA; the person chooses which model server answers, and the service keeps any API key out of your application.</p>
       </div>
       <div class="code-browser" data-tabs>
-        <div class="tab-list" role="tablist" aria-label="Language examples">
+        <div class="tab-list" role="tablist" aria-label="Logging examples">
+          <button id="tab-log-go" type="button" role="tab" aria-selected="true" aria-controls="panel-log-go" tabindex="0">Go</button>
+          <button id="tab-log-python" type="button" role="tab" aria-selected="false" aria-controls="panel-log-python" tabindex="-1">Python</button>
+        </div>
+        <div id="panel-log-go" role="tabpanel" aria-labelledby="tab-log-go">
+<pre><code>package main
+
+import (
+    "context"
+    "log/slog"
+    "time"
+
+    logging "github.com/openabstractions/abstraction-logging/go"
+)
+
+func main() {
+    h := logging.NewDefaultHandler(&amp;logging.Options{Program: "my-app"})
+    slog.SetDefault(slog.New(h))
+    slog.Info("worker started", "component", "indexer")
+
+    // Close drains the queued records before the program exits.
+    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+    defer cancel()
+    h.Close(ctx)
+}</code></pre>
+        </div>
+        <div id="panel-log-python" role="tabpanel" aria-labelledby="tab-log-python" hidden>
+<pre><code>import logging
+from abstraction.facade.client import Machine
+from abstraction.logging.handler import ServiceHandler
+
+handler = ServiceHandler(Machine().resolve_log(), program="my-app")
+logging.getLogger().addHandler(handler)
+logging.getLogger("my-app").warning("disk %s nearly full", "D:")</code></pre>
+        </div>
+      </div>
+      <p><a href="adopt.html#quickstart-title">Write a log and read it back</a></p>
+      <div class="code-browser" data-tabs>
+        <div class="tab-list" role="tablist" aria-label="Model examples">
           <button id="tab-go" type="button" role="tab" aria-selected="true" aria-controls="panel-go" tabindex="0">Go</button>
           <button id="tab-python" type="button" role="tab" aria-selected="false" aria-controls="panel-python" tabindex="-1">Python</button>
         </div>
@@ -348,7 +407,7 @@ print("".join(part.text for part in reply.message.parts))</code></pre>
     <section class="resources" aria-labelledby="resources-title">
       <div class="section-heading">
         <p class="eyebrow">Next steps</p>
-        <h2 id="resources-title">Get started with Open Abstractions</h2>
+        <h2 id="resources-title">Get started with OpenAbstractions</h2>
       </div>
       <div class="resource-grid">
         <a href="adopt.html"><strong>Build into an application</strong><span>Connect the capabilities you need through an OA library.</span></a>
@@ -359,10 +418,10 @@ print("".join(part.text for part in reply.message.parts))</code></pre>
   </main>
 
   <footer>
-    <span>Open Abstractions</span>
+    <span>OpenAbstractions</span>
     <a href="https://github.com/openabstractions/abstractions">Source</a>
     <a href="schema.html">Schemas</a>
-    <a href="coverage.html">Coverage</a>
+    <a href="coverage.html">Language support</a>
     <span>Maintained by Reinis Lusis</span>
   </footer>
 </body>

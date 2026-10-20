@@ -1,0 +1,3635 @@
+{
+  "produced": {"by": "scripts/matrix.sh", "commit": "5c39a7622d", "date": "2026-11-17"},
+  "schema": "openabstractions.language-support/1",
+  "releases": "https://github.com/openabstractions/redist/releases/latest",
+  "states": {
+    "checked": "a current focused client record for this module and language passed, and nothing current failed",
+    "available": "a handwritten client or a generated service interface exists, and no current check is recorded",
+    "types": "generated record types only; no handwritten client or generated service interface",
+    "failed": "a current focused record, or the module tests at the current source, failed",
+    "none": "no source for this module in this language"
+  },
+  "rules": {
+    "test_connection": "the cell is checked, and none of its passing client records ran over the connection named by transport \"shared-native-ipc\"",
+    "failed_before": "the cell has no current verdict, and its module tests or an earlier_checks record failed at an earlier source",
+    "earlier_checks": "focused records whose declared inputs changed after they ran; history only, they set no state",
+    "module_tests.last.tree": "Git tree hash of the module directory the module tests measured (git rev-parse HEAD:<module path>)",
+    "module_tests.condition": "\"local changes\", \"uncommitted run\" or \"darwin peer proof\" when one applies, else null"
+  },
+  "platforms": {
+    "checked": [
+      "windows/amd64"
+    ],
+    "unchecked": [
+      "Linux",
+      "macOS"
+    ]
+  },
+  "sources": {
+    "abstraction-asks": "714eb5f686",
+    "abstraction-cas": "26730fa608",
+    "abstraction-config": "246015b1d4",
+    "abstraction-credentials": "5996e5bc82",
+    "abstraction-download": "4cf4a32fcc",
+    "abstraction-facade": "556126855c",
+    "abstraction-identity": "b9d2e79bd9",
+    "abstraction-inference": "b8fa55a1b2",
+    "abstraction-job": "bc9f0591b2",
+    "abstraction-logging": "6dd88cc556",
+    "abstraction-model": "32ed45babf",
+    "abstraction-provider-kit": "7d56c568eb",
+    "abstraction-provider-lemonade": "fb7bbd5288",
+    "abstraction-provider-localai": "f84298352d",
+    "abstraction-provider-modelbridge": "f1ca088798",
+    "abstraction-provider-modelhost": "d543e11190",
+    "abstraction-provider-pytorch": "9fd2663bcb",
+    "abstraction-provider-thenoise": "0aad00e9c1",
+    "abstraction-resource": "f7ade4f2c4",
+    "abstraction-rights": "f15f70d985",
+    "abstraction-router": "54af5a2933",
+    "abstraction-storage": "a359a244f5",
+    "abstraction-storage-over-local-stores": "530bd6e9b3",
+    "abstraction-watch": "86a36d875d"
+  },
+  "capabilities": [
+    {
+      "module": "abstraction-facade",
+      "name": "facade",
+      "group": "Start here",
+      "description": "Resolve a capability through one local OA service while providers and service locations can change.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-facade",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-facade-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-facade/go",
+          "resolve": [
+            "client.Machine.ObserveCaller",
+            "client.Machine.ResolveApplications",
+            "client.Machine.ResolveMachineControl",
+            "client.Machine.ResolveRegistry",
+            "client.Machine.ResolveRegistryV2",
+            "client.Machine.ResolveRegistryV3"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "4fee870",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-facade-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-facade-client",
+          "resolve": [
+            "resolve_applications",
+            "resolve_registry"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 9,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-facade-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_facade",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "b1fe7813",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-facade-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-facade-service",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-facade-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "@openabstractions/facade",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "b1fe7813",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-job",
+      "name": "Durable jobs",
+      "group": "Work and data",
+      "description": "Submit work once, save its identity and observe, cancel or recover the same accepted work.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-job",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-job-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-job/go",
+          "resolve": [
+            "client.Machine.ResolveJobInventory",
+            "client.Machine.ResolveJobOperator",
+            "client.Machine.RestoreJobs"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "30ffc73",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-job-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-job-protocol",
+          "resolve": [
+            "resolve_job_inventory",
+            "resolve_job_operations",
+            "resolve_jobs"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "fa004bed",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "checked",
+          "anchor": "m-job-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction_job",
+          "resolve": [],
+          "checks": [
+            {
+              "id": "shared-cpp-inventory-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-cpp-inventory-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "30ffc73",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-job-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-job-api",
+          "resolve": [
+            "resolve_job_inventory",
+            "resolve_job_operations",
+            "resolve_jobs"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-job-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/job-acceptance",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "fa004bed",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-download",
+      "name": "Verified downloads",
+      "group": "Work and data",
+      "description": "Describe an artifact once and let a job provider acquire, verify and deliver it.",
+      "limit": "Submit it through Durable jobs.",
+      "types_note": "Submit a download as a Durable job with these records.",
+      "catalogue": "catalogue.html#abstraction-download",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-download-go",
+          "test_connection": false,
+          "failed_before": true,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "github.com/openabstractions/abstraction-download/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "FAIL",
+              "tree": "43ab3b5",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "types",
+          "anchor": "m-download-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "records"
+          },
+          "package": "abstraction-download-request-protocol",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "types",
+          "anchor": "m-download-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "records"
+          },
+          "package": "abstraction_download",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "43ab3b5",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "types",
+          "anchor": "m-download-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "records"
+          },
+          "package": "abstraction-download-request-api",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-download-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "records"
+          },
+          "package": "@openabstractions/download-request",
+          "resolve": [],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "500ab862",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-config",
+      "name": "Settings",
+      "group": "Work and data",
+      "description": "Read effective OA settings, their sources, revisioned edits and later changes.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-config",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-config-go",
+          "test_connection": false,
+          "failed_before": true,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-config/go",
+          "resolve": [
+            "client.Machine.ResolveConfig",
+            "client.Machine.ResolveConfigEditor",
+            "client.Machine.ResolveConfigObserver"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "FAIL",
+              "tree": "9c4cbe5",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "checked",
+          "anchor": "m-config-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-config-protocol",
+          "resolve": [
+            "resolve_config",
+            "resolve_config_editor",
+            "resolve_config_observer"
+          ],
+          "checks": [
+            {
+              "id": "shared-python-config-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-python-config-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "checked",
+          "anchor": "m-config-cpp",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_config",
+          "resolve": [],
+          "checks": [
+            {
+              "id": "config-cpp-windows-service",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": null,
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/config-cpp-windows-service.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 2,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-config-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-config-api",
+          "resolve": [
+            "resolve_config",
+            "resolve_config_editor",
+            "resolve_config_observer"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-config-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/config",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "91492d66",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-credentials",
+      "name": "Named credentials",
+      "group": "Work and data",
+      "description": "Keep secret bytes with the credential manager and let approved services apply them to specific requests.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-credentials",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-credentials-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-credentials/go",
+          "resolve": [
+            "client.Machine.ResolveCredentialReader",
+            "client.Machine.ResolveCredentials",
+            "client.Machine.ResolveCredentialsApplier",
+            "client.Machine.ResolveScopedCredentials",
+            "client.Machine.ResolveScopedCredentialsApplier"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "afa990a8",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-credentials-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-credentials-protocol",
+          "resolve": [
+            "resolve_credentials",
+            "resolve_credentials_applier"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-credentials-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_credentials_api",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-credentials-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-credentials-api",
+          "resolve": [
+            "resolve_credentials",
+            "resolve_credentials_applier"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "available",
+          "anchor": "m-credentials-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/credentials",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-logging",
+      "name": "Structured events",
+      "group": "Work and data",
+      "description": "Write common events and let authorized tools read saved events or follow new ones.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-logging",
+      "languages": {
+        "go": {
+          "state": "checked",
+          "anchor": "m-logging-go",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-logging/go",
+          "resolve": [
+            "client.Machine.ResolveLog",
+            "client.Machine.ResolveLogApplicationObserver",
+            "client.Machine.ResolveLogApplicationReader",
+            "client.Machine.ResolveLogObserver",
+            "client.Machine.ResolveLogReader",
+            "client.Machine.ResolveLogSourceReader"
+          ],
+          "checks": [
+            {
+              "id": "logging-go-windows-service",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": null,
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/logging-go-windows-service.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "12a4d337",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "checked",
+          "anchor": "m-logging-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-logging-protocol",
+          "resolve": [
+            "resolve_log",
+            "resolve_log_observer",
+            "resolve_log_reader"
+          ],
+          "checks": [
+            {
+              "id": "shared-python-logging-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-python-logging-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 5,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "checked",
+          "anchor": "m-logging-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_logging",
+          "resolve": [
+            "resolve_log",
+            "resolve_log_observer",
+            "resolve_log_reader"
+          ],
+          "checks": [
+            {
+              "id": "logging-cpp-windows-service",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": null,
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/logging-cpp-windows-service.json"
+            },
+            {
+              "id": "shared-cpp-log-history-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-cpp-log-history-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "12a4d337",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "checked",
+          "anchor": "m-logging-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-logging-api",
+          "resolve": [
+            "resolve_log",
+            "resolve_log_observer",
+            "resolve_log_reader"
+          ],
+          "checks": [
+            {
+              "id": "shared-rust-logging-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-rust-logging-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 1,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-logging-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/logging",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "12a4d337",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-storage",
+      "name": "Shared content",
+      "group": "Work and data",
+      "description": "Find bytes by content fingerprint, then read, write and watch them for changes within size limits.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-storage",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-storage-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-storage/go",
+          "resolve": [
+            "client.Machine.ResolveLending",
+            "client.Machine.ResolveStorage",
+            "client.Machine.ResolveStorageChanges",
+            "client.Machine.ResolveStorageInventory",
+            "client.Machine.ResolveStorageRemovalInventory",
+            "client.Machine.ResolveStorageRemover",
+            "client.Machine.ResolveStorageWriter"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "ce299996",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-storage-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-storage-content",
+          "resolve": [
+            "resolve_storage",
+            "resolve_storage_changes",
+            "resolve_storage_writer"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-storage-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_storage",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "ce299996",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-storage-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-storage-content-api",
+          "resolve": [
+            "resolve_storage",
+            "resolve_storage_changes",
+            "resolve_storage_writer"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-storage-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/storage-content",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "ce299996",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-watch",
+      "name": "Watch",
+      "group": "Work and data",
+      "description": "Turn polled or pushed values into current snapshots, quiet notices, or one callback after a burst settles.",
+      "limit": "Written for provider authors.",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-watch",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-watch-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "github.com/openabstractions/abstraction-watch/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "0a8596ad",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-watch-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "abstraction-watch",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "0a8596ad",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-watch-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "abstraction_watch",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "0a8596ad",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-watch-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "none",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-watch-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "none",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-rights",
+      "name": "Permissions",
+      "group": "People and permissions",
+      "description": "Decide and administer which verified programs may use each capability or operator action.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-rights",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-rights-go",
+          "test_connection": false,
+          "failed_before": true,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-rights/go",
+          "resolve": [
+            "client.Machine.ResolveRights",
+            "client.Machine.ResolveRightsOperator",
+            "client.Machine.ResolveRightsSelector",
+            "client.Machine.ResolveRightsSelectorOperator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "FAIL",
+              "tree": "6fff1f5",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-rights-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-rights-protocol",
+          "resolve": [
+            "resolve_rights",
+            "resolve_rights_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-rights-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_rights",
+          "resolve": [
+            "resolve_rights"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-rights-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-rights-api",
+          "resolve": [
+            "resolve_rights",
+            "resolve_rights_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-rights-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/rights",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "40736ed9",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-asks",
+      "name": "Questions",
+      "group": "People and permissions",
+      "description": "Pause a specific action and ask the responsible person for a decision.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-asks",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-asks-go",
+          "test_connection": false,
+          "failed_before": true,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-asks/go",
+          "resolve": [
+            "client.Machine.ResolveAsks",
+            "client.Machine.ResolveAsksChoices",
+            "client.Machine.ResolveAsksNotificationOperator",
+            "client.Machine.ResolveAsksNotifications",
+            "client.Machine.ResolveAsksOperator",
+            "client.Machine.ResolveAsksPermission",
+            "client.Machine.ResolveAsksPermissionOperator",
+            "client.Machine.ResolveAsksResponder"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "FAIL",
+              "tree": "7e9ea82",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-asks-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-asks-protocol",
+          "resolve": [
+            "resolve_asks",
+            "resolve_asks_choices",
+            "resolve_asks_notifications",
+            "resolve_asks_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-asks-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_asks",
+          "resolve": [
+            "resolve_asks"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-asks-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-asks-api",
+          "resolve": [
+            "resolve_asks",
+            "resolve_asks_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-asks-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/asks",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "26c5fc11",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-identity",
+      "name": "Caller identity",
+      "group": "People and permissions",
+      "description": "Use the operating system connection to identify the local program and account for permission decisions.",
+      "limit": "Sign-in is outside its scope.",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-identity",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-identity-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "github.com/openabstractions/abstraction-identity",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "b812381",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-identity-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "abstraction-ipc",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 7,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-identity-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "abstraction_ipc",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "10b33d6a",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-identity-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "abstraction-ipc",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 1,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "available",
+          "anchor": "m-identity-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "records"
+          },
+          "package": "@openabstractions/ipc",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "10b33d6a",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-inference",
+      "name": "Model inference",
+      "group": "Models",
+      "description": "Use chat, embeddings, speech, transcription, live voice and images; retain video and image-batch work as durable jobs.",
+      "limit": "Modality support varies by provider.",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-inference",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-inference-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-inference/go",
+          "resolve": [
+            "client.Machine.ResolveEmbeddings",
+            "client.Machine.ResolveInference",
+            "client.Machine.ResolveInferenceChatV2",
+            "client.Machine.ResolveInferenceChatV3",
+            "client.Machine.ResolveInferenceImageV2",
+            "client.Machine.ResolveInferenceOperator",
+            "client.Machine.ResolveInferenceSelectionOperatorV2"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "58805907",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-inference-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-inference-protocol",
+          "resolve": [
+            "resolve_inference",
+            "resolve_inference_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-inference-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_inference_api",
+          "resolve": [
+            "resolve_inference",
+            "resolve_inference_operator"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-inference-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-inference-api",
+          "resolve": [
+            "resolve_inference"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "available",
+          "anchor": "m-inference-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "@openabstractions/inference",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 1,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-model",
+      "name": "Model lookup",
+      "group": "Models",
+      "description": "Resolve model names and provider metadata through a shared model vocabulary.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-model",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-model-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-model/go",
+          "resolve": [
+            "client.Machine.ResolveModel",
+            "client.Machine.ResolveModelCatalog"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "7cf857e",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-model-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-model",
+          "resolve": [
+            "resolve_model"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "c2ff2eac",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "checked",
+          "anchor": "m-model-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_model_api",
+          "resolve": [],
+          "checks": [
+            {
+              "id": "shared-cpp-model-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "shared-native-ipc",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-cpp-model-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "c2ff2eac",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-model-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-model-api",
+          "resolve": [
+            "resolve_model"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-model-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/model",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "c2ff2eac",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-router",
+      "name": "Model router",
+      "group": "Models",
+      "description": "Declare model servers and select eligible providers from requirements and operator policy.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-router",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-router-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-router/go",
+          "resolve": [
+            "client.Machine.ResolveRouter"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "a56ecb2",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-router-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-router-protocol",
+          "resolve": [
+            "resolve_router"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "checked",
+          "anchor": "m-router-cpp",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_router",
+          "resolve": [],
+          "checks": [
+            {
+              "id": "router-cpp-windows-service",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": null,
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/router-cpp-windows-service.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-router-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-router-api",
+          "resolve": [
+            "resolve_router"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "checked",
+          "anchor": "m-router-javascript",
+          "test_connection": true,
+          "failed_before": false,
+          "platforms": [
+            "windows/amd64"
+          ],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/router",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [
+            {
+              "id": "shared-javascript-capabilities-windows",
+              "dimension": "service-client",
+              "verdict": "PASS",
+              "platform": "windows/amd64",
+              "transport": "test-pipe-connector",
+              "service_language": "go",
+              "commit": "5c39a7622d115b2b4f71c0c1a15df9196b93b56a",
+              "date": "2026-11-17",
+              "record": "https://github.com/openabstractions/abstractions/blob/main/docs/results/focused/shared-javascript-capabilities-windows.json"
+            }
+          ],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "b13c0888",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-resource",
+      "name": "Resources",
+      "group": "Runtime",
+      "description": "See who holds graphics-card and system memory, reserve an amount with a lease and keep the machine awake with a wake lease.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-resource",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-resource-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-resource/go",
+          "resolve": [
+            "client.Machine.ResolveResourceLeases",
+            "client.Machine.ResolveResourceTable"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "748cfa08",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-resource-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "abstraction-resource-protocol",
+          "resolve": [
+            "resolve_resource_leases",
+            "resolve_resource_table"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-resource-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_resource",
+          "resolve": [
+            "resolve_resource_leases",
+            "resolve_resource_table"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "UNPROVEN",
+              "tree": "748cfa08",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "available",
+          "anchor": "m-resource-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-resource-client",
+          "resolve": [
+            "resolve_resource_leases",
+            "resolve_resource_table"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "available",
+          "anchor": "m-resource-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": "service"
+          },
+          "package": "@openabstractions/resource",
+          "resolve": [
+            "resolveService(contract)"
+          ],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "unreached",
+            "last": null,
+            "test_files": 0,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-cas",
+      "name": "Atomic file",
+      "group": "Runtime",
+      "description": "Compare-and-set (CAS): a development utility that compares and replaces bytes only when their recorded value still matches.",
+      "limit": "",
+      "types_note": "",
+      "catalogue": "catalogue.html#abstraction-cas",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-cas-go",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "github.com/openabstractions/abstraction-cas/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "15cb201e",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "available",
+          "anchor": "m-cas-python",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction-cas",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "15cb201e",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "available",
+          "anchor": "m-cas-cpp",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": "service"
+          },
+          "package": "abstraction_cas",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "15cb201e",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-cas-rust",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-cas-javascript",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    }
+  ],
+  "providers": [
+    {
+      "module": "abstraction-provider-kit",
+      "name": "Provider kit",
+      "runs_as": "in-process Go package",
+      "commands": [
+        "modelpack"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-kit",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-kit",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-kit/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "gate",
+            "last": null,
+            "test_files": 110,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-kit",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-kit",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-kit",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-kit",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-lemonade",
+      "name": "Lemonade",
+      "runs_as": "own process",
+      "commands": [
+        "lemonaded"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-lemonade",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-lemonade",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-lemonade/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "gate",
+            "last": null,
+            "test_files": 57,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-lemonade",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-lemonade",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-lemonade",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-lemonade",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-localai",
+      "name": "LocalAI",
+      "runs_as": "in-process Go package",
+      "commands": [],
+      "catalogue": "catalogue.html#abstraction-provider-localai",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-localai",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-localai/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "gate",
+            "last": null,
+            "test_files": 7,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-localai",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-localai",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-localai",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-localai",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-modelbridge",
+      "name": "Model bridge",
+      "runs_as": "own process",
+      "commands": [
+        "modelbridged"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-modelbridge",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-modelbridge",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-modelbridge/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "6dbbd7f4",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-modelbridge",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-modelbridge",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-modelbridge",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-modelbridge",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-modelhost",
+      "name": "Model host",
+      "runs_as": "own process",
+      "commands": [
+        "modelhostd"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-modelhost",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-modelhost",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-modelhost/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "d6b45f99",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-modelhost",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-modelhost",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-modelhost",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-modelhost",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-pytorch",
+      "name": "PyTorch",
+      "runs_as": "own process",
+      "commands": [
+        "pytorchd"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-pytorch",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-pytorch",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-pytorch/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "gate",
+            "last": null,
+            "test_files": 30,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-pytorch",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-pytorch",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-pytorch",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-pytorch",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-provider-thenoise",
+      "name": "TheNoise",
+      "runs_as": "own process",
+      "commands": [
+        "thenoise-provider"
+      ],
+      "catalogue": "catalogue.html#abstraction-provider-thenoise",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-provider-thenoise",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-provider-thenoise/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "gate",
+            "last": null,
+            "test_files": 19,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-provider-thenoise",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-provider-thenoise",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-provider-thenoise",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-provider-thenoise",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    },
+    {
+      "module": "abstraction-storage-over-local-stores",
+      "name": "abstraction-storage-over-local-stores",
+      "runs_as": "own process",
+      "commands": [
+        "inventoryd"
+      ],
+      "catalogue": "catalogue.html#abstraction-storage-over-local-stores",
+      "languages": {
+        "go": {
+          "state": "available",
+          "anchor": "m-storage-over-local-stores",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": true,
+            "interface": null
+          },
+          "package": "github.com/openabstractions/abstraction-storage-over-local-stores/go",
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "UNPROVEN",
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "1dcfabdd",
+              "date": "2026-09-27"
+            },
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "python": {
+          "state": "none",
+          "anchor": "m-storage-over-local-stores",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "cpp": {
+          "state": "none",
+          "anchor": "m-storage-over-local-stores",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "rust": {
+          "state": "none",
+          "anchor": "m-storage-over-local-stores",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        },
+        "javascript": {
+          "state": "none",
+          "anchor": "m-storage-over-local-stores",
+          "test_connection": false,
+          "failed_before": false,
+          "platforms": [],
+          "client": {
+            "handwritten": false,
+            "interface": null
+          },
+          "package": null,
+          "resolve": [],
+          "checks": [],
+          "earlier_checks": [],
+          "module_tests": {
+            "verdict": "—",
+            "reason": "undeclared",
+            "last": null,
+            "test_files": null,
+            "condition": null
+          }
+        }
+      }
+    }
+  ]
+}
