@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Abstractions — evidence and limits</title>
+  <title>OpenAbstractions — evidence and limits</title>
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
@@ -11,14 +11,24 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page">
     <section class="intro">
       <p class="eyebrow">Evidence</p>
       <h1>What has been exercised, and at what boundary</h1>
       <p>A useful result names the source revision, environment, caller, provider, action, and observable outcome. Coverage turns those records into current capability verdicts.</p>
+    </section>
+    <section id="release-0-8-0">
+      <h2>0.8.0 is released</h2>
+      <p>The <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">public release</a> contains 13 assets with published checksums. Windows installers and the macOS package are signed; Linux archives are unsigned. The <a href="https://github.com/openabstractions/redist/actions/runs/44999333520">release build</a> and package-specific checks retain their actual scope.</p>
+      <p>Install app integrations from the Panel's Catalog. Double-clicking app MSIs and agent MCP connections after upgrading from 0.4 are deferred to 0.8.1. Smart App Control can block the bundled llama.cpp engine and the official OpenCode installer. Earlier installation evidence below remains specific to its release.</p>
+    </section>
+    <section id="release-0-4-0">
+      <h2>0.4.0 is released</h2>
+      <p>The <a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">release notes</a> identify the exact assets and checksums. Both Windows MSIs and OpenAbstractions-Setup-0.4.0.exe are signed with SHA-256 Authenticode and an RFC 3161 SHA-256 timestamp. Linux tarballs are unsigned. The macOS package is Developer ID signed, notarised and stapled.</p>
+      <p>Signed Setup verification, Windows x64 signed-MSI automated acceptance and macOS arm64 automated installed XPC acceptance passed. Manual Setup and human demonstrations remain deferred. Retained installed evidence covers Windows x64, Linux amd64 and macOS arm64; earlier lifecycle receipts keep their original release scope. Windows and Linux ARM64 packages are cross-built; ARM64 installation on those platforms and Intel Mac execution remain untested. The <a href="https://github.com/openabstractions/redist/actions/runs/39731444672">verified release workflow</a> and the release notes retain their scope.</p>
     </section>
     <section id="release-0-3-0">
       <h2>0.3.0 is released</h2>
@@ -31,7 +41,7 @@
         <article class="page-card"><h3>Windows: installation through recovery</h3><p>Both per-user and machine installation passed on x64, including upgrade from 0.1.7, reinstall, failed-upgrade rollback, startup in a fresh session, crash recovery and removal. The MSI is unsigned. ARM64 is cross-built and has no hardware installation evidence.</p></article>
         <article class="page-card"><h3>Linux: a real download through the installed service</h3><p>A disposable Ubuntu account installed the runtime under its systemd user manager, downloaded and verified bytes, observed the completed job and removed the installation while retaining user data. Installation and removal without a user manager also passed. ARM64 installation remains untested.</p></article>
         <article class="page-card"><h3>macOS: package available, identity limit explicit</h3><p>The universal package is signed, notarised and stapled. Local launchd lifecycle checks passed separately. Protected service calls still lack the required caller proof; this release makes no macOS capability-readiness claim. The final signed package still needs end-user installation qualification.</p></article>
-        <article class="page-card"><h3>Trace the result</h3><p>The <a href="https://github.com/openabstractions/redist/actions/runs/35572834195">packaging candidate</a> and <a href="https://github.com/openabstractions/redist/actions/runs/35573550787">final release workflow</a> passed. All five downloaded packages matched <a href="https://github.com/openabstractions/redist/releases/download/v0.2.0/SHA256SUMS">SHA256SUMS</a>. Each capability's language checks retain their own scope in <a href="coverage.html">coverage</a>.</p></article>
+        <article class="page-card"><h3>Trace the result</h3><p>The <a href="https://github.com/openabstractions/redist/actions/runs/35572834195">packaging candidate</a> and <a href="https://github.com/openabstractions/redist/actions/runs/35573550787">final release workflow</a> passed. All five downloaded packages matched <a href="https://github.com/openabstractions/redist/releases/download/v0.2.0/SHA256SUMS">SHA256SUMS</a>. Each capability's language checks retain their own scope in <a href="coverage.html">Language support</a>.</p></article>
       </div>
     </section>
     <h2>Current integration evidence</h2>
@@ -48,7 +58,7 @@
     <div class="route"><strong>Limits</strong><span>The boundary of the run. Skipped, hidden, unavailable, and unexercised checks remain unverified.</span></div>
     <h2>Evidence routes</h2>
     <div class="page-grid">
-      <article class="page-card"><h3>Generated coverage</h3><p>Capability, language, and platform cells carry the reviewed current verdict and its public evidence route where available.</p><p><a href="coverage.html">Open coverage</a></p></article>
+      <article class="page-card"><h3>Language support</h3><p>Each module and language carries one generated mark: checked against the running runtime, available, record types only, failed or none. Each check names its platform and links its record.</p><p><a href="coverage.html">Open Language support</a></p></article>
       <article class="page-card"><h3>Public source</h3><p>Contracts, generated clients, runtime composition, focused tests, and source adopters make the checked boundary inspectable.</p><p><a href="https://github.com/openabstractions">Browse the organization</a></p></article>
       <article class="page-card"><h3>ComfyUI adopter</h3><p>ComfyUI is a node-based image generation editor. Its adopter shows durable download, storage, logging, application presence, and workflow interaction integration points.</p><p><a href="https://github.com/openabstractions/adopter-comfyui">Inspect the adopter</a></p></article>
       <article class="page-card"><h3>Earlier public records</h3><p>Dated transcripts preserve older cross-language, transfer, identity, and lifecycle observations. Their scope belongs to the recorded revision.</p><p><a href="https://github.com/openabstractions/abstractions/tree/main/docs/results">Browse dated results</a></p></article>
@@ -63,6 +73,6 @@
       <li>Human comprehension requires a separate user-facing check; technical effect evidence covers system behavior.</li>
     </ul>
   </main>
-  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Coverage</a></footer>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="coverage.html">Language support</a></footer>
 </body>
 </html>

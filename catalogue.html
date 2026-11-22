@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open Abstractions — capability catalogue</title>
+<title>OpenAbstractions — capability catalogue</title>
 <link rel="icon" href="brand/favicon.ico" sizes="any">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="homepage.css">
@@ -25,91 +25,91 @@
 </style>
 </head>
 <body>
-<header class="site-header"><a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a><nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html" aria-current="page">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav></header>
+<header class="site-header"><a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a><nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html" aria-current="page">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav></header>
 <main class="current-page">
 <section class="intro catalogue-intro"><p class="eyebrow">Catalogue</p>
-<h1>Fifteen abstractions with separate responsibilities</h1>
+<h1>Sixteen abstractions with separate responsibilities</h1>
 <p>Software uses abstractions to span operating systems and libraries. OA carries the same idea into capabilities supplied by local programs, operating-system facilities, and remote services. Choose the smallest abstraction your application or provider needs. Open the technical detail for contracts, clients, source publication and recorded language results.</p></section>
-<p class="status-note">Repository presence and a source build are separate from installed readiness. <a href="coverage.html">Current coverage</a> carries the reviewed verdicts.</p>
+<p class="status-note">Repository presence and a source build are separate from installed readiness. <a href="coverage.html">Language support</a> records which language clients are checked against the runtime.</p>
 <div class="catalogue-cards">
-<article class="catalogue-card"><h2>Human decisions</h2><p>Pause a specific action and ask the responsible person for a decision.</p>
-<p class="technical"><a href="#abstraction-asks">abstraction-asks</a> · <a href="https://github.com/openabstractions/abstraction-asks">Public source</a></p></article>
-<article class="catalogue-card"><h2>Safe shared updates</h2><p>Compare-and-set (CAS): a development utility that compares and replaces bytes only when their recorded value still matches.</p>
-<p class="technical"><a href="#abstraction-cas">abstraction-cas</a> · <a href="https://github.com/openabstractions/abstraction-cas">Public source</a></p></article>
-<article class="catalogue-card"><h2>Runtime configuration</h2><p>Read effective OA settings, their sources, revisioned edits and later changes.</p>
+<article class="catalogue-card"><h2>facade</h2><p>Resolve a capability through one local OA service while providers and service locations can change.</p>
+<p class="technical"><a href="#abstraction-facade">abstraction-facade</a> · <a href="https://github.com/openabstractions/abstraction-facade">Public source</a></p></article>
+<article class="catalogue-card"><h2>Durable jobs</h2><p>Submit work once, save its identity and observe, cancel or recover the same accepted work.</p>
+<p class="technical"><a href="#abstraction-job">abstraction-job</a> · <a href="https://github.com/openabstractions/abstraction-job">Public source</a></p></article>
+<article class="catalogue-card"><h2>Verified downloads</h2><p>Describe an artifact once and let a job provider acquire, verify and deliver it.</p>
+<p class="technical"><a href="#abstraction-download">abstraction-download</a> · <a href="https://github.com/openabstractions/abstraction-download">Public source</a></p></article>
+<article class="catalogue-card"><h2>Settings</h2><p>Read effective OA settings, their sources, revisioned edits and later changes.</p>
 <p class="technical"><a href="#abstraction-config">abstraction-config</a> · <a href="https://github.com/openabstractions/abstraction-config">Public source</a></p></article>
 <article class="catalogue-card"><h2>Named credentials</h2><p>Keep secret bytes with the credential manager and let approved services apply them to specific requests.</p>
 <p class="technical"><a href="#abstraction-credentials">abstraction-credentials</a> · <a href="https://github.com/openabstractions/abstraction-credentials">Public source</a></p></article>
-<article class="catalogue-card"><h2>Verified downloads</h2><p>Describe an artifact once and let a job provider acquire, verify and deliver it.</p>
-<p class="technical"><a href="#abstraction-download">abstraction-download</a> · <a href="https://github.com/openabstractions/abstraction-download">Public source</a></p></article>
-<article class="catalogue-card"><h2>Application entry point</h2><p>Resolve a capability through one local OA service while providers and service locations can change.</p>
-<p class="technical"><a href="#abstraction-facade">abstraction-facade</a> · <a href="https://github.com/openabstractions/abstraction-facade">Public source</a></p></article>
+<article class="catalogue-card"><h2>Structured events</h2><p>Write common events and let authorized tools read saved events or follow new ones.</p>
+<p class="technical"><a href="#abstraction-logging">abstraction-logging</a> · <a href="https://github.com/openabstractions/abstraction-logging">Public source</a></p></article>
+<article class="catalogue-card"><h2>Shared content</h2><p>Find bytes by content fingerprint, then read, write and watch them for changes within size limits.</p>
+<p class="technical"><a href="#abstraction-storage">abstraction-storage</a> · <a href="https://github.com/openabstractions/abstraction-storage">Public source</a></p></article>
+<article class="catalogue-card"><h2>Watch</h2><p>Turn polled or pushed values into current snapshots, quiet notices, or one callback after a burst settles.</p>
+<p class="technical"><a href="#abstraction-watch">abstraction-watch</a> · <a href="https://github.com/openabstractions/abstraction-watch">Public source</a></p></article>
+<article class="catalogue-card"><h2>Permissions</h2><p>Decide and administer which verified programs may use each capability or operator action.</p>
+<p class="technical"><a href="#abstraction-rights">abstraction-rights</a> · <a href="https://github.com/openabstractions/abstraction-rights">Public source</a></p></article>
+<article class="catalogue-card"><h2>Questions</h2><p>Pause a specific action and ask the responsible person for a decision.</p>
+<p class="technical"><a href="#abstraction-asks">abstraction-asks</a> · <a href="https://github.com/openabstractions/abstraction-asks">Public source</a></p></article>
 <article class="catalogue-card"><h2>Caller identity</h2><p>Use the operating system connection to identify the local program and account for permission decisions.</p>
 <p class="technical"><a href="#abstraction-identity">abstraction-identity</a> · <a href="https://github.com/openabstractions/abstraction-identity">Public source</a></p></article>
 <article class="catalogue-card"><h2>Model inference</h2><p>Use chat, embeddings, speech, transcription, live voice and images; retain video and image-batch work as durable jobs.</p>
 <p class="technical"><a href="#abstraction-inference">abstraction-inference</a> · <a href="https://github.com/openabstractions/abstraction-inference">Public source</a></p></article>
-<article class="catalogue-card"><h2>Durable jobs</h2><p>Submit work once, save its identity and observe, cancel or recover the same accepted work.</p>
-<p class="technical"><a href="#abstraction-job">abstraction-job</a> · <a href="https://github.com/openabstractions/abstraction-job">Public source</a></p></article>
-<article class="catalogue-card"><h2>Structured events</h2><p>Write common events and let authorized tools read saved events or follow new ones.</p>
-<p class="technical"><a href="#abstraction-logging">abstraction-logging</a> · <a href="https://github.com/openabstractions/abstraction-logging">Public source</a></p></article>
 <article class="catalogue-card"><h2>Model lookup</h2><p>Resolve model names and provider metadata through a shared model vocabulary.</p>
 <p class="technical"><a href="#abstraction-model">abstraction-model</a> · <a href="https://github.com/openabstractions/abstraction-model">Public source</a></p></article>
-<article class="catalogue-card"><h2>Application rights</h2><p>Decide and administer which verified programs may use each capability or operator action.</p>
-<p class="technical"><a href="#abstraction-rights">abstraction-rights</a> · <a href="https://github.com/openabstractions/abstraction-rights">Public source</a></p></article>
-<article class="catalogue-card"><h2>Provider routing</h2><p>Declare model servers and select eligible providers from requirements and operator policy.</p>
+<article class="catalogue-card"><h2>Model router</h2><p>Declare model servers and select eligible providers from requirements and operator policy.</p>
 <p class="technical"><a href="#abstraction-router">abstraction-router</a> · <a href="https://github.com/openabstractions/abstraction-router">Public source</a></p></article>
-<article class="catalogue-card"><h2>Shared content</h2><p>Find bytes by content fingerprint and expose size-limited reading, writing and change profiles.</p>
-<p class="technical"><a href="#abstraction-storage">abstraction-storage</a> · <a href="https://github.com/openabstractions/abstraction-storage">Public source</a></p></article>
-<article class="catalogue-card"><h2>Direct change observation</h2><p>Turn polled or pushed values into current snapshots, quiet notices, or one callback after a burst settles.</p>
-<p class="technical"><a href="#abstraction-watch">abstraction-watch</a> · <a href="https://github.com/openabstractions/abstraction-watch">Public source</a></p></article>
+<article class="catalogue-card"><h2>Resources</h2><p>See who holds graphics-card and system memory, reserve an amount with a lease and keep the machine awake with a wake lease.</p>
+<p class="technical"><a href="#abstraction-resource">abstraction-resource</a> · <a href="https://github.com/openabstractions/abstraction-resource">Public source</a></p></article>
+<article class="catalogue-card"><h2>Atomic file</h2><p>Compare-and-set (CAS): a development utility that compares and replaces bytes only when their recorded value still matches.</p>
+<p class="technical"><a href="#abstraction-cas">abstraction-cas</a> · <a href="https://github.com/openabstractions/abstraction-cas">Public source</a></p></article>
 </div>
 <h2>Provider compositions</h2>
 <p>Composition repositories implement a capability over an existing engine or local store. They remain replaceable providers behind the same application contract.</p>
 <div class="catalogue-cards">
-<article class="catalogue-card"><h2>Download Over Curl</h2><p>an in-process download implementation over an existing tool</p>
+<article class="catalogue-card"><h2>curl downloads</h2><p>an in-process download implementation over an existing tool</p>
 <p class="technical"><a href="#abstraction-download-over-curl">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Provider Kit</h2><p>a provider module whose Go package a program composes in-process</p>
-<p class="technical"><a href="#abstraction-provider-kit">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Provider Lemonade</h2><p>a provider module that runs its own process, lemonaded, which the installer declares in lemonade-image.json</p>
-<p class="technical"><a href="#abstraction-provider-lemonade">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Provider Localai</h2><p>a provider module whose Go package a program composes in-process</p>
-<p class="technical"><a href="#abstraction-provider-localai">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Provider Modelbridge</h2><p>a provider module that runs its own process, modelbridged</p>
+<article class="catalogue-card"><h2>Provider kit</h2><p>shared engine libraries composed by provider programs; modelpack is an independent source tool</p>
+<p class="technical"><a href="#abstraction-provider-kit">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-kit">Public source</a></p></article>
+<article class="catalogue-card"><h2>Lemonade</h2><p>a provider module that runs its own process, lemonaded, which the installer declares in lemonade-image.json</p>
+<p class="technical"><a href="#abstraction-provider-lemonade">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-lemonade">Public source</a></p></article>
+<article class="catalogue-card"><h2>LocalAI</h2><p>a provider module whose Go package a program composes in-process</p>
+<p class="technical"><a href="#abstraction-provider-localai">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-localai">Public source</a></p></article>
+<article class="catalogue-card"><h2>Model bridge</h2><p>a provider module that runs its own process, modelbridged</p>
 <p class="technical"><a href="#abstraction-provider-modelbridge">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-modelbridge">Public source</a></p></article>
-<article class="catalogue-card"><h2>Provider Modelhost</h2><p>a provider module that runs its own process, modelhostd</p>
+<article class="catalogue-card"><h2>Model host</h2><p>a provider module that runs its own process, modelhostd</p>
 <p class="technical"><a href="#abstraction-provider-modelhost">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-modelhost">Public source</a></p></article>
-<article class="catalogue-card"><h2>Provider Pytorch</h2><p>a provider module that runs its own process, pytorchd</p>
-<p class="technical"><a href="#abstraction-provider-pytorch">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Provider Thenoise</h2><p>a provider module that runs its own process, thenoise-provider</p>
-<p class="technical"><a href="#abstraction-provider-thenoise">Technical detail</a> · <span>Source publication pending</span></p></article>
-<article class="catalogue-card"><h2>Resource</h2><p>its definition declares a contract another process calls over the wire</p>
-<p class="technical"><a href="#abstraction-resource">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-resource">Public source</a></p></article>
-<article class="catalogue-card"><h2>Storage Over Local Stores</h2><p>a storage implementation that runs its own command</p>
+<article class="catalogue-card"><h2>PyTorch</h2><p>a provider module that runs its own process, pytorchd</p>
+<p class="technical"><a href="#abstraction-provider-pytorch">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-pytorch">Public source</a></p></article>
+<article class="catalogue-card"><h2>TheNoise</h2><p>a provider module that runs its own process, thenoise-provider</p>
+<p class="technical"><a href="#abstraction-provider-thenoise">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-provider-thenoise">Public source</a></p></article>
+<article class="catalogue-card"><h2>abstraction-storage-over-local-stores</h2><p>a storage implementation that runs its own command</p>
 <p class="technical"><a href="#abstraction-storage-over-local-stores">Technical detail</a> · <a href="https://github.com/openabstractions/abstraction-storage-over-local-stores">Public source</a></p></article>
 </div>
 <h2 id="platforms">Runtime platform declaration</h2>
 <p class="catalogue-note">This table reproduces the generated runtime declaration and its evidence summaries. It states the recorded scope for each platform.</p>
 <div class="table-wrap"><table class="catalogue"><tr><th>Platform</th><th>Status</th><th>Runtime</th><th>Limits</th><th>Evidence</th></tr>
-<tr><td>Windows x64, per-user installation</td><td>supported</td><td>Per-user MSI; the supervisor starts the runtime in the signed-in session.</td><td>Windows MSI packages are unsigned. The 0.3.0 installed job used Windows x64. ARM64 is cross-built; installation on ARM64 hardware is untested.</td><td><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109190527492">Successful 0.3.0 verify job on head ff281d02: private non-admin per-user install and cross-tool compatibility; predecessor upgrade and reinstall; non-default-folder upgrade; failed-upgrade rollback and same-version host restart; uninstall and test-session removal.</a></td></tr>
-<tr><td>Windows x64, machine installation</td><td>supported</td><td>Machine MSI; a service template starts a per-session runtime for each signed-in user.</td><td>Everyone installation requires elevation. Runtime instances run in each signed-in user session. Windows MSI packages are unsigned. The 0.3.0 installed job used Windows x64. ARM64 is cross-built; installation on ARM64 hardware is untested.</td><td><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109190527492">Successful 0.3.0 verify job on head ff281d02: machine-scope forced-failure rollback, upgrade exclusion and predecessor removal; fresh interactive session and crash recovery; uninstall for everyone and test-session cleanup.</a></td></tr>
-<tr><td>Linux amd64 with a systemd user manager</td><td>supported</td><td>Per-user tarball; install.sh registers abstraction-runtime.service with the user manager.</td><td>Trusted selection needs clone3 and waitid P_PIDFD (Linux 5.4 or newer); a sandbox denying them returns PROOF_UNAVAILABLE. 0.3.0 package qualification passed 26 installed Linux cases, with lifecycle evidence from WSL2 and a hosted Ubuntu amd64 runner. ARM64 installation, other distributions and graphical sessions are untested.</td><td><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109189899572">Successful 0.3.0 linux-verify job: checksum, install, package inspection and uninstall, plus the Linux disposable-account installed-lifecycle job.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/35572834195">0.2.0 candidate on hosted Ubuntu: installation under a disposable account and systemd user manager, readiness, a real download, result observation, removal with retained data and process cleanup passed.</a></td></tr>
-<tr><td>Linux amd64 without a systemd user manager (containers, WSL without systemd, hosted CI accounts)</td><td>supported without background services</td><td>The same tarball; install.sh installs the programs, reports that no background service will run and records `timer no`.</td><td>Default resolution cannot select a runtime: selection reads the loaded user unit from systemctl, so applications receive runtime_unavailable. 0.3.0 package qualification includes the no-user-manager installation check. `openabstractions serve runtime` runs in the foreground; an application reaches it only through an explicit endpoint.</td><td><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109189899572">Successful 0.3.0 linux-verify job includes install, package inspection and uninstall; the run&#x27;s Linux package qualification includes the no-user-manager installation check.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/35573550787">0.2.0 release: installation without a user manager, the openabstractions payload, absence of retired jobd/dl/jobctl executables and removal passed. This job does not establish foreground capability calls.</a></td></tr>
-<tr><td>macOS (universal package; installed qualification on arm64)</td><td>supported</td><td>The signed and notarized 0.3.0 universal package installs for the current user. Installed XPC discovery, capability readiness and protected-call behavior passed on the available arm64 Mac; reinstall and removal passed.</td><td>The universal package includes Intel binaries, but installed execution was tested only on arm64 hardware. The retained installed receipt covers install, XPC discovery/calls, reinstall and removal; it does not record a separate crash-injection recovery test. Path names compare byte for byte on macOS although its volumes ignore case by default, so two names OA keeps apart can name one file (abstraction-identity CONTRACT.md, SamePathName). Native providers are not available on macOS in 0.4.0: their caller check needs an XPC endpoint. The macOS package leaves out Local model stores (inventoryd) and the model host (modelhostd).</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">The 0.3.0 universal package is signed, notarized and published. Its installed acceptance was run on an arm64 Mac; Intel hardware execution was not tested.</a><br>Exact package SHA-256 82a2ec559ae47cf6f5fe8460fdb98c227867bac19ae855e3e2db4f4851b7b7fa; package verification, install, XPC readiness and protected-call checks, reinstall and removal passed on macOS 26.6.2 arm64.</td></tr>
+<tr><td>Windows x64, per-user installation</td><td>supported</td><td>The per-user MSI (Just me); installation starts the runtime immediately, and the next application that needs it starts a host that exited.</td><td>The release&#x27;s appended Signatures section states the signing outcome for its MSIs and Setup. The release&#x27;s build record names the installed-tested architectures. A cross-built architecture is not installation-tested by its build. 0.8.0: install app integrations from the Panel Catalog. App MSI double-click support and agent MCP connections after a 0.4 upgrade are deferred to 0.8.1. Smart App Control can block the bundled llama.cpp engine and the official OpenCode installer.</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 public packages and checksums. Windows installers are signed; the release notes list App MSI, upgrade MCP and Smart App Control limits.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 signed Setup verification and Windows x64 signed-MSI automated acceptance passed; manual Setup remains deferred.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109190527492">Successful 0.3.0 verify job on head ff281d02: private non-admin per-user install and cross-tool compatibility; predecessor upgrade and reinstall; non-default-folder upgrade; failed-upgrade rollback and same-version host restart; uninstall and test-session removal.</a></td></tr>
+<tr><td>Windows x64, machine installation</td><td>supported</td><td>Setup or the machine MSI (Everyone); an application&#x27;s request starts an owned detached runtime host. The host supervises its runtime child; Windows does not restart the host automatically after a crash.</td><td>Everyone installation requires elevation. Runtime instances run in each user&#x27;s session. The release&#x27;s appended Signatures section states the signing outcome for its MSIs and Setup. The release&#x27;s build record names the installed-tested architectures. A cross-built architecture is not installation-tested by its build. 0.8.0: install app integrations from the Panel Catalog. App MSI double-click support and agent MCP connections after a 0.4 upgrade are deferred to 0.8.1. Smart App Control can block the bundled llama.cpp engine and the official OpenCode installer.</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 public packages and checksums. Windows installers are signed; the release notes list App MSI, upgrade MCP and Smart App Control limits.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 signed Setup verification and Windows x64 signed-MSI automated acceptance passed; manual Setup remains deferred.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109190527492">Successful 0.3.0 verify job on head ff281d02: machine-scope forced-failure rollback, upgrade exclusion and predecessor removal; fresh interactive session and crash recovery; uninstall for everyone and test-session cleanup.</a></td></tr>
+<tr><td>Linux amd64 with a systemd user manager</td><td>supported</td><td>Per-user tarball; install.sh registers abstraction-runtime.service with the user manager.</td><td>Trusted selection needs clone3 and waitid P_PIDFD (Linux 5.4 or newer); a sandbox denying them returns PROOF_UNAVAILABLE. The release&#x27;s appended Signatures section states the signing outcome for its tarballs. 0.3.0 package qualification passed 26 installed Linux cases, with lifecycle evidence from WSL2 and a hosted Ubuntu amd64 runner. ARM64 installation, other distributions and graphical sessions are untested.</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 public packages and checksums. Linux archives are unsigned; earlier lifecycle evidence retains its original release scope.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 Linux tarballs are unsigned. Retained Linux lifecycle evidence below keeps its original release and architecture scope.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109189899572">Successful 0.3.0 linux-verify job: checksum, install, package inspection and uninstall, plus the Linux disposable-account installed-lifecycle job.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/35572834195">0.2.0 candidate on hosted Ubuntu: installation under a disposable account and systemd user manager, readiness, a real download, result observation, removal with retained data and process cleanup passed.</a></td></tr>
+<tr><td>Linux amd64 without a systemd user manager (containers, WSL without systemd, hosted CI accounts)</td><td>supported without background services</td><td>The same tarball; install.sh installs the programs, reports that no background service will run and records `timer no`.</td><td>Default resolution cannot select a runtime: selection reads the loaded user unit from systemctl, so applications receive runtime_unavailable. 0.3.0 package qualification includes the no-user-manager installation check. `openabstractions serve runtime` runs in the foreground; an application reaches it only through an explicit endpoint.</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 public packages and checksums. Linux archives are unsigned; earlier lifecycle evidence retains its original release scope.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 Linux tarballs are unsigned. Retained Linux lifecycle evidence below keeps its original release and architecture scope.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/36500317823/job/109189899572">Successful 0.3.0 linux-verify job includes install, package inspection and uninstall; the run&#x27;s Linux package qualification includes the no-user-manager installation check.</a><br><a href="https://github.com/openabstractions/redist/actions/runs/35573550787">0.2.0 release: installation without a user manager, the openabstractions payload, absence of retired jobd/dl/jobctl executables and removal passed. This job does not establish foreground capability calls.</a></td></tr>
+<tr><td>macOS (universal package)</td><td>supported</td><td>The universal package, when attached to the release, installs for the current user. Earlier lifecycle receipts retain their stated scope.</td><td>The release&#x27;s appended Signatures section states the package&#x27;s signing and notarisation outcome; a successful build alone does not attach a package. The universal package carries x86_64 and arm64 programs. The 0.4.0 and 0.3.0 installed acceptance ran on arm64 hardware only. The retained installed receipt covers install, XPC discovery/calls, reinstall and removal; it does not record a separate crash-injection recovery test. Path names compare byte for byte on macOS. OA does not model APFS or HFS+ case and normalization algorithms, so names it keeps apart can collide at a future placement; existing-file identity and exclusive creation checks retain their separate safeguards (abstraction-identity CONTRACT.md, SamePathName). The 0.4.0 macOS package left out Local model stores (inventoryd) and the model host (modelhostd), because native providers&#x27; caller check needed an XPC endpoint. Each release&#x27;s notes list its package contents.</td><td><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 public packages and checksums. The macOS package is signed; this observation adds no installed architecture result.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.4.0">0.4.0 Developer ID signed, notarised and stapled universal package; automated installed XPC acceptance passed on arm64. Intel execution remains untested.</a><br><a href="https://github.com/openabstractions/redist/releases/tag/v0.3.0">The 0.3.0 universal package is signed, notarized and published. Its installed acceptance was run on an arm64 Mac; Intel hardware execution was not tested.</a><br>Exact package SHA-256 82a2ec559ae47cf6f5fe8460fdb98c227867bac19ae855e3e2db4f4851b7b7fa; package verification, install, XPC readiness and protected-call checks, reinstall and removal passed on macOS 26.6.2 arm64.</td></tr>
 <tr><td>Android, including Termux</td><td>unsupported</td><td>None. No runtime is built, packaged, installed or run for Android.</td><td>The packager builds only linux and macos; the release builds Windows MSIs, Linux tarballs and one macOS package. Termux has no systemd user manager, which Linux selection requires.</td><td>`--platform` accepts only linux and macos.<br>The release builds no Android asset.<br>Nothing in the tree records a build, install or run on Android or Termux.</td></tr>
 </table></div>
 <h2>Contracts, clients and source routes</h2>
-<p class="catalogue-note">Measured on 2026-10-20. Each language row gives the verdict of the legacy whole-layer grid for the layer&#x27;s own implementation (— is none), then the client: the facade&#x27;s resolve accessors, or for JavaScript the generated service clients a binding from Machine.resolveService wraps. UNPROVEN means the grid found nothing to check: usually source for that layer and language exists with no test files the gate names, so no run happened and no verdict, pass or fail, was recorded. For an adopter, an UNPROVEN cell means the binding compiles and its behaviour is unverified on that platform; ship on a PASS cell.</p>
+<p class="catalogue-note">Measured on 2026-11-22. Each language row gives the module&#x27;s state on Language support, linked to its entry there, then the client: the facade&#x27;s resolve accessors, or for JavaScript the generated service clients a binding from <a href="https://openabstractions.github.io/reference.html#concept-facade.machine-client">Machine.resolveService</a> wraps. Checked means that language&#x27;s client or record types passed a recorded check against the running OA runtime; available means a client exists and no current check is recorded. Test connection marks a checked state whose check passed only over the Go IPC connection, the test-only pipe connector or a connection the check did not record. Ship on a checked state on your platform.</p>
 <section class="layer" id="abstraction-asks">
 <h2>abstraction-asks</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.asks/application@1 (resolved by the facade)</code>, <code>abstraction.asks/operator@1 (resolved by the facade)</code>, <code>abstraction.asks/application@2 (resolved by the facade)</code>, <code>abstraction.asks/responder@1 (resolved by the facade)</code>, <code>abstraction.asks/permission@1 (resolved by the facade)</code>, <code>abstraction.asks/permission-operator@1 (resolved by the facade)</code>, <code>abstraction.asks/notification@1 (resolved by the facade)</code>, <code>abstraction.asks/notification-operator@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveAsks, ResolveAsksChoices, ResolveAsksNotificationOperator, ResolveAsksNotifications, ResolveAsksOperator, ResolveAsksPermission, ResolveAsksPermissionOperator, ResolveAsksResponder</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_asks, resolve_asks_choices, resolve_asks_operator</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_asks</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_asks, resolve_asks_operator</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ChoiceApplicationClient (abstraction.asks/application@2), NotificationApplicationClient (abstraction.asks/notification@1), NotificationOperatorClient (abstraction.asks/notification-operator@1), PermissionApplicationClient (abstraction.asks/permission@1), PermissionOperatorClient (abstraction.asks/permission-operator@1), QuestionApplicationClient (abstraction.asks/application@1), QuestionOperatorClient (abstraction.asks/operator@1), QuestionResponderClient (abstraction.asks/responder@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.asks/application@1 (resolved by the facade)</code>, <code>abstraction.asks/operator@1 (resolved by the facade)</code>, <code>abstraction.asks/application@2 (resolved by the facade)</code>, <code>abstraction.asks/responder@1 (resolved by the facade)</code>, <code>abstraction.asks/permission@1 (resolved by the facade)</code>, <code>abstraction.asks/permission-operator@1 (resolved by the facade)</code>, <code>abstraction.asks/notification@1 (resolved by the facade)</code>, <code>abstraction.asks/notification-operator@1 (resolved by the facade)</code>, <code>abstraction.asks/presenter@1</code>, <code>abstraction.asks/responder-wait@1</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-asks-go">available</a>; client ResolveAsks, ResolveAsksChoices, ResolveAsksNotificationOperator, ResolveAsksNotifications, ResolveAsksOperator, ResolveAsksPermission, ResolveAsksPermissionOperator, ResolveAsksResponder</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-asks-python">available</a>; client resolve_asks, resolve_asks_choices, resolve_asks_notifications, resolve_asks_operator</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-asks-cpp">available</a>; client resolve_asks</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-asks-rust">available</a>; client resolve_asks, resolve_asks_operator</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-asks-javascript">available</a>; client ChoiceApplicationClient (abstraction.asks/application@2), NotificationApplicationClient (abstraction.asks/notification@1), NotificationOperatorClient (abstraction.asks/notification-operator@1), PermissionApplicationClient (abstraction.asks/permission@1), PermissionOperatorClient (abstraction.asks/permission-operator@1), QuestionApplicationClient (abstraction.asks/application@1), QuestionOperatorClient (abstraction.asks/operator@1), QuestionResponderClient (abstraction.asks/responder@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -129,12 +129,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> local primitive (its definition declares only direct interfaces or plain records, called in-process).</p>
 <p><strong>Contracts:</strong> <code>abstraction.cas/store@1 (direct interface)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-cas/go</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client package abstraction-cas-protocol, abstraction-cas</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client package abstraction_cas</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-cas-go">available</a>; client package github.com/openabstractions/abstraction-cas/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-cas-python">available</a>; client package abstraction-cas-protocol, abstraction-cas</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-cas-cpp">available</a>; client package abstraction_cas</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-cas-rust">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-cas-javascript">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
 <p><strong>Install:</strong></p>
@@ -151,21 +151,20 @@
 <h2>abstraction-config</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.config/reader@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.config/editor@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.config/observer@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveConfig, ResolveConfigEditor, ResolveConfigObserver</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_config, resolve_config_editor, resolve_config_observer</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_config, resolve_config_editor</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_config, resolve_config_editor, resolve_config_observer</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ConfigEditorClient (abstraction.config/editor@1), ConfigObserverClient (abstraction.config/observer@1), ConfigReaderClient (abstraction.config/reader@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.config/reader@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.config/editor@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.config/observer@1 (resolved by the facade)</code>, <code>abstraction.config/reader@2</code>, <code>abstraction.config/editor@2</code>, <code>abstraction.config/observer@2</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-config-go">available</a>; client ResolveConfig, ResolveConfigEditor, ResolveConfigObserver</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-config-python">available</a>; client resolve_config, resolve_config_editor, resolve_config_observer</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-config-cpp">available</a>; client resolve_config, resolve_config_editor</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-config-rust">available</a>; client resolve_config, resolve_config_editor, resolve_config_observer</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-config-javascript">available</a>; client ConfigEditorClient (abstraction.config/editor@1), ConfigEditorV2Client (abstraction.config/editor@2), ConfigObserverClient (abstraction.config/observer@1), ConfigObserverV2Client (abstraction.config/observer@2), ConfigReaderClient (abstraction.config/reader@1), ConfigReaderV2Client (abstraction.config/reader@2)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
 <ul>
 <li>repository github.com/openabstractions/abstraction-config (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-config/go</li>
-<li>Python: abstraction-config-protocol, PyPI publish workflow on python/v* tags</li>
-<li>Python: abstraction-config, PyPI publish workflow on python/v* tags</li>
+<li>Python: abstraction-config-protocol, installed from source</li>
 <li>Rust: crate abstraction-config-api, from source</li>
 <li>JavaScript: @openabstractions/config, from source</li>
 <li>C++: CMake package from source (cpp/)</li>
@@ -178,12 +177,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.credentials/holder@1 (resolved by the facade)</code>, <code>abstraction.credentials/applier@1 (resolved by the facade)</code>, <code>abstraction.credentials/reader@1 (resolved by the facade)</code>, <code>abstraction.credentials/holder@2 (resolved by the facade)</code>, <code>abstraction.credentials/applier@2 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveCredentialReader, ResolveCredentials, ResolveCredentialsApplier, ResolveScopedCredentials, ResolveScopedCredentialsApplier</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_credentials, resolve_credentials_applier</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_credentials, resolve_credentials_applier</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_credentials, resolve_credentials_applier</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ApplierClient (abstraction.credentials/applier@1), HolderClient (abstraction.credentials/holder@1), ScopedApplierClient (abstraction.credentials/applier@2), ScopedHolderClient (abstraction.credentials/holder@2), SecretReaderClient (abstraction.credentials/reader@1)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-credentials-go">available</a>; client ResolveCredentialReader, ResolveCredentials, ResolveCredentialsApplier, ResolveScopedCredentials, ResolveScopedCredentialsApplier</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-credentials-python">available</a>; client resolve_credentials, resolve_credentials_applier</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-credentials-cpp">available</a>; client resolve_credentials, resolve_credentials_applier</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-credentials-rust">available</a>; client resolve_credentials, resolve_credentials_applier</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-credentials-javascript">available</a>; client ApplierClient (abstraction.credentials/applier@1), HolderClient (abstraction.credentials/holder@1), ScopedApplierClient (abstraction.credentials/applier@2), ScopedHolderClient (abstraction.credentials/holder@2), SecretReaderClient (abstraction.credentials/reader@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -203,12 +202,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (its definition declares the guarantees an implementation can promise a service, such as resume or survives_process_exit).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-download/go</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client package abstraction-download-request-protocol</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client package abstraction_download</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client package abstraction-download-request-api</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client package @openabstractions/download-request</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-download-go">available</a>; client package github.com/openabstractions/abstraction-download/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-download-python">record types only</a>; client package abstraction-download-request-protocol</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-download-cpp">record types only</a>; client package abstraction_download</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-download-rust">record types only</a>; client package abstraction-download-request-api</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-download-javascript">record types only</a>; client package @openabstractions/download-request</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -228,12 +227,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> adapter (an in-process download implementation over an existing tool).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix —; client none</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client headers in include/</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td>none; client none</td></tr>
+<tr><td>Python</td><td>none; client none</td></tr>
+<tr><td>C++</td><td>none; client headers in include/</td></tr>
+<tr><td>Rust</td><td>none; client none</td></tr>
+<tr><td>JavaScript</td><td>none; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
 <p><strong>Install:</strong></p>
@@ -247,13 +246,13 @@
 <h2>abstraction-facade</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.facade/resolver@1 (resolved by the facade)</code>, <code>abstraction.facade/caller@1 (resolved by the facade)</code>, <code>abstraction.facade/endpoint@1 (resolved by the facade)</code>, <code>abstraction.facade/registry@1 (resolved by the facade)</code>, <code>abstraction.facade/registry@2 (resolved by the facade)</code>, <code>abstraction.facade/applications@2 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveApplications, ResolveRegistry, ResolveRegistryV2</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client package abstraction-facade-client</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client package abstraction_facade</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client package abstraction-facade-service</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ApplicationsClient (abstraction.facade/applications@2), CallerClient (abstraction.facade/caller@1), EndpointClient (abstraction.facade/endpoint@1), RegistryClient (abstraction.facade/registry@1), RegistryV2Client (abstraction.facade/registry@2), ResolverClient (abstraction.facade/resolver@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.facade/applications@3</code>, <code>abstraction.applications/operator@1</code>, <code>abstraction.facade/resolver@1 (resolved by the facade)</code>, <code>abstraction.facade/caller@1 (resolved by the facade)</code>, <code>abstraction.facade/endpoint@1 (resolved by the facade)</code>, <code>abstraction.facade/registry@1 (resolved by the facade)</code>, <code>abstraction.facade/registry@2 (resolved by the facade)</code>, <code>abstraction.facade/applications@2 (resolved by the facade)</code>, <code>abstraction.facade/machines@1 (resolved by the facade)</code>, <code>abstraction.facade/messages@1 (private development; public API freeze held)</code>, <code>abstraction.facade/endpoint@2</code>, <code>abstraction.facade/registry@3 (resolved by the facade)</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-facade-go">available</a>; client ResolveApplications, ResolveMachineControl, ResolveRegistry, ResolveRegistryV2, ResolveRegistryV3</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-facade-python">available</a>; client package abstraction-facade-client</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-facade-cpp">available</a>; client package abstraction_facade</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-facade-rust">available</a>; client package abstraction-facade-service</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-facade-javascript">available</a>; client ApplicationsClient (abstraction.facade/applications@2), ApplicationsClient (abstraction.facade/applications@3), ApplicationsOperatorClient (abstraction.applications/operator@1), CallerClient (abstraction.facade/caller@1), EndpointClient (abstraction.facade/endpoint@1), EndpointV2Client (abstraction.facade/endpoint@2), MachineControlClient (abstraction.facade/machines@1), MessagesClient (abstraction.facade/messages@1; private development), RegistryClient (abstraction.facade/registry@1), RegistryV2Client (abstraction.facade/registry@2), RegistryV3Client (abstraction.facade/registry@3), ResolverClient (abstraction.facade/resolver@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -273,12 +272,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> local primitive (its definition declares only direct interfaces or plain records, called in-process).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-identity</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client package abstraction-ipc</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client package abstraction_ipc</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client package abstraction-ipc</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client package @openabstractions/ipc</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-identity-go">available</a>; client package github.com/openabstractions/abstraction-identity</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-identity-python">available</a>; client package abstraction-ipc</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-identity-cpp">available</a>; client package abstraction_ipc</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-identity-rust">available</a>; client package abstraction-ipc</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-identity-javascript">available</a>; client package @openabstractions/ipc</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
 <p><strong>Install:</strong></p>
@@ -296,13 +295,13 @@
 <h2>abstraction-inference</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.inference/chat@1 (resolved by the facade)</code>, <code>abstraction.inference/chat@2 (resolved by the facade)</code>, <code>abstraction.inference/preload@1</code>, <code>abstraction.inference/embed@1 (resolved by the facade)</code>, <code>abstraction.inference/transcription@1</code>, <code>abstraction.inference/speech@1</code>, <code>abstraction.inference/live@1</code>, <code>abstraction.inference/image@1</code>, <code>abstraction.inference/image@2 (resolved by the facade)</code>, <code>abstraction.inference/video@1</code>, <code>abstraction.inference/operator@1 (resolved by the facade)</code>, <code>abstraction.inference/selection-operator@2 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveEmbeddings, ResolveInference, ResolveInferenceChatV2, ResolveInferenceImageV2, ResolveInferenceOperator, ResolveInferenceSelectionOperatorV2</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_inference, resolve_inference_operator</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_inference, resolve_inference_operator</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_inference</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ChatClient (abstraction.inference/chat@1), ChatV2Client (abstraction.inference/chat@2), EmbedderClient (abstraction.inference/embed@1), ImageClient (abstraction.inference/image@1), ImageV2Client (abstraction.inference/image@2), LiveClient (abstraction.inference/live@1), OperatorClient (abstraction.inference/operator@1), PreloaderClient (abstraction.inference/preload@1), SelectionOperatorV2Client (abstraction.inference/selection-operator@2), SpeechClient (abstraction.inference/speech@1), TranscriptionClient (abstraction.inference/transcription@1), VideoClient (abstraction.inference/video@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.inference/chat@1 (resolved by the facade)</code>, <code>abstraction.inference/chat@2 (resolved by the facade)</code>, <code>abstraction.inference/chat@3 (resolved by the facade)</code>, <code>abstraction.inference/preload@1</code>, <code>abstraction.inference/embed@1 (resolved by the facade)</code>, <code>abstraction.inference/transcription@1</code>, <code>abstraction.inference/speech@1</code>, <code>abstraction.inference/live@1</code>, <code>abstraction.inference/image@1</code>, <code>abstraction.inference/image@2 (resolved by the facade)</code>, <code>abstraction.inference/video@1</code>, <code>abstraction.inference/operator@1 (resolved by the facade)</code>, <code>abstraction.inference/selection-operator@2 (resolved by the facade)</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-inference-go">available</a>; client ResolveEmbeddings, ResolveInference, ResolveInferenceChatV2, ResolveInferenceChatV3, ResolveInferenceImageV2, ResolveInferenceOperator, ResolveInferenceSelectionOperatorV2</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-inference-python">available</a>; client resolve_inference, resolve_inference_operator</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-inference-cpp">available</a>; client resolve_inference, resolve_inference_operator</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-inference-rust">available</a>; client resolve_inference</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-inference-javascript">available</a>; client ChatClient (abstraction.inference/chat@1), ChatV2Client (abstraction.inference/chat@2), ChatV3Client (abstraction.inference/chat@3), EmbedderClient (abstraction.inference/embed@1), ImageClient (abstraction.inference/image@1), ImageV2Client (abstraction.inference/image@2), LiveClient (abstraction.inference/live@1), OperatorClient (abstraction.inference/operator@1), PreloaderClient (abstraction.inference/preload@1), SelectionOperatorV2Client (abstraction.inference/selection-operator@2), SpeechClient (abstraction.inference/speech@1), TranscriptionClient (abstraction.inference/transcription@1), VideoClient (abstraction.inference/video@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -322,12 +321,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.job/acceptance@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.job/operations@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.job/inventory@1 (resolved by the facade)</code>, <code>abstraction.job/operator@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveJobInventory, ResolveJobOperations, ResolveJobOperator, ResolveJobs, RestoreJobs</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client JobInventoryClient (abstraction.job/inventory@1), JobOperatorClient (abstraction.job/operator@1), OperationControlClient (abstraction.job/operations@1), RecoverableAcceptanceClient (abstraction.job/acceptance@1)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-job-go">available</a>; client ResolveJobInventory, ResolveJobOperations, ResolveJobOperator, ResolveJobs, RestoreJobs</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-job-python">available</a>; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-job-cpp">available</a>; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-job-rust">available</a>; client resolve_job_inventory, resolve_job_operations, resolve_jobs</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-job-javascript">available</a>; client JobInventoryClient (abstraction.job/inventory@1), JobOperatorClient (abstraction.job/operator@1), OperationControlClient (abstraction.job/operations@1), RecoverableAcceptanceClient (abstraction.job/acceptance@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -347,12 +346,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.logging/sink@1 (resolved by the facade, in the default runtime)</code>, <code>abstraction.logging/reader@1 (resolved by the facade)</code>, <code>abstraction.logging/observer@1 (resolved by the facade)</code>, <code>abstraction.logging/reader@2 (resolved by the facade)</code>, <code>abstraction.logging/observer@2 (resolved by the facade)</code>, <code>abstraction.logging/source-reader@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveLog, ResolveLogApplicationObserver, ResolveLogApplicationReader, ResolveLogObserver, ResolveLogReader, ResolveLogSourceReader</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ApplicationHistoryObserverClient (abstraction.logging/observer@2), ApplicationHistoryReaderClient (abstraction.logging/reader@2), HistoryObserverClient (abstraction.logging/observer@1), HistoryReaderClient (abstraction.logging/reader@1), SinkClient (abstraction.logging/sink@1), SourceReaderClient (abstraction.logging/source-reader@1)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-logging-go">available</a>; client ResolveLog, ResolveLogApplicationObserver, ResolveLogApplicationReader, ResolveLogObserver, ResolveLogReader, ResolveLogSourceReader</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-logging-python">available</a>; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-logging-cpp">available</a>; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-logging-rust">available</a>; client resolve_log, resolve_log_observer, resolve_log_reader</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-logging-javascript">available</a>; client ApplicationHistoryObserverClient (abstraction.logging/observer@2), ApplicationHistoryReaderClient (abstraction.logging/reader@2), HistoryObserverClient (abstraction.logging/observer@1), HistoryReaderClient (abstraction.logging/reader@1), SinkClient (abstraction.logging/sink@1), SourceReaderClient (abstraction.logging/source-reader@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -371,13 +370,13 @@
 <h2>abstraction-model</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.model/resolver@1 (resolved by the facade)</code>, <code>abstraction.model/manifest@1</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveModel</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_model</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_model</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_model</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ModelManifestClient (abstraction.model/manifest@1), ModelResolverClient (abstraction.model/resolver@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.model/resolver@1 (resolved by the facade)</code>, <code>abstraction.model/manifest@1</code>, <code>abstraction.model/catalog@1 (resolved by the facade)</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-model-go">available</a>; client ResolveModel, ResolveModelCatalog</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-model-python">available</a>; client resolve_model</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-model-cpp">available</a>; client resolve_model</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-model-rust">available</a>; client resolve_model</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-model-javascript">available</a>; client ModelCatalogClient (abstraction.model/catalog@1), ModelManifestClient (abstraction.model/manifest@1), ModelResolverClient (abstraction.model/resolver@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -396,19 +395,19 @@
 <section class="layer" id="abstraction-provider-kit">
 <h2>abstraction-provider-kit</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
-<p><strong>Kind:</strong> adapter (a provider module whose Go package a program composes in-process).</p>
+<p><strong>Kind:</strong> adapter (shared engine libraries composed by provider programs; modelpack is an independent source tool).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-kit/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-kit">available</a>; client package github.com/openabstractions/abstraction-provider-kit/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-kit">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-kit">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-kit">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-kit">none</a>; client none</td></tr>
 </table></div>
-<p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
+<p><strong>Platforms:</strong> libraries in provider programs; modelpack runs as an independent tool.</p>
 <p><strong>Install:</strong></p>
 <ul>
-<li>repository github.com/openabstractions/abstraction-provider-kit (not yet published)</li>
+<li>repository github.com/openabstractions/abstraction-provider-kit (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-provider-kit/go</li>
 </ul>
 </details>
@@ -418,17 +417,17 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a provider module that runs its own process, lemonaded, which the installer declares in lemonade-image.json).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-lemonade/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-lemonade">available</a>; client package github.com/openabstractions/abstraction-provider-lemonade/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-lemonade">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-lemonade">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-lemonade">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-lemonade">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process, which the runtime launches or attaches to.</p>
 <p><strong>Install:</strong></p>
 <ul>
-<li>repository github.com/openabstractions/abstraction-provider-lemonade (not yet published)</li>
+<li>repository github.com/openabstractions/abstraction-provider-lemonade (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-provider-lemonade/go</li>
 </ul>
 </details>
@@ -438,17 +437,17 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> adapter (a provider module whose Go package a program composes in-process).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-localai/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-localai">available</a>; client package github.com/openabstractions/abstraction-provider-localai/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-localai">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-localai">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-localai">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-localai">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
 <p><strong>Install:</strong></p>
 <ul>
-<li>repository github.com/openabstractions/abstraction-provider-localai (not yet published)</li>
+<li>repository github.com/openabstractions/abstraction-provider-localai (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-provider-localai/go</li>
 </ul>
 </details>
@@ -458,12 +457,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a provider module that runs its own process, modelbridged).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-modelbridge/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-modelbridge">available</a>; client package github.com/openabstractions/abstraction-provider-modelbridge/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-modelbridge">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-modelbridge">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-modelbridge">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-modelbridge">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process, which the runtime launches or attaches to.</p>
 <p><strong>Install:</strong></p>
@@ -478,12 +477,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a provider module that runs its own process, modelhostd).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-modelhost/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-modelhost">available</a>; client package github.com/openabstractions/abstraction-provider-modelhost/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-modelhost">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-modelhost">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-modelhost">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-modelhost">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process, which the runtime launches or attaches to.</p>
 <p><strong>Install:</strong></p>
@@ -498,17 +497,17 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a provider module that runs its own process, pytorchd).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-pytorch/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-pytorch">available</a>; client package github.com/openabstractions/abstraction-provider-pytorch/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-pytorch">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-pytorch">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-pytorch">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-pytorch">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process, which the runtime launches or attaches to.</p>
 <p><strong>Install:</strong></p>
 <ul>
-<li>repository github.com/openabstractions/abstraction-provider-pytorch (not yet published)</li>
+<li>repository github.com/openabstractions/abstraction-provider-pytorch (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-provider-pytorch/go</li>
 </ul>
 </details>
@@ -518,17 +517,17 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a provider module that runs its own process, thenoise-provider).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-provider-thenoise/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-provider-thenoise">available</a>; client package github.com/openabstractions/abstraction-provider-thenoise/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-provider-thenoise">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-provider-thenoise">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-provider-thenoise">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-provider-thenoise">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process, which the runtime launches or attaches to.</p>
 <p><strong>Install:</strong></p>
 <ul>
-<li>repository github.com/openabstractions/abstraction-provider-thenoise (not yet published)</li>
+<li>repository github.com/openabstractions/abstraction-provider-thenoise (published)</li>
 <li>Go: go get github.com/openabstractions/abstraction-provider-thenoise/go</li>
 </ul>
 </details>
@@ -538,12 +537,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.resource/table@1 (resolved by the facade)</code>, <code>abstraction.resource/leases@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveResourceLeases, ResolveResourceTable</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_resource_leases, resolve_resource_table</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_resource_leases, resolve_resource_table</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_resource_leases, resolve_resource_leases_with_no_runtime_is_the_resolution_error, resolve_resource_table, resolve_resource_table_with_no_runtime_is_the_resolution_error</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client LeasesClient (abstraction.resource/leases@1), TableClient (abstraction.resource/table@1)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-resource-go">available</a>; client ResolveResourceLeases, ResolveResourceTable</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-resource-python">available</a>; client resolve_resource_leases, resolve_resource_table</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-resource-cpp">available</a>; client resolve_resource_leases, resolve_resource_table</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-resource-rust">available</a>; client resolve_resource_leases, resolve_resource_leases_with_no_runtime_is_the_resolution_error, resolve_resource_table, resolve_resource_table_with_no_runtime_is_the_resolution_error</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-resource-javascript">available</a>; client LeasesClient (abstraction.resource/leases@1), TableClient (abstraction.resource/table@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -563,12 +562,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.rights/authorization@1 (resolved by the facade)</code>, <code>abstraction.rights/operator@1 (resolved by the facade)</code>, <code>abstraction.rights/authorization@2 (resolved by the facade)</code>, <code>abstraction.rights/operator@2 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveRights, ResolveRightsOperator, ResolveRightsSelector, ResolveRightsSelectorOperator</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_rights, resolve_rights_operator</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_rights</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_rights, resolve_rights_operator</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client AuthorizationClient (abstraction.rights/authorization@1), AuthorizationOperatorClient (abstraction.rights/operator@1), SelectorAuthorizationClient (abstraction.rights/authorization@2), SelectorAuthorizationOperatorClient (abstraction.rights/operator@2)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-rights-go">available</a>; client ResolveRights, ResolveRightsOperator, ResolveRightsSelector, ResolveRightsSelectorOperator</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-rights-python">available</a>; client resolve_rights, resolve_rights_operator</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-rights-cpp">available</a>; client resolve_rights</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-rights-rust">available</a>; client resolve_rights, resolve_rights_operator</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-rights-javascript">available</a>; client AuthorizationClient (abstraction.rights/authorization@1), AuthorizationOperatorClient (abstraction.rights/operator@1), SelectorAuthorizationClient (abstraction.rights/authorization@2), SelectorAuthorizationOperatorClient (abstraction.rights/operator@2)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -588,12 +587,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
 <p><strong>Contracts:</strong> <code>abstraction.router/router@1 (resolved by the facade)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveRouter</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_router</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_router</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_router</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client RouterClient (abstraction.router/router@1)</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-router-go">available</a>; client ResolveRouter</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-router-python">available</a>; client resolve_router</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-router-cpp">available</a>; client resolve_router</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-router-rust">available</a>; client resolve_router</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-router-javascript">available</a>; client RouterClient (abstraction.router/router@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -612,13 +611,13 @@
 <h2>abstraction-storage</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> service (its definition declares a contract another process calls over the wire).</p>
-<p><strong>Contracts:</strong> <code>abstraction.storage/content-reader@1 (resolved by the facade)</code>, <code>abstraction.storage/content-writer@1 (resolved by the facade)</code>, <code>abstraction.storage/content-changes@1 (resolved by the facade)</code>, <code>abstraction.storage/holds@1</code>, <code>abstraction.storage/manifests@1</code>, <code>abstraction.storage/inventory@1 (resolved by the facade)</code>, <code>abstraction.storage/content-remover@1</code>, <code>abstraction.storage/inventory-source@1</code>, <code>abstraction.storage/lend@1 (resolved by the facade)</code>, <code>abstraction.storage/store@1 (direct interface)</code>, <code>abstraction.storage/local@1 (direct interface)</code>, <code>abstraction.storage/writable@1 (direct interface)</code>.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client ResolveLending, ResolveStorage, ResolveStorageChanges, ResolveStorageInventory, ResolveStorageWriter</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
-<tr><td>Rust</td><td>matrix UNPROVEN; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
-<tr><td>JavaScript</td><td>matrix UNPROVEN; client ContentChangesClient (abstraction.storage/content-changes@1), ContentReaderClient (abstraction.storage/content-reader@1), ContentRemoverClient (abstraction.storage/content-remover@1), ContentWriterClient (abstraction.storage/content-writer@1), HoldsClient (abstraction.storage/holds@1), InventoryClient (abstraction.storage/inventory@1), InventorySourceClient (abstraction.storage/inventory-source@1), ManifestsClient (abstraction.storage/manifests@1)</td></tr>
+<p><strong>Contracts:</strong> <code>abstraction.storage/content-reader@1 (resolved by the facade)</code>, <code>abstraction.storage/content-writer@1 (resolved by the facade)</code>, <code>abstraction.storage/content-changes@1 (resolved by the facade)</code>, <code>abstraction.storage/holds@1</code>, <code>abstraction.storage/manifests@1</code>, <code>abstraction.storage/inventory@1 (resolved by the facade)</code>, <code>abstraction.storage/content-remover@1 (resolved by the facade)</code>, <code>abstraction.storage/inventory-source@1 (resolved by the facade)</code>, <code>abstraction.storage/lend@1 (resolved by the facade)</code>, <code>abstraction.storage/store@1 (direct interface)</code>, <code>abstraction.storage/local@1 (direct interface)</code>, <code>abstraction.storage/writable@1 (direct interface)</code>.</p>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-storage-go">available</a>; client ResolveLending, ResolveStorage, ResolveStorageChanges, ResolveStorageInventory, ResolveStorageRemovalInventory, ResolveStorageRemover, ResolveStorageWriter</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-storage-python">available</a>; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-storage-cpp">available</a>; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-storage-rust">available</a>; client resolve_storage, resolve_storage_changes, resolve_storage_writer</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-storage-javascript">available</a>; client ContentChangesClient (abstraction.storage/content-changes@1), ContentReaderClient (abstraction.storage/content-reader@1), ContentRemoverClient (abstraction.storage/content-remover@1), ContentWriterClient (abstraction.storage/content-writer@1), HoldsClient (abstraction.storage/holds@1), InventoryClient (abstraction.storage/inventory@1), InventorySourceClient (abstraction.storage/inventory-source@1), ManifestsClient (abstraction.storage/manifests@1)</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> the runtime&#x27;s (Runtime platforms above); supported: windows-user, windows-machine, linux-systemd-user, macos; supported without background services: linux-no-user-manager; unsupported: android-termux.</p>
 <p><strong>Install:</strong></p>
@@ -638,12 +637,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> provider (a storage implementation that runs its own command).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-storage-over-local-stores/go</td></tr>
-<tr><td>Python</td><td>matrix —; client none</td></tr>
-<tr><td>C++</td><td>matrix —; client none</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-storage-over-local-stores">available</a>; client package github.com/openabstractions/abstraction-storage-over-local-stores/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-storage-over-local-stores">none</a>; client none</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-storage-over-local-stores">none</a>; client none</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-storage-over-local-stores">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-storage-over-local-stores">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> its own process; no package and no platform declaration.</p>
 <p><strong>Install:</strong></p>
@@ -658,12 +657,12 @@
 <details><summary>Show contracts, clients, platforms and install routes</summary>
 <p><strong>Kind:</strong> local primitive (its definition declares only direct interfaces or plain records, called in-process).</p>
 <p><strong>Contracts:</strong> none.</p>
-<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Matrix and client</th></tr>
-<tr><td>Go</td><td>matrix UNPROVEN; client package github.com/openabstractions/abstraction-watch/go</td></tr>
-<tr><td>Python</td><td>matrix UNPROVEN; client package abstraction-watch-protocol, abstraction-watch</td></tr>
-<tr><td>C++</td><td>matrix UNPROVEN; client package abstraction_watch</td></tr>
-<tr><td>Rust</td><td>matrix —; client none</td></tr>
-<tr><td>JavaScript</td><td>matrix —; client none</td></tr>
+<div class="table-wrap"><table class="catalogue"><tr><th>Language</th><th>Language support and client</th></tr>
+<tr><td>Go</td><td><a href="coverage.html#m-watch-go">available</a>; client package github.com/openabstractions/abstraction-watch/go</td></tr>
+<tr><td>Python</td><td><a href="coverage.html#m-watch-python">available</a>; client package abstraction-watch-protocol, abstraction-watch</td></tr>
+<tr><td>C++</td><td><a href="coverage.html#m-watch-cpp">available</a>; client package abstraction_watch</td></tr>
+<tr><td>Rust</td><td><a href="coverage.html#m-watch-rust">none</a>; client none</td></tr>
+<tr><td>JavaScript</td><td><a href="coverage.html#m-watch-javascript">none</a>; client none</td></tr>
 </table></div>
 <p><strong>Platforms:</strong> in the application&#x27;s process; needs no runtime.</p>
 <p><strong>Install:</strong></p>
@@ -677,6 +676,6 @@
 </details>
 </section>
 </main>
-<footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="coverage.html">Coverage</a><a href="https://github.com/openabstractions">Source</a></footer>
+<footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="coverage.html">Language support</a><a href="https://github.com/openabstractions">Source</a></footer>
 </body>
 </html>

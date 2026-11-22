@@ -1,5 +1,18 @@
 (() => {
   "use strict";
+  // A link to an element inside closed <details> opens every enclosing one.
+  function openTarget() {
+    let id = "";
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch (error) { return; }
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    for (let node = target; node; node = node.parentElement) {
+      if (node.tagName === "DETAILS") node.open = true;
+    }
+    target.scrollIntoView();
+  }
+  openTarget();
+  window.addEventListener("hashchange", openTarget);
   document.querySelectorAll("[data-tabs]").forEach((group) => {
     const tabs = Array.from(group.querySelectorAll('[role="tab"]'));
     function activate(tab, moveFocus) {

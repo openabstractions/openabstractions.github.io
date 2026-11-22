@@ -2,11 +2,11 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open Abstractions — schema</title>
+<title>OpenAbstractions — schema</title>
 <link rel="stylesheet" href="style.css">
 
 <main>
-<nav class="site" aria-label="Primary navigation"><a class="name" href="index.html">Open Abstractions</a>
+<nav class="site" aria-label="Primary navigation"><a class="name" href="index.html">OpenAbstractions</a>
 <a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
 
 
@@ -14,10 +14,10 @@
 <p class="lead">Use this reference to inspect fields, methods, accepted values and failure outcomes. For setup and working examples, start with the <a href="reference.html">API guide</a>.</p>
 <p>Definition: <code>abstraction.logging</code></p>
 <nav aria-label="Schema sections" class="meta"><a href="#service-Sink">Sink</a> · <a href="#service-HistoryReader">HistoryReader</a> · <a href="#service-HistoryObserver">HistoryObserver</a> · <a href="#service-ApplicationHistoryReader">ApplicationHistoryReader</a> · <a href="#service-ApplicationHistoryObserver">ApplicationHistoryObserver</a> · <a href="#service-SourceReader">SourceReader</a> · <a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#encoding">Encoding</a> · <a href="#refusals">Refusals</a></nav>
-<h2 id="service-Sink">Service <code>Sink</code> <span class="tag">[DEF-S1]</span></h2>
-<p>A sink for structured log records across a service boundary.</p>
+<h2 id="service-Sink">Service <a href="https://openabstractions.github.io/reference.html#concept-log.sink"><code>Sink</code></a> <span class="tag">[DEF-S1]</span></h2>
+<p><a href="https://openabstractions.github.io/reference.html#concept-log.sink">Sink</a>. A sink for structured log records across a service boundary.</p>
 <p>Wire identity: <code>abstraction.logging/sink@1</code></p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Submit a log record. Completion confirms local transport submission only.</p>
 <h3><code>Write</code></h3><p><code>oneway</code> <code>void</code></p><ul>
@@ -27,11 +27,15 @@
 <p>Authorized bounded access to retained logging history. Applications receive records and opaque cursors; history location and retention belong to the provider.</p>
 <p>Wire identity: <code>abstraction.logging/reader@1</code></p>
 <p>Handler error codes, declared by <code>history_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>, <code>policy_unavailable</code>, <code>forbidden</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Read the retained provider&#39;s current physical byte count and effective active budgets under the same native authorization as Read. An absent budget means known unlimited; a present limit of zero is zero. A provider that cannot establish its active budget returns unavailable. oldest is the first retained record&#39;s time in append/Read order, absent on empty history. No cleanup authority or file location is exposed. An earlier reader@1 returns unknown_method.</p>
+<h3><code>Usage</code></h3><p><code>request-response</code> <code>HistoryUsageResult</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
+</ul>
+<p>Service result postcondition: <code>usage</code> is present exactly when <code>outcome</code> is <code>available</code>. Clients validate before return; dispatchers validate before reply. Standalone record codecs remain structural.</p>
 <p>Read retained records through the service. Empty cursor starts at earliest retained history. Cursor end (history_cursor_words) starts at the current end: the page holds no records, at_end is true and next continues from that end. Limits are 1..256 records and 1..65536 encoded-record bytes; a first record that exceeds the byte limit gives record_too_large. A provider without history gives unavailable. Cursors may expire on restart or retention changes, reported as gap. Snapshot reads may be repeated at end; this method promises no subscription or persistence acknowledgement. The receiving service authorizes history access from native caller evidence.</p>
-<h3><code>Read</code></h3><p><code>request-response</code> <code>Page</code></p><ul>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>Page</code> · readonly</p><ul>
 <li>Argument 1: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
 <li>Argument 2: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
 <li>Argument 3: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
@@ -40,11 +44,11 @@
 <p>Authorized bounded long-poll history observation with provider-owned notifications.</p>
 <p>Wire identity: <code>abstraction.logging/observer@1</code></p>
 <p>Handler error codes, declared by <code>history_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>, <code>policy_unavailable</code>, <code>forbidden</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
 <p>Read with the same bounds and cursor semantics as HistoryReader. Cursor end fixes the current end when the call begins and returns only records appended after it. At an empty current end, wait up to wait_ms (0..30000) for a provider notification, then reread once; expiry may return an empty current-end page. Cancellation stops waiting and does not undo logging. Providers without observation return unsupported. Bounded waiter capacity exhaustion returns unavailable. Authorization is rechecked before records return. This is long-poll observation; external file writers have no notification promise.</p>
-<h3><code>Observe</code></h3><p><code>request-response</code> <code>Page</code></p><ul>
+<h3><code>Observe</code></h3><p><code>request-response</code> <code>Page</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
 <li>Argument 1: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
 <li>Argument 2: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
 <li>Argument 3: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
@@ -54,13 +58,20 @@
 <p></p>
 <p>Wire identity: <code>abstraction.logging/reader@2</code></p>
 <p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
 <p>Read one or all emitting programs. Bounds are 1..256 returned records and 1..65536 encoded Record bytes; scan work is independently bounded. Empty cursor starts earliest retained history; end fixes the current physical end. One consistent Rights snapshot governs selection and concrete outgoing emitters. No fallback to account-wide reader@1 is permitted.</p>
-<h3><code>Read</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code></p><ul>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
 <li>Argument 1: <code>ApplicationLogTarget</code> <code>target</code> (required, including zero/false/empty)</li>
 <li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+</ul>
+<p>Read the records this receiving runtime wrote about the proven caller&#39;s own requests, from since onward: its request records, which name a paired host by its binding name, and its application command audit. The subject is the bound caller and never an argument; records other programs wrote are excluded. Bounds, sealed cursors, gap and outcomes follow Read; the cursor also binds since. Admission is abstraction.logging/history.read on profile abstraction.logging/caller-log@1. An earlier reader@2 service answers unknown_method.</p>
+<h3><code>ReadAboutCaller</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code> · readonly</p><ul>
+<li>Argument 1: <code>string</code> <code>since</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..131072 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
 <li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
 <li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
 </ul>
@@ -68,11 +79,11 @@
 <p></p>
 <p>Wire identity: <code>abstraction.logging/observer@2</code></p>
 <p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
 <p>Read with reader@2 semantics, waiting once at an empty physical end for 0..30000 ms. Unrelated writes can produce filtered progress. Cancellation, fixed deadline and bounded waiter capacity apply. Authorization is reevaluated before delivery; no decision is retained across waits or pages.</p>
-<h3><code>Observe</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code></p><ul>
+<h3><code>Observe</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
 <li>Argument 1: <code>ApplicationLogTarget</code> <code>target</code> (required, including zero/false/empty)</li>
 <li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
 <li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
@@ -83,21 +94,21 @@
 <p>Authorized bounded reads from fixed, read-only operating-system log sources.</p>
 <p>Wire identity: <code>abstraction.logging/source-reader@1</code></p>
 <p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
-<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. The selected generated dispatcher validates the method and typed arguments; the selector does not authorize callers or interpret method payloads.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
 <p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
 <p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
 <p>List the runtime&#39;s fixed platform source identifiers and current access status. Source IDs are not paths or query expressions. Per-source OA rights are checked before native probing; a refused source is listed as permission_denied without a native access attempt.</p>
-<h3><code>Sources</code></h3><p><code>request-response</code> <code>SourceCatalog</code></p><ul>
+<h3><code>Sources</code></h3><p><code>request-response</code> <code>SourceCatalog</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
 </ul>
 <p>Read one fixed source with bounds of 1..256 entries and 1..65536 encoded SourceRecord bytes. The service checks the exact source-specific right before native access. A provider without a source returns unsupported; OA policy denial returns not_permitted, known native access denial returns forbidden and uncertainty returns unavailable. Invalid semantic bounds return invalid. Refusals contain no records, preserve the supplied cursor and never announce end. Empty cursor starts at the earliest visible retained entry the native API exposes. Cursors bind source ID and reader instance; source mismatch, restart or retention loss returns gap and preserves the cursor. No cross-source ordering, complete-capture claim or observation guarantee is made.</p>
-<h3><code>Read</code></h3><p><code>request-response</code> <code>SourcePage</code></p><ul>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>SourcePage</code> · readonly</p><ul>
 <li>Argument 1: <code>string</code> <code>source_id</code> (required, including zero/false/empty)</li>
 <li>Argument 2: <code>string</code> <code>cursor</code> (required, including zero/false/empty)</li>
 <li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
 <li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
 </ul>
 <p>Return an opaque baseline cursor at the source&#39;s current end without returning records. The exact source-specific right is checked before native access and rechecked before the cursor is returned. A source without a safe current-position operation returns unsupported. Use the returned cursor with Read to request entries that follow this observed end; an empty source produces a valid empty baseline. If no native entry exists at the baseline, a later retention loss before the first read may be undetectable. Cursors bind source ID and reader instance; restart or detectable retention loss returns gap. This is a cursor operation, not a watch or complete-capture guarantee.</p>
-<h3><code>StartAtEnd</code></h3><p><code>request-response</code> <code>SourcePage</code></p><ul>
+<h3><code>StartAtEnd</code></h3><p><code>request-response</code> <code>SourcePage</code> · readonly</p><ul>
 <li>Argument 1: <code>string</code> <code>source_id</code> (required, including zero/false/empty)</li>
 </ul>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
@@ -117,8 +128,8 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>ApplicationLogSelection</code> <code>HistoryPageOutcome</code> <code>PageOutcome</code> <code>SourceAvailability</code> <code>SourceCatalogOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
-<tr><td>declared below</td><td><code>ProducerClaim</code> <code>Record</code></td></tr>
+<tr><td>built in</td><td><code>ApplicationLogSelection</code> <code>HistoryPageOutcome</code> <code>HistoryUsageOutcome</code> <code>PageOutcome</code> <code>SourceAvailability</code> <code>SourceCatalogOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>declared below</td><td><code>HistoryUsage</code> <code>ProducerClaim</code> <code>Record</code></td></tr>
 <tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;SourceLimitation&gt;</code></td></tr>
 <tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code> <code>list&lt;Record&gt;</code> <code>list&lt;SourceDescriptor&gt;</code> <code>list&lt;SourceRecord&gt;</code></td></tr>
 <tr><td>string map <span class="tag">[DEF-A10]</span></td><td><code>map&lt;string,string&gt;</code></td></tr>
@@ -150,7 +161,7 @@
 <tr><td>11</td><td><code>key</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 <tr><td>12</td><td><code>mac</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 </tbody></table></div>
-<h3 id="struct-Record"><code>Record</code></h3>
+<h3 id="struct-Record"><a href="https://openabstractions.github.io/reference.html#concept-log.record"><code>Record</code></a></h3>
 <p class="meta">the document <span class="tag">[DEF-A1]</span> · unknown fields <code>grant</code></p>
 <div class="wrap"><table>
 <thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
@@ -172,6 +183,24 @@
 <tr><td>2</td><td><code>records</code></td><td><code>list&lt;Record&gt;</code></td><td>required</td><td>—</td></tr>
 <tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-HistoryUsage"><code>HistoryUsage</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>retained_bytes</code></td><td><code>i64</code></td><td>required; range 0..9223372036854775807; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>oldest</code></td><td><code>timestamp</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>3</td><td><code>max_use</code></td><td><code>i64</code></td><td>optional · omitted when absent; range 0..9223372036854775807; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>4</td><td><code>max_retention_ms</code></td><td><code>i64</code></td><td>optional · omitted when absent; range 0..9223372036854775807; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-HistoryUsageResult"><code>HistoryUsageResult</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>HistoryUsageOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>usage</code></td><td><code>HistoryUsage</code></td><td>optional · omitted when absent</td><td>—</td></tr>
 </tbody></table></div>
 <h3 id="struct-ApplicationLogTarget"><code>ApplicationLogTarget</code></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
@@ -264,6 +293,17 @@
 <tr><td>6</td><td><code>corrupt</code></td><td><code>corrupt</code></td></tr>
 <tr><td>7</td><td><code>unsupported</code></td><td><code>unsupported</code></td></tr>
 </tbody></table></div>
+<h3 id="enum-HistoryUsageOutcome"><code>HistoryUsageOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>available</code></td><td><code>available</code></td></tr>
+<tr><td>2</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>3</td><td><code>corrupt</code></td><td><code>corrupt</code></td></tr>
+<tr><td>4</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+<tr><td>5</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+</tbody></table></div>
 <h3 id="enum-HistoryPageOutcome"><code>HistoryPageOutcome</code></h3>
 <p class="meta">a member this reader does not know is <code>refuse</code></p>
 <div class="wrap"><table>
@@ -325,6 +365,12 @@
 <div class="wrap"><table>
 <thead><tr><th>name</th><th>type</th><th>value</th></tr></thead>
 <tbody>
+<tr><td><code>default_async_capacity</code></td><td><code>i32</code></td><td><code>1024</code></td></tr>
+<tr><td><code>default_initial_backoff_ms</code></td><td><code>i32</code></td><td><code>100</code></td></tr>
+<tr><td><code>default_max_backoff_ms</code></td><td><code>i32</code></td><td><code>5000</code></td></tr>
+<tr><td><code>default_write_timeout_ms</code></td><td><code>i32</code></td><td><code>5000</code></td></tr>
+<tr><td><code>writer_backoff_jitter_percent</code></td><td><code>i32</code></td><td><code>20</code></td></tr>
+<tr><td><code>writer_gap_message</code></td><td><code>string</code></td><td><code>records dropped while the sink was unreachable</code></td></tr>
 <tr><td><code>history_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user, policy_unavailable, forbidden</code></td></tr>
 <tr><td><code>history_cursor_words</code></td><td><code>list&lt;string&gt;</code></td><td><code>end</code></td></tr>
 <tr><td><code>history_identity_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user</code></td></tr>
@@ -344,7 +390,8 @@
 <tr><td>9</td><td><code>missing_field</code></td><td><code>structure</code></td></tr>
 <tr><td>10</td><td><code>bad_schema</code></td><td><code>structure</code></td></tr>
 <tr><td>11</td><td><code>bad_enum</code></td><td><code>structure</code></td></tr>
-<tr><td>12</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
+<tr><td>12</td><td><code>bad_value</code></td><td><code>structure</code></td></tr>
+<tr><td>13</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
 </tbody></table></div>
 
 <footer>

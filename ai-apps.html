@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Abstractions — connect your AI applications</title>
+  <title>OpenAbstractions — connect your AI applications</title>
   <link rel="icon" href="brand/favicon.ico" sizes="any">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="homepage.css">
@@ -11,15 +11,15 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>Open Abstractions</span></a>
-    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Coverage</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
   </header>
   <main class="current-page">
     <section class="intro">
       <p class="eyebrow">AI applications</p>
       <h1>Let your AI applications share the machine</h1>
       <p>Your chat engine, coding assistant and image editor need models, memory and permission to act. OA gives them a common service for those needs. Applications keep their own interfaces; the runtime connects the capabilities they use.</p>
-      <p>OpenCode inventory refresh and saved preferences, prepared Comfy workflows, and Lemonade-to-Comfy GPU handover are development previews with separately recorded evidence. The <a href="adopt.html">installation guide</a> identifies the latest released package; the <a href="adopters.html">application guide</a> lists current integrations and their limits.</p>
+      <p>OpenCode inventory refresh and saved preferences and prepared Comfy workflows are development previews with separately recorded evidence. The <a href="adopt.html">installation guide</a> identifies the latest released package; the <a href="adopters.html">application guide</a> lists current integrations and their limits.</p>
     </section>
     <section id="models">
       <h2>Use the model files you already have</h2>
@@ -32,28 +32,30 @@ openabstractions models unlend &lt;entry&gt;</code></pre>
     <section id="memory">
       <h2>Ask a loaded model to make room for another task</h2>
       <p>An image workflow can request a memory reservation while a chat engine holds a model. The resource service checks permission and asks a supported holder to unload. It verifies the available capacity before admitting the new reservation.</p>
-      <p>The model host participates directly: it holds a lease for each resident model and can release that model when asked. Existing engines participate through supported unload operations. Active calls and a holder's refusal affect whether a request succeeds. <a href="cases.html#comfy-klein-result">See the prepared ComfyUI workflow and generated image.</a></p>
-      <p><a href="cases.html#share-card">The ComfyUI and LM Studio experiment</a> exercised both a permitted yield and a denied request. A separate demonstration waited until Lemonade was idle, then asked Lemonade to unload its model before Comfy rendered. The run remains under qualification. <a href="cases.html#idle-gpu-handover">See the handover and its limits.</a> Measurement and process attribution vary by platform; Windows currently retains conservative reservations when process attribution cannot be established. A reservation governs admission; it does not enforce a process's physical memory usage.</p>
+      <p>The model host participates directly: it holds a <a href="reference.html#concept-resource.lease">lease</a> for each resident model and can release that model when asked. A stock engine without OA's integration is measured as memory OA does not manage and named to the person. Active calls and a holder's refusal affect whether a request succeeds. <a href="cases.html#comfy-klein-result">See the prepared ComfyUI workflow and generated image.</a></p>
+      <p><a href="cases.html#share-card">ComfyUI and OA's own engines</a> take turns on the card through leases. OA's own Lemonade build holds a card lease as well and yields it once no request uses its engine. A stock Lemonade is measured and named. <a href="cases.html#idle-gpu-handover">See the handover case.</a> Measurement and process attribution vary by platform; Windows currently retains conservative reservations when process attribution cannot be established. A reservation governs admission; it does not enforce a process's physical memory usage.</p>
     </section>
     <section id="routing">
       <h2>Choose models in OpenCode through one provider</h2>
       <p>OA's router lists the models that registered engines can serve. The OpenCode integration uses the runtime for chat and tool calls. The operator controls which model servers and credentials that program may use. A live TUI demonstration refreshed the local model chooser in the same running process. In a separate API demonstration, one saved preference sent the first turn to Lemonade and the next fresh turn to Ollama after Lemonade became unavailable. OA recorded the actual host and model for both answers; the preference alias has not yet been shown in the rendered picker.</p>
       <pre><code>node adopters/opencode/configure.js configure --dry-run
 node adopters/opencode/configure.js configure</code></pre>
-      <p>The first command previews the provider configuration. The second writes it from the router's available chat models. Install the development OpenCode provider and configure an eligible model server first. <a href="adopters.html#opencode">OpenCode setup and test evidence</a> · <a href="cases.html#opencode-policy">Saved-preference example</a>.</p>
+      <p>The first command previews the provider configuration. The second writes it from the router's available chat models. On Windows, install OpenCode from the Panel's Apps Catalog, and configure an eligible model server first. <a href="adopters.html#opencode">OpenCode setup and test evidence</a> · <a href="cases.html#opencode-policy">Saved-preference example</a>.</p>
     </section>
     <section id="hosting">
-      <h2>Serve a local model file under a memory lease</h2>
+      <h2>Serve a local model file under a <a href="reference.html#concept-resource.lease">memory lease</a></h2>
       <p>The optional model host starts an existing <code>llama-server</code> executable for an explicitly selected model. It keeps the engine resident for repeated calls and coordinates its memory reservation with the resource service. The runtime mediates application calls and checks their rights.</p>
       <p>The operator supplies the engine and model. Installation alone starts no model. <a href="https://github.com/openabstractions/abstraction-provider-modelhost">Model host configuration and measured behavior</a>.</p>
     </section>
     <section id="control">
       <h2>Give an assistant a clear, permitted action</h2>
+      <p><a href="applications.html">Application MCP</a> explains how the application profile connects current document state, proposals and declared actions. Through it, agents can discover which actions an app supports, see their inputs and open supported actions.</p>
+      <p>On a ComfyUI workflow opened through OpenAbstractions, an agent asks before it edits the canvas. Choose <strong>Allow once</strong>, <strong>Always allow</strong> or <strong>Not now</strong>.</p>
       <p>The OA MCP gateway makes OA tools available to an assistant. Registered applications can advertise their presence and supported interfaces. An application-specific adapter supplies actions such as previewing and applying a ComfyUI parameter change against a particular document revision.</p>
       <p>The gateway has its own verified caller identity and grants. The ComfyUI presentation example checks the target and revision before applying a proposed change. <a href="cases.html#interaction">Application interaction example</a> · <a href="https://github.com/openabstractions/abstractions/tree/main/mcp-gateway">MCP gateway guide</a>.</p>
     </section>
-    <p>Building an integration? The <a href="inference.html">inference guide</a> covers chat, embeddings, audio, images and durable video jobs. <a href="coverage.html">Coverage</a> separates available interfaces from tested behavior.</p>
+    <p>Building an integration? The <a href="inference.html">inference guide</a> covers chat, embeddings, audio, images and durable video jobs. <a href="coverage.html">Language support</a> separates available clients from calls checked against the runtime.</p>
   </main>
-  <footer><span>Open Abstractions</span><a href="index.html">Home</a><a href="adopters.html">Applications</a><a href="coverage.html">Coverage</a></footer>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="adopters.html">Applications</a><a href="coverage.html">Language support</a></footer>
 </body>
 </html>
