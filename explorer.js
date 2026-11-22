@@ -10,7 +10,7 @@
       group: "foundations",
       title: "Verified downloads",
       contract: "abstraction.job/acceptance@1 + download request schema",
-      intro: "A download names its bytes by digest and enters the machine's one job table. A second request for the same digest reuses the accepted job, and the runtime delegates the transfer to a compatible provider.",
+      intro: "A download names its bytes by digest and enters the machine's one job table. A second request for the same digest copies the bytes the runtime already verified instead of fetching them again, and the runtime delegates the transfer to a compatible provider.",
       sampleKind: "Go",
       sample: "window, err := jobs.GetHistoryWindow(ctx)\nif err != nil { return err }\n\nspec := request.Encode(&request.Request{\n    Artifact: request.Artifact{Digest: digest, Size: size},\n    Sources:  []request.Source{{Scheme: \"https\", Locator: sourceURL}},\n})\nresult, err := jobs.Submit(ctx, jobapi.Submission{\n    Identity: jobapi.RequestIdentity{Key: stableKey, HistoryEpoch: window.HistoryEpoch},\n    Kind: download.Kind, Spec: spec,\n})\nif err != nil { return err }\nif result.Outcome != jobapi.AcceptanceOutcomeAccepted {\n    return fmt.Errorf(\"download: %s\", result.Outcome)\n}",
       sampleLabel: "Request a deduped download",

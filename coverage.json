@@ -1,5 +1,5 @@
 {
-  "produced": {"by": "scripts/matrix.sh", "commit": "d006115369", "date": "2026-11-22"},
+  "produced": {"by": "scripts/matrix.sh", "commit": "66775d5c88", "date": "2026-11-23"},
   "schema": "openabstractions.language-support/1",
   "releases": "https://github.com/openabstractions/redist/releases/latest",
   "states": {
@@ -25,30 +25,30 @@
     ]
   },
   "sources": {
-    "abstraction-asks": "13d345152f",
-    "abstraction-cas": "f2c940f92a",
-    "abstraction-config": "6a46df2f81",
-    "abstraction-credentials": "4235c5ee57",
-    "abstraction-download": "7ea4f1234a",
-    "abstraction-facade": "9bffc48b6d",
-    "abstraction-identity": "20518afbc7",
-    "abstraction-inference": "b5e35d4258",
-    "abstraction-job": "dc72edc554",
-    "abstraction-logging": "291d2df419",
-    "abstraction-model": "29b10ff7ba",
-    "abstraction-provider-kit": "a866252be6",
-    "abstraction-provider-lemonade": "7a2a4aa639",
-    "abstraction-provider-localai": "f5adfae949",
-    "abstraction-provider-modelbridge": "9da3b575cf",
-    "abstraction-provider-modelhost": "ab8ea522c0",
-    "abstraction-provider-pytorch": "aae9bed46a",
-    "abstraction-provider-thenoise": "ce63a0d7fa",
-    "abstraction-resource": "5f8aae82ff",
-    "abstraction-rights": "a6c0e7d915",
-    "abstraction-router": "f96c274172",
-    "abstraction-storage": "6831efb954",
-    "abstraction-storage-over-local-stores": "d8f2ece40e",
-    "abstraction-watch": "86a36d875d"
+    "abstraction-asks": "b1721a3452",
+    "abstraction-cas": "e799a093b6",
+    "abstraction-config": "3eaaed7e99",
+    "abstraction-credentials": "fa60144845",
+    "abstraction-download": "1580004a90",
+    "abstraction-facade": "5a734b0b11",
+    "abstraction-identity": "9b97454d94",
+    "abstraction-inference": "e9b68165d3",
+    "abstraction-job": "c51885e06d",
+    "abstraction-logging": "cef3e9efb9",
+    "abstraction-model": "9d82d0bcd3",
+    "abstraction-provider-kit": "602f155c11",
+    "abstraction-provider-lemonade": "9bb4580c7d",
+    "abstraction-provider-localai": "535d28c562",
+    "abstraction-provider-modelbridge": "ede766a379",
+    "abstraction-provider-modelhost": "4e71b32275",
+    "abstraction-provider-pytorch": "fa5bd987b4",
+    "abstraction-provider-thenoise": "3eff6b6084",
+    "abstraction-resource": "6388dd3953",
+    "abstraction-rights": "1c791526b0",
+    "abstraction-router": "3cf6e86ffe",
+    "abstraction-storage": "4b3227e340",
+    "abstraction-storage-over-local-stores": "fc1c1d02aa",
+    "abstraction-watch": "157c151ab6"
   },
   "capabilities": [
     {
@@ -948,7 +948,7 @@
             "verdict": "UNPROVEN",
             "reason": "unreached",
             "last": null,
-            "test_files": 5,
+            "test_files": 6,
             "condition": null
           }
         },
@@ -1217,7 +1217,7 @@
           "failed_before": false,
           "platforms": [],
           "client": {
-            "handwritten": false,
+            "handwritten": true,
             "interface": "service"
           },
           "package": "@openabstractions/storage-content",
@@ -1560,7 +1560,7 @@
           "state": "available",
           "anchor": "m-asks-go",
           "test_connection": false,
-          "failed_before": true,
+          "failed_before": false,
           "platforms": [],
           "client": {
             "handwritten": true,
@@ -1582,14 +1582,9 @@
           "module_tests": {
             "verdict": "UNPROVEN",
             "reason": "drifted",
-            "last": {
-              "record": "GATE",
-              "verdict": "FAIL",
-              "tree": "7e9ea82",
-              "date": "2026-09-27"
-            },
+            "last": null,
             "test_files": null,
-            "condition": null
+            "condition": "local changes"
           }
         },
         "python": {
@@ -1613,10 +1608,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "unreached",
+            "reason": "drifted",
             "last": null,
-            "test_files": 0,
-            "condition": null
+            "test_files": null,
+            "condition": "local changes"
           }
         },
         "cpp": {
@@ -1637,10 +1632,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "unreached",
+            "reason": "drifted",
             "last": null,
-            "test_files": 0,
-            "condition": null
+            "test_files": null,
+            "condition": "local changes"
           }
         },
         "rust": {
@@ -1662,10 +1657,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "unreached",
+            "reason": "drifted",
             "last": null,
-            "test_files": 0,
-            "condition": null
+            "test_files": null,
+            "condition": "local changes"
           }
         },
         "javascript": {
@@ -1699,14 +1694,9 @@
           "module_tests": {
             "verdict": "UNPROVEN",
             "reason": "drifted",
-            "last": {
-              "record": "GATE",
-              "verdict": "PASS",
-              "tree": "26c5fc11",
-              "date": "2026-09-27"
-            },
+            "last": null,
             "test_files": null,
-            "condition": null
+            "condition": "local changes"
           }
         }
       }

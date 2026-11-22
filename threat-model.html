@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAbstractions — threat model</title>
+  <meta name="description" content="What OpenAbstractions 0.8.1 protects, the adversaries it is built against, each promise it makes, its known limits, and how to report a vulnerability.">
+  <link rel="icon" href="brand/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="homepage.css">
+  <link rel="stylesheet" href="current.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="brand/mark-64.png" alt="" width="34" height="34"><span>OpenAbstractions</span></a>
+    <nav aria-label="Primary navigation"><a href="adopt.html">Adopt</a><a href="cases.html">Cases</a><span class="nav-devs-label">for developers</span><a href="reference.html">Reference</a><a href="coverage.html">Language support</a><a href="catalogue.html">Catalogue</a><a href="https://github.com/openabstractions">GitHub</a></nav>
+  </header>
+  <main class="current-page">
+    <section class="intro">
+      <p class="eyebrow">Security</p>
+      <h1>Threat model</h1>
+      <p>This page covers OpenAbstractions 0.8.1 on Windows, the reference platform. It names what OA guards, the adversaries it is built against, each promise OA makes, and the limits that remain.</p>
+    </section>
+    <nav class="reference-nav" aria-label="On this page"><a href="#assets">Assets</a><a href="#adversaries">Adversaries</a><a href="#promises">Promises</a><a href="#limits">Known limits</a><a href="#report">Report a vulnerability</a></nav>
+
+    <section id="assets">
+      <h2>What OA guards</h2>
+      <div class="page-grid three">
+        <article class="page-card"><h3>Saved keys</h3><p>API keys and tokens for model services and download sites, kept in OA's credential store.</p></article>
+        <article class="page-card"><h3>Model files</h3><p>The weights OA downloads, stores and loads into engines. An altered file changes what a model says and can attack the engine that reads it.</p></article>
+        <article class="page-card"><h3>Your files</h3><p>Documents, projects and SSH keys. Agents and apps reach them while they work for you.</p></article>
+        <article class="page-card"><h3>Your permissions</h3><p>OA's record of which program may do what. It decides every other promise on this page.</p></article>
+        <article class="page-card"><h3>The graphics card</h3><p>Memory and time on the GPU. One program can take it from every other.</p></article>
+      </div>
+    </section>
+
+    <section id="adversaries">
+      <h2>Adversaries</h2>
+      <h3>In scope for 0.8.1</h3>
+      <div class="route"><strong>Another app</strong><span>A program running under your account that you haven't connected to OA, or that asks for more than you allowed it.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>Claude Code, OpenCode or Codex after it read text an attacker wrote: a web page, a file, or a message from another agent. It holds its program's rights and tries to use them for the attacker.</span></div>
+      <div class="route"><strong>Hostile content</strong><span>A web server, mirror or redirect that answers OA's downloader with crafted responses. A page in your browser that tries to reach OA's local addresses.</span></div>
+      <div class="route"><strong>A paired machine</strong><span>A computer you paired with this one, or someone who took it over. It holds the pairing key and the rights you gave it.</span></div>
+      <h3>Out of scope for 0.8.1</h3>
+      <div class="route"><strong>Code running as you</strong><span>A program of your account that edits OA's files directly. It can rewrite the permissions file, replace a per-user copy of the Panel, unseal saved keys and click OA's popups. OA 0.9.0 narrows this. The permissions move to a machine service folder your programs can't write. OA checks its own programs' signatures. Popups move to a protected prompt. OA can start apps in boxes that see only the folders you give them.</span></div>
+      <div class="route"><strong>Administrator or root</strong><span>A process with administrator rights or root controls the whole machine, OA's files included. OA can't contain it, and no planned release changes that. OA records what such a caller changes, with Undo.</span></div>
+    </section>
+
+    <section id="promises">
+      <h2>What OA promises</h2>
+      <p>Each promise lists the adversaries it applies to.</p>
+
+      <h3 id="promise-rights">Apps get only what you allowed</h3>
+      <p>OA identifies each calling program from the operating system: its process, its file and its signature. What a program says about itself counts for nothing. The first time a program asks for something new, a popup names the program and the action. Your answer applies to that program alone.</p>
+      <div class="route"><strong>Another app</strong><span>It has no rights until you allow it. A rights change it makes through OA's command line waits for your yes in a popup. That covers granting rights, answering questions, pairing and adding model servers.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>It can use the rights its program already holds. You alone answer a question that widens them. A rights change it makes through the command line asks you first.</span></div>
+      <div class="route"><strong>Hostile content</strong><span>It reaches OA only through an app, with that app's rights.</span></div>
+      <div class="route"><strong>A paired machine</strong><span>Its programs appear under the pairing key. Account-wide defaults and wildcard rules never apply to them. They hold the rights you approved for that machine.</span></div>
+
+      <h3 id="promise-keys">Your saved keys stay inside OA</h3>
+      <p>Apps use a saved key without seeing it. OA adds the key to the outgoing request. It sends a key only over https, and only to the exact site the key belongs to. A redirect to any other site drops the key. Keys appear in no reply, log line or job record.</p>
+      <div class="route"><strong>Another app</strong><span>Using a key needs your permission for that key by name. Reading its value is a separate permission.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>It can use a key only within its program's permission. It can't make OA send the key to a site it chooses.</span></div>
+      <div class="route"><strong>Hostile content</strong><span>A redirect to another site, or to http, carries no key.</span></div>
+      <div class="route"><strong>A paired machine</strong><span>Keys never cross the pairing link. Each machine applies its own keys under its own rights.</span></div>
+
+      <h3 id="promise-downloads">Downloads reach only what they should</h3>
+      <p>OA's downloader follows the rules established downloaders use. https is always allowed. http is allowed when the request carries a SHA-256 digest that proves the bytes. OA refuses every other scheme. A download follows at most 10 redirects, and OA checks every hop again. OA checks the address it actually connects to. It refuses this computer's own addresses, link-local addresses (cloud metadata included), multicast and broadcast. It refuses your local network unless you list the host, such as a NAS. Your list of refused hosts applies to every redirect hop, by name and by address. OA stores model files by their SHA-256 and checks them against it.</p>
+      <div class="route"><strong>Another app</strong><span>Its downloads through OA follow these rules.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>It can't use OA's downloader to reach services on this computer or on your local network.</span></div>
+      <div class="route"><strong>Hostile content</strong><span>A redirect or a DNS answer that points at this computer, your router or your NAS is refused. Altered bytes fail the digest check and are discarded.</span></div>
+      <div class="route"><strong>A paired machine</strong><span>A download it asks this machine to run follows the same rules.</span></div>
+
+      <h3 id="promise-messages">Messages between agents can't take over a chat</h3>
+      <p>When another agent's message starts a turn in a chat, that turn is reply-only. The agent can read the message, read files in its own project folder, and reply. Writing files, running commands, web search and other tools are refused. You can allow full tool use for one pair of agents on the Panel's Permissions page. OA marks every message from another agent as untrusted, and such a message never counts as your consent.</p>
+      <div class="route"><strong>Another app</strong><span>Two agents exchange messages only after you allow that pair.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>An attacker who controls one agent's words can't use another chat's file, command or web tools through a message.</span></div>
+      <div class="route"><strong>Hostile content</strong><span>Text an agent forwards from a web page arrives as untrusted content in a reply-only turn.</span></div>
+      <div class="route"><strong>A paired machine</strong><span>A turn its message starts stays reply-only. The full-use switch never applies to a sender on another machine.</span></div>
+
+      <h3 id="promise-questions">Your answer does exactly what was asked</h3>
+      <p>A question from an agent stays open until you answer, for up to 24 hours. An Allow you give later performs that exact request once. Before it acts, OA checks again that the asking app is still connected, that you haven't blocked it since, and that the target is the same program you connected. An expired question does nothing.</p>
+      <div class="route"><strong>Another app</strong><span>A program that changed since you connected it isn't opened.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>It can't swap the action after you answer. Your Allow covers the one request the popup showed.</span></div>
+
+      <h3 id="promise-standing">OA's name belongs to OA's programs</h3>
+      <p>The Panel gives OA's titles, and the first ranks for pictures and chat, only to model servers OA shipped and signed. OA's release lists which server names each of its programs may declare. A server another program adds shows as third-party, whatever name it uses. Adding a model server through the command line asks you first. The popup names the program and what it gets: the graphics card, providing models, a saved key.</p>
+      <div class="route"><strong>Another app</strong><span>It can't present its program as OA's engine or take OA's ranking.</span></div>
+      <div class="route"><strong>An injected agent</strong><span>It can't add a model server, or give one the graphics card or your key, without your yes.</span></div>
+
+      <h3 id="promise-endpoint">The address for apps without an integration is off</h3>
+      <p>OA can serve an OpenAI- and Anthropic-compatible address for apps that have no OA integration. It is off after install. You turn it on with the Gateway switch on the Panel's Providers page, or with <code>openabstractions inference gateway on</code>. It listens on 127.0.0.1 only. OA identifies each caller by the process that owns its connection and refuses processes of other accounts. A key from <code>openabstractions inference key issue --for</code> works only for the program it was issued to. OA's permissions decide every call, and a call that needs your answer waits for the popup.</p>
+      <div class="route"><strong>Another app</strong><span>Once the address is on, any program of your account can connect. OA's permissions for that program decide what each call may use.</span></div>
+    </section>
+
+    <section id="limits">
+      <h2>Known limits</h2>
+      <ul class="compact-list">
+        <li><strong>Programs of your account can edit OA's files.</strong> The permissions file and a per-user install's Panel live in folders your account can write. A program that rewrites them skips OA's popups. OA 0.9.0 moves the permissions to the machine service and checks the Panel's signature.</li>
+        <li><strong>Saved keys are readable by your account.</strong> OA seals keys with Windows' per-user protection. Any program of your account can unseal them through the same Windows call. OA keeps keys out of logs, arguments and records.</li>
+        <li><strong>Popups can be clicked by another program.</strong> A program of your account can send clicks to OA's popups. Protected prompts arrive in 0.9.0.</li>
+        <li><strong>Apps aren't boxed yet.</strong> OA's permissions cover what goes through OA. An app can still open your files with your account's access. Boxes arrive in 0.9.0.</li>
+        <li><strong>Administrators skip the command-line popup.</strong> A rights change from a process running as administrator applies at once, with an Activity line and Undo. An agent started in an administrator terminal inherits this. The switch "Programs run as administrator can change permissions without asking" on the Permissions page controls this. It is on after a fresh install.</li>
+        <li><strong>Codex's own tools.</strong> In a reply-only turn, OA refuses its own tools to Codex. Codex's built-in tools follow Codex's own approval settings.</li>
+        <li><strong>Messages read in a turn you started.</strong> An agent may read another agent's message during a turn you typed. That text is marked untrusted, and the turn keeps its tools. OA 0.9.0 reviews this case.</li>
+        <li><strong>Downloads through a proxy.</strong> The system proxy resolves names. OA's address rules then apply to the names OA sees.</li>
+        <li><strong>macOS.</strong> A per-user install on macOS can't yet check a file's signer. Its model servers show as third-party. The address for apps without an integration refuses every connection on macOS.</li>
+      </ul>
+    </section>
+
+    <section id="report">
+      <h2>Report a vulnerability</h2>
+      <p>Use GitHub's private reporting on the repository concerned: <code>https://github.com/openabstractions/&lt;repository&gt;/security/advisories/new</code>. If that page is missing, open a public issue that says only that you have a report and want a private channel. Keep the details out of the issue.</p>
+      <p>Name the repository and version, what an attacker gains, and how to reproduce it. A download spec, a job record or a wire fixture that triggers the fault helps most. A fix is done when your fixture is in the conformance corpus.</p>
+      <p>One maintainer reads reports, with no response-time commitment. After two weeks of silence, open the public issue above. A confirmed fault is fixed in every language that has it and ships as a bugfix release with a GitHub advisory that credits you, unless you ask otherwise. Ninety days after the report is the usual disclosure courtesy. The full policy is in <a href="https://github.com/openabstractions/abstractions/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+    </section>
+  </main>
+  <footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="adopt.html">Adopt</a><a href="reference.html">Reference</a><a href="threat-model.html">Security</a></footer>
+</body>
+</html>

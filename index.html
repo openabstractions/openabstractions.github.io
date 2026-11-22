@@ -322,11 +322,12 @@ import (
 )
 
 func main() {
-    h := logging.NewDefaultHandler(&amp;logging.Options{Program: "my-app"})
+    h := logging.Default("my-app")
     slog.SetDefault(slog.New(h))
     slog.Info("worker started", "component", "indexer")
 
-    // Close drains the queued records before the program exits.
+    // Close drains the queued records before the program exits. With no OA
+    // runtime it returns the resolution error, and log.Fatal prints it.
     ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
     defer cancel()
     counts, err := h.Close(ctx)
@@ -434,6 +435,7 @@ print("".join(part.text for part in reply.message.parts))</code></pre>
     <a href="https://github.com/openabstractions/abstractions">Source</a>
     <a href="schema.html">Schemas</a>
     <a href="coverage.html">Language support</a>
+    <a href="threat-model.html">Security</a>
     <span>Maintained by Reinis Lusis</span>
   </footer>
 </body>

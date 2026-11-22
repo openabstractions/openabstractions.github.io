@@ -98,7 +98,7 @@
 <tr><td>Android, including Termux</td><td>unsupported</td><td>None. No runtime is built, packaged, installed or run for Android.</td><td>The packager builds only linux and macos; the release builds Windows MSIs, Linux tarballs and one macOS package. Termux has no systemd user manager, which Linux selection requires.</td><td>`--platform` accepts only linux and macos.<br>The release builds no Android asset.<br>Nothing in the tree records a build, install or run on Android or Termux.</td></tr>
 </table></div>
 <h2>Contracts, clients and source routes</h2>
-<p class="catalogue-note">Measured on 2026-11-22. Each language row gives the module&#x27;s state on Language support, linked to its entry there, then the client: the facade&#x27;s resolve accessors, or for JavaScript the generated service clients a binding from <a href="https://openabstractions.github.io/reference.html#concept-facade.machine-client">Machine.resolveService</a> wraps. Checked means that language&#x27;s client or record types passed a recorded check against the running OA runtime; available means a client exists and no current check is recorded. Test connection marks a checked state whose check passed only over the Go IPC connection, the test-only pipe connector or a connection the check did not record. Ship on a checked state on your platform.</p>
+<p class="catalogue-note">Measured on 2026-11-23. Each language row gives the module&#x27;s state on Language support, linked to its entry there, then the client: the facade&#x27;s resolve accessors, or for JavaScript the generated service clients a binding from <a href="https://openabstractions.github.io/reference.html#concept-facade.machine-client">Machine.resolveService</a> wraps. Checked means that language&#x27;s client or record types passed a recorded check against the running OA runtime; available means a client exists and no current check is recorded. Test connection marks a checked state whose check passed only over the Go IPC connection, the test-only pipe connector or a connection the check did not record. Ship on a checked state on your platform.</p>
 <section class="layer" id="abstraction-asks">
 <h2>abstraction-asks</h2>
 <details><summary>Show contracts, clients, platforms and install routes</summary>
@@ -676,6 +676,6 @@
 </details>
 </section>
 </main>
-<footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="coverage.html">Language support</a><a href="https://github.com/openabstractions">Source</a></footer>
+<footer><span>OpenAbstractions</span><a href="index.html">Home</a><a href="coverage.html">Language support</a><a href="https://github.com/openabstractions">Source</a><a href="threat-model.html">Security</a></footer>
 </body>
 </html>

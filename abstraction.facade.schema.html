@@ -113,6 +113,9 @@
 <li>Argument 1: <code>string</code> <code>cursor</code> (required; length ..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
 <li>Argument 2: <code>i64</code> <code>wait_ms</code> (required, including zero/false/empty)</li>
 </ul>
+<p>Read the runtime&#39;s product standing of every declaration under provider.manage (A-SEC6). It carries no declaration fields beyond name and program, so a published registry@1 or registry@2 reading keeps its shape. An earlier registry@2 answers unknown_method, and its reader treats every declaration as third_party.</p>
+<h3><code>Standings</code></h3><p><code>request-response</code> <code>ProviderStandingList</code> · readonly</p><ul>
+</ul>
 <h2 id="service-Applications">Service <a href="https://openabstractions.github.io/reference.html#concept-facade.applications-rpc"><code>Applications</code></a> <span class="tag">[DEF-S1]</span></h2>
 <p><a href="https://openabstractions.github.io/reference.html#concept-facade.applications-rpc">Applications</a>: Experimental application-presence profile owned by the OA service. Persistent operator descriptors and transient app announcements have distinct authority and lifetime. This is a local directory; MCP/UI metadata are claims, and invocation remains behind OA capability mediation. Native callers retain their actual account/program identity. Unsupported platform identity refuses access.</p>
 <p>Wire identity: <code>abstraction.facade/applications@2</code></p>
@@ -171,10 +174,10 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>Activation</code> <code>ApplicationActivationOutcome</code> <code>ApplicationOutcome</code> <code>BootstrapState</code> <code>CallerOutcome</code> <code>DeclarationEditOutcome</code> <code>DeclarationListOutcome</code> <code>DeclarationReadiness</code> <code>DeclarationRole</code> <code>DeclarationTransport</code> <code>DescriptionOutcome</code> <code>ResolutionStatus</code> <code>Scope</code> <code>ServiceReadiness</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>built in</td><td><code>Activation</code> <code>ApplicationActivationOutcome</code> <code>ApplicationOutcome</code> <code>BootstrapState</code> <code>CallerOutcome</code> <code>DeclarationEditOutcome</code> <code>DeclarationListOutcome</code> <code>DeclarationReadiness</code> <code>DeclarationRole</code> <code>DeclarationTransport</code> <code>DescriptionOutcome</code> <code>ProductStanding</code> <code>ResolutionStatus</code> <code>Scope</code> <code>ServiceReadiness</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
 <tr><td>declared below</td><td><code>ApplicationActivationRecipe</code> <code>ApplicationDescriptor</code> <code>ApplicationInterface</code> <code>BootstrapObservation</code> <code>Declaration</code> <code>DeclarationCeiling</code> <code>DeclarationHost</code> <code>DeclarationState</code> <code>HostReading</code> <code>RemoteTrust</code> <code>ResolveRequest</code> <code>ResolveResult</code> <code>ServiceReference</code></td></tr>
 <tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;string&gt;</code></td></tr>
-<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;ApplicationContext&gt;</code> <code>list&lt;ApplicationEntry&gt;</code> <code>list&lt;ApplicationInstance&gt;</code> <code>list&lt;ApplicationInterface&gt;</code> <code>list&lt;ApplicationStart&gt;</code> <code>list&lt;CallerAttribute&gt;</code> <code>list&lt;CapabilityObservation&gt;</code> <code>list&lt;DeclarationExtension&gt;</code> <code>list&lt;DeclarationState&gt;</code> <code>list&lt;DeclarationStateV2&gt;</code> <code>list&lt;PinnedDeclarationState&gt;</code> <code>list&lt;ServiceState&gt;</code></td></tr>
+<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;ApplicationContext&gt;</code> <code>list&lt;ApplicationEntry&gt;</code> <code>list&lt;ApplicationInstance&gt;</code> <code>list&lt;ApplicationInterface&gt;</code> <code>list&lt;ApplicationStart&gt;</code> <code>list&lt;CallerAttribute&gt;</code> <code>list&lt;CapabilityObservation&gt;</code> <code>list&lt;DeclarationExtension&gt;</code> <code>list&lt;DeclarationState&gt;</code> <code>list&lt;DeclarationStateV2&gt;</code> <code>list&lt;PinnedDeclarationState&gt;</code> <code>list&lt;ProviderStanding&gt;</code> <code>list&lt;ServiceState&gt;</code></td></tr>
 <tr><td>string map <span class="tag">[DEF-A10]</span></td><td><code>map&lt;string,string&gt;</code></td></tr>
 </tbody></table></div>
 <h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
@@ -462,6 +465,24 @@
 <tr><td>2</td><td><code>cursor</code></td><td><code>string</code></td><td>required; length ..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
 <tr><td>3</td><td><code>declarations</code></td><td><code>list&lt;PinnedDeclarationState&gt;</code></td><td>required; length ..64 entries; refusal <code>bad_value</code></td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-ProviderStanding"><code>ProviderStanding</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>name</code></td><td><code>string</code></td><td>required; length ..64 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>program</code></td><td><code>string</code></td><td>required; length ..4096 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>standing</code></td><td><code>ProductStanding</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ProviderStandingList"><code>ProviderStandingList</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>DeclarationListOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>revision</code></td><td><code>string</code></td><td>required; length ..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>standings</code></td><td><code>list&lt;ProviderStanding&gt;</code></td><td>required; length ..64 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
 <h3 id="struct-ApplicationInterface"><code>ApplicationInterface</code></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
 <div class="wrap"><table>
@@ -687,6 +708,14 @@
 <tr><td>7</td><td><code>not_ready</code></td><td><code>not_ready</code></td></tr>
 <tr><td>8</td><td><code>disabled</code></td><td><code>disabled</code></td></tr>
 </tbody></table></div>
+<h3 id="enum-ProductStanding"><code>ProductStanding</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>product</code></td><td><code>product</code></td></tr>
+<tr><td>2</td><td><code>third_party</code></td><td><code>third_party</code></td></tr>
+</tbody></table></div>
 <h3 id="enum-DeclarationListOutcome"><code>DeclarationListOutcome</code></h3>
 <p class="meta">a member this reader does not know is <code>refuse</code></p>
 <div class="wrap"><table>
@@ -767,6 +796,6 @@
 <footer>
 <p><a href="index.html">Overview</a> · <a href="cases.html">Cases</a> · <a href="reference.html">Reference</a> · <a href="evidence.html">Evidence</a> · <a href="coverage.html">Coverage</a> · <a href="adopt.html">Adopt</a> ·
 <a href="https://github.com/openabstractions">github.com/openabstractions</a></p>
-</footer>
+<a href="threat-model.html">Security</a></footer>
 </main>
 </html>
