@@ -302,6 +302,15 @@
 <li>Argument 2: <code>bool</code> <code>open</code> (required, including zero/false/empty)</li>
 <li>Argument 3: <code>string</code> <code>address</code> (required, including zero/false/empty)</li>
 </ul>
+<p>Read the Ollama surface setting, whether port 11434 is free and whether OA holds it now. Gated by abstraction.inference/host.manage on resource account.</p>
+<h3><code>Ollama</code></h3><p><code>request-response</code> <code>OllamaState</code> · readonly</p><ul>
+</ul>
+<p>Conditionally write the Ollama surface setting to the runtime state and apply it to the running runtime: standard_port listens on 127.0.0.1:11434 for Ollama&#39;s API, and off stops that listener and its connections. extension_origins replaces the list of browser extension origins the /api routes answer; a web origin is never accepted. The setting survives a restart. Gated by host.manage.</p>
+<h3><code>SetOllama</code></h3><p><code>request-response</code> <code>OllamaChange</code> · idempotent</p><ul>
+<li>Argument 1: <code>string</code> <code>expected_revision</code> (required; length ..128 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>bool</code> <code>standard_port</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>list&lt;string&gt;</code> <code>extension_origins</code> (required; length ..16 entries; element [] length 1..128 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
 <p>Read one credential&#39;s durable per-program budgets and observed usage in the existing ceiling owner. Gated by abstraction.inference/host.manage on resource account for the native bound operator.</p>
 <h3><code>ProgramBudgets</code></h3><p><code>request-response</code> <code>ProgramBudgetPage</code> · readonly</p><ul>
 <li>Argument 1: <code>string</code> <code>credential</code> (required; length ..64 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
@@ -383,6 +392,7 @@
 <tr><td><code>ChatExtensionName</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..128 UTF-8 bytes</code></td></tr>
 <tr><td><code>ChatExtensionValue</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 0..1048576 UTF-8 bytes</code></td></tr>
 <tr><td><code>RequestHostName</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..4096 UTF-8 bytes</code></td></tr>
+<tr><td><code>ExtensionOrigin</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..128 UTF-8 bytes</code></td></tr>
 <tr><td><code>ProfileIdentifier</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..256 UTF-8 bytes</code></td></tr>
 </tbody></table></div>
 <h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
@@ -1301,6 +1311,28 @@
 <tr><td>1</td><td><code>outcome</code></td><td><code>EditOutcome</code></td><td>required</td><td>—</td></tr>
 <tr><td>2</td><td><code>revision</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>3</td><td><code>reason</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-OllamaState"><code>OllamaState</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>ListOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>revision</code></td><td><code>string</code></td><td>required; length ..128 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>standard_port</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>port_free</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>listening</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>6</td><td><code>extension_origins</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..16 entries; element [] length 1..128 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>7</td><td><code>why</code></td><td><code>string</code></td><td>required; length ..1024 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-OllamaChange"><code>OllamaChange</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>EditOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>revision</code></td><td><code>string</code></td><td>required; length ..128 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>reason</code></td><td><code>string</code></td><td>required; length ..1024 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
 </tbody></table></div>
 <h3 id="struct-ProgramBudget"><code>ProgramBudget</code></h3>
 <p class="meta">unknown fields <code>refuse</code></p>

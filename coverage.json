@@ -1,5 +1,5 @@
 {
-  "produced": {"by": "scripts/matrix.sh", "commit": "66775d5c88", "date": "2026-11-23"},
+  "produced": {"by": "scripts/matrix.sh", "commit": "5cc3d31e30", "date": "2026-11-25"},
   "schema": "openabstractions.language-support/1",
   "releases": "https://github.com/openabstractions/redist/releases/latest",
   "states": {
@@ -25,28 +25,28 @@
     ]
   },
   "sources": {
-    "abstraction-asks": "b1721a3452",
-    "abstraction-cas": "e799a093b6",
+    "abstraction-asks": "095c56df74",
+    "abstraction-cas": "92269e03a4",
     "abstraction-config": "3eaaed7e99",
     "abstraction-credentials": "fa60144845",
-    "abstraction-download": "1580004a90",
+    "abstraction-download": "4352f8e2f3",
     "abstraction-facade": "5a734b0b11",
-    "abstraction-identity": "9b97454d94",
-    "abstraction-inference": "e9b68165d3",
+    "abstraction-identity": "10f01bb529",
+    "abstraction-inference": "626f194da8",
     "abstraction-job": "c51885e06d",
     "abstraction-logging": "cef3e9efb9",
-    "abstraction-model": "9d82d0bcd3",
+    "abstraction-model": "55f735659b",
     "abstraction-provider-kit": "602f155c11",
-    "abstraction-provider-lemonade": "9bb4580c7d",
-    "abstraction-provider-localai": "535d28c562",
+    "abstraction-provider-lemonade": "d26de05587",
+    "abstraction-provider-localai": "a35f59c2fd",
     "abstraction-provider-modelbridge": "ede766a379",
-    "abstraction-provider-modelhost": "4e71b32275",
+    "abstraction-provider-modelhost": "7e388b6ed4",
     "abstraction-provider-pytorch": "fa5bd987b4",
     "abstraction-provider-thenoise": "3eff6b6084",
-    "abstraction-resource": "6388dd3953",
-    "abstraction-rights": "1c791526b0",
-    "abstraction-router": "3cf6e86ffe",
-    "abstraction-storage": "4b3227e340",
+    "abstraction-resource": "59036d87c8",
+    "abstraction-rights": "73ea230121",
+    "abstraction-router": "30df28d765",
+    "abstraction-storage": "6aa1d3d0bc",
     "abstraction-storage-over-local-stores": "fc1c1d02aa",
     "abstraction-watch": "157c151ab6"
   },
@@ -88,7 +88,7 @@
               "record": "GATE",
               "verdict": "PASS",
               "tree": "4fee870",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -138,9 +138,9 @@
             "reason": "drifted",
             "last": {
               "record": "GATE",
-              "verdict": "UNPROVEN",
-              "tree": "b1fe7813",
-              "date": "2026-09-27"
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -202,8 +202,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "b1fe7813",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -240,12 +240,12 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "skipped",
             "last": {
-              "record": "GATE",
-              "verdict": "PASS",
-              "tree": "30ffc73",
-              "date": "2026-09-27"
+              "record": null,
+              "verdict": "UNPROVEN",
+              "tree": "c51885e06d",
+              "date": null
             },
             "test_files": null,
             "condition": null
@@ -270,13 +270,13 @@
           "checks": [],
           "earlier_checks": [],
           "module_tests": {
-            "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "verdict": "PASS",
+            "reason": "recorded",
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "fa004bed",
-              "date": "2026-09-27"
+              "tree": "c51885e06d",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -315,7 +315,7 @@
               "record": "GATE",
               "verdict": "PASS",
               "tree": "30ffc73",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -376,13 +376,13 @@
             }
           ],
           "module_tests": {
-            "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "verdict": "PASS",
+            "reason": "recorded",
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "fa004bed",
-              "date": "2026-09-27"
+              "tree": "c51885e06d",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -420,7 +420,7 @@
               "record": "GATE",
               "verdict": "FAIL",
               "tree": "43ab3b5",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -469,7 +469,7 @@
               "record": "GATE",
               "verdict": "PASS",
               "tree": "43ab3b5",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -529,8 +529,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "500ab862",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -572,7 +572,7 @@
               "record": "GATE",
               "verdict": "FAIL",
               "tree": "9c4cbe5",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -710,8 +710,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "91492d66",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -754,8 +754,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "afa990a8",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -907,8 +907,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "12a4d337",
-              "date": "2026-09-27"
+              "tree": "ec56256",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -999,8 +999,8 @@
             "last": {
               "record": "GATE",
               "verdict": "UNPROVEN",
-              "tree": "12a4d337",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1078,8 +1078,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "12a4d337",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1124,8 +1124,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "ce299996",
-              "date": "2026-09-27"
+              "tree": "e97f1c0",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1177,8 +1177,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "ce299996",
-              "date": "2026-09-27"
+              "tree": "e97f1c0",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1244,8 +1244,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "ce299996",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1282,8 +1282,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "0a8596ad",
-              "date": "2026-09-27"
+              "tree": "27bd982",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1309,8 +1309,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "0a8596ad",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1336,8 +1336,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "0a8596ad",
-              "date": "2026-09-27"
+              "tree": "27bd982",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1424,7 +1424,7 @@
               "record": "GATE",
               "verdict": "FAIL",
               "tree": "6fff1f5",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1538,8 +1538,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "40736ed9",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -1560,7 +1560,7 @@
           "state": "available",
           "anchor": "m-asks-go",
           "test_connection": false,
-          "failed_before": false,
+          "failed_before": true,
           "platforms": [],
           "client": {
             "handwritten": true,
@@ -1582,9 +1582,14 @@
           "module_tests": {
             "verdict": "UNPROVEN",
             "reason": "drifted",
-            "last": null,
+            "last": {
+              "record": "GATE",
+              "verdict": "FAIL",
+              "tree": "7e9ea82",
+              "date": "2026-11-25"
+            },
             "test_files": null,
-            "condition": "local changes"
+            "condition": null
           }
         },
         "python": {
@@ -1608,10 +1613,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "unreached",
             "last": null,
-            "test_files": null,
-            "condition": "local changes"
+            "test_files": 0,
+            "condition": null
           }
         },
         "cpp": {
@@ -1632,10 +1637,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "unreached",
             "last": null,
-            "test_files": null,
-            "condition": "local changes"
+            "test_files": 0,
+            "condition": null
           }
         },
         "rust": {
@@ -1657,10 +1662,10 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "unreached",
             "last": null,
-            "test_files": null,
-            "condition": "local changes"
+            "test_files": 0,
+            "condition": null
           }
         },
         "javascript": {
@@ -1694,9 +1699,14 @@
           "module_tests": {
             "verdict": "UNPROVEN",
             "reason": "drifted",
-            "last": null,
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
+            },
             "test_files": null,
-            "condition": "local changes"
+            "condition": null
           }
         }
       }
@@ -1726,12 +1736,12 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "skipped",
             "last": {
-              "record": "GATE",
-              "verdict": "PASS",
-              "tree": "b812381",
-              "date": "2026-09-27"
+              "record": null,
+              "verdict": "UNPROVEN",
+              "tree": "10f01bb529",
+              "date": null
             },
             "test_files": null,
             "condition": null
@@ -1775,12 +1785,12 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "skipped",
             "last": {
-              "record": "GATE",
+              "record": null,
               "verdict": "UNPROVEN",
-              "tree": "10b33d6a",
-              "date": "2026-09-27"
+              "tree": "10f01bb529",
+              "date": null
             },
             "test_files": null,
             "condition": null
@@ -1824,12 +1834,12 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "reason": "skipped",
             "last": {
-              "record": "GATE",
+              "record": null,
               "verdict": "UNPROVEN",
-              "tree": "10b33d6a",
-              "date": "2026-09-27"
+              "tree": "10f01bb529",
+              "date": null
             },
             "test_files": null,
             "condition": null
@@ -1874,8 +1884,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "58805907",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2014,7 +2024,7 @@
               "record": "GATE",
               "verdict": "PASS",
               "tree": "7cf857e",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2042,8 +2052,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "c2ff2eac",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2081,8 +2091,8 @@
             "last": {
               "record": "GATE",
               "verdict": "UNPROVEN",
-              "tree": "c2ff2eac",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2146,8 +2156,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "c2ff2eac",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2187,7 +2197,7 @@
               "record": "GATE",
               "verdict": "PASS",
               "tree": "a56ecb2",
-              "date": "2026-09-27"
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2309,8 +2319,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "b13c0888",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2350,8 +2360,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "748cfa08",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2405,8 +2415,8 @@
             "last": {
               "record": "GATE",
               "verdict": "UNPROVEN",
-              "tree": "748cfa08",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2492,8 +2502,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "15cb201e",
-              "date": "2026-09-27"
+              "tree": "f9cb388",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2519,8 +2529,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "15cb201e",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2546,8 +2556,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "15cb201e",
-              "date": "2026-09-27"
+              "tree": "f9cb388",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -2626,9 +2636,14 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "gate",
-            "last": null,
-            "test_files": 110,
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
+            },
+            "test_files": null,
             "condition": null
           }
         },
@@ -2746,10 +2761,15 @@
           "checks": [],
           "earlier_checks": [],
           "module_tests": {
-            "verdict": "UNPROVEN",
-            "reason": "gate",
-            "last": null,
-            "test_files": 57,
+            "verdict": "PASS",
+            "reason": "recorded",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": "d26de05587",
+              "date": "2026-11-25"
+            },
+            "test_files": null,
             "condition": null
           }
         },
@@ -2866,9 +2886,14 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "gate",
-            "last": null,
-            "test_files": 7,
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
+            },
+            "test_files": null,
             "condition": null
           }
         },
@@ -2991,8 +3016,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "6dbbd7f4",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -3112,13 +3137,13 @@
           "checks": [],
           "earlier_checks": [],
           "module_tests": {
-            "verdict": "UNPROVEN",
-            "reason": "drifted",
+            "verdict": "PASS",
+            "reason": "recorded",
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "d6b45f99",
-              "date": "2026-09-27"
+              "tree": "7e388b6ed4",
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null
@@ -3239,9 +3264,14 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "gate",
-            "last": null,
-            "test_files": 30,
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
+            },
+            "test_files": null,
             "condition": null
           }
         },
@@ -3360,9 +3390,14 @@
           "earlier_checks": [],
           "module_tests": {
             "verdict": "UNPROVEN",
-            "reason": "gate",
-            "last": null,
-            "test_files": 19,
+            "reason": "drifted",
+            "last": {
+              "record": "GATE",
+              "verdict": "PASS",
+              "tree": null,
+              "date": "2026-11-25"
+            },
+            "test_files": null,
             "condition": null
           }
         },
@@ -3485,8 +3520,8 @@
             "last": {
               "record": "GATE",
               "verdict": "PASS",
-              "tree": "1dcfabdd",
-              "date": "2026-09-27"
+              "tree": null,
+              "date": "2026-11-25"
             },
             "test_files": null,
             "condition": null

@@ -63,9 +63,17 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>Availability</code> <code>Fit</code> <code>FitOutcome</code> <code>LookupOutcome</code> <code>ManifestOutcome</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>built in</td><td><code>Availability</code> <code>Fit</code> <code>FitOutcome</code> <code>LookupOutcome</code> <code>ManifestOutcome</code> <code>RepresentationKind</code> <code>i64</code> <code>string</code></td></tr>
 <tr><td>declared below</td><td><code>Ref</code> <code>content.Manifest</code> <code>request.Request</code></td></tr>
-<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;FitEntry&gt;</code></td></tr>
+<tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;string&gt;</code></td></tr>
+<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;FitEntry&gt;</code> <code>list&lt;Representation&gt;</code></td></tr>
+</tbody></table></div>
+<h3 id="named-types">Named types <span class="tag">[DEF-T2]</span></h3>
+<p class="meta">One spelling is written <span class="tag">[DEF-G2]</span> and a wider set is read <span class="tag">[DEF-G1]</span>; the width between them is the interoperability guarantee.</p>
+<div class="wrap"><table>
+<thead><tr><th>name</th><th>is</th><th>written</th><th>read</th><th>constraints</th></tr></thead>
+<tbody>
+<tr><td><code>UnitEncoding</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..32 UTF-8 bytes; pattern ascii_lower_token</code></td></tr>
 </tbody></table></div>
 <h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
 <p class="meta">A field is required, or says when it is omitted <span class="tag">[DEF-A4]</span>. Each struct says on its own what it does with a field name it has never heard of <span class="tag">[DEF-A7]</span>. A wire name never moves; where a language must spell it differently the field says so <span class="tag">[DEF-A2]</span>.</p>
@@ -98,6 +106,17 @@
 <tr><td>2</td><td><code>manifest</code></td><td><code>content.Manifest</code></td><td>optional · omitted when absent</td><td>—</td></tr>
 <tr><td>3</td><td><code>resolved_revision</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-Representation"><code>Representation</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>kind</code></td><td><code>RepresentationKind</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>digest</code></td><td><code>string</code></td><td>required; length 1..135 UTF-8 bytes; pattern ascii_lower_token; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>size</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>entry</code></td><td><code>string</code></td><td>optional · omitted when zero; length ..256 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>5</td><td><code>encodings</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero; length ..8 entries; element [] length 1..32 UTF-8 bytes; element [] pattern ascii_lower_token; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
 <h3 id="struct-FitEntry"><code>FitEntry</code></h3>
 <p class="meta">unknown fields <code>grant</code></p>
 <div class="wrap"><table>
@@ -114,6 +133,7 @@
 <tr><td>9</td><td><code>license</code></td><td><code>string</code></td><td>required; length ..128 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
 <tr><td>10</td><td><code>source</code></td><td><code>Ref</code></td><td>required</td><td>—</td></tr>
 <tr><td>11</td><td><code>digest</code></td><td><code>string</code></td><td>required; length ..71 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>12</td><td><code>representations</code></td><td><code>list&lt;Representation&gt;</code></td><td>optional · omitted when zero; length ..4 entries; refusal <code>bad_value</code></td><td>—</td></tr>
 </tbody></table></div>
 <h3 id="struct-FitResult"><code>FitResult</code></h3>
 <p class="meta">unknown fields <code>grant</code></p>
@@ -124,6 +144,8 @@
 <tr><td>2</td><td><code>catalog_version</code></td><td><code>string</code></td><td>required; length ..32 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
 <tr><td>3</td><td><code>pool_bytes</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>entries</code></td><td><code>list&lt;FitEntry&gt;</code></td><td>required; length ..64 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>6</td><td><code>pick</code></td><td><code>i64</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>7</td><td><code>smallest</code></td><td><code>i64</code></td><td>optional · omitted when absent</td><td>—</td></tr>
 </tbody></table></div>
 <h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
 <p>Enum fields carry JSON strings containing exact member wire spellings, never numeric IDs. Unknown names are preserved with grant and refused as bad_enum with refuse on read and write. Optional absent fields preserve presence separately from an empty string.</p>
@@ -189,6 +211,14 @@
 <tr><td>2</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
 <tr><td>3</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
 <tr><td>4</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-RepresentationKind"><code>RepresentationKind</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>plain</code></td><td><code>plain</code></td></tr>
+<tr><td>2</td><td><code>oa_archive</code></td><td><code>oa-archive</code></td></tr>
 </tbody></table></div>
 <h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
 <div class="wrap"><table>

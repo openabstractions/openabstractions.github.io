@@ -93,6 +93,22 @@
 <li>Argument 2: <code>string</code> <code>text</code> (required; length ..200 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
 </ul>
 <p>Service result postcondition: <code>change</code> is present exactly when <code>outcome</code> is <code>ok</code>. Clients validate before return; dispatchers validate before reply. Standalone record codecs remain structural.</p>
+<p>Record that borrower_lease, a lease held by borrower_program as rights names it, uses memory the bound caller&#39;s own lease holding holds (RES-L11).</p>
+<h3><code>AddBorrower</code></h3><p><code>request-response</code> <code>GroupChangeResult</code> · idempotent</p><ul>
+<li>Argument 1: <code>string</code> <code>holding</code> (required; length 1..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>borrower_lease</code> (required; length 1..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>string</code> <code>borrower_program</code> (required; length 1..1024 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
+<p>End that record. A lease that is no group member reads applied.</p>
+<h3><code>RemoveBorrower</code></h3><p><code>request-response</code> <code>GroupChangeResult</code> · idempotent</p><ul>
+<li>Argument 1: <code>string</code> <code>holding</code> (required; length 1..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>borrower_lease</code> (required; length 1..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
+<p>Ask every borrower of the caller&#39;s holding to yield its lease (RES-L3), with reason in the record.</p>
+<h3><code>YieldBorrowers</code></h3><p><code>request-response</code> <code>GroupChangeResult</code> · no idempotency or replay guarantee</p><ul>
+<li>Argument 1: <code>string</code> <code>holding</code> (required; length 1..128 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>reason</code> (required; length 1..200 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
@@ -110,7 +126,7 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>AcquireFreeOutcome</code> <code>AcquireOutcome</code> <code>Evidence</code> <code>ProcessBindOutcome</code> <code>ResourceCallOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>built in</td><td><code>AcquireFreeOutcome</code> <code>AcquireOutcome</code> <code>Evidence</code> <code>GroupChangeOutcome</code> <code>ProcessBindOutcome</code> <code>ResourceCallOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
 <tr><td>declared below</td><td><code>AnswerResult</code> <code>Lease</code> <code>LeaseChange</code> <code>ResourceList</code> <code>ResourceState</code> <code>YieldPage</code></td></tr>
 <tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;string&gt;</code></td></tr>
 <tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Holder&gt;</code> <code>list&lt;YieldRecord&gt;</code> <code>list&lt;YieldRequest&gt;</code></td></tr>
@@ -279,6 +295,14 @@
 <tbody>
 <tr><td>1</td><td><code>outcome</code></td><td><code>ProcessBindOutcome</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-GroupChangeResult"><code>GroupChangeResult</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>GroupChangeOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>borrowers</code></td><td><code>i64</code></td><td>required; range 0..16; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
 <h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
 <p>Enum fields carry JSON strings containing exact member wire spellings, never numeric IDs. Unknown names are preserved with grant and refused as bad_enum with refuse on read and write. Optional absent fields preserve presence separately from an empty string.</p>
 <p class="meta">An enumeration is a closed vocabulary of wire names, and each one says on its own what a reader does with a member it has never heard of <span class="tag">[DEF-A5]</span>.</p>
@@ -346,6 +370,20 @@
 <tr><td>4</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
 <tr><td>5</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
 <tr><td>6</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-GroupChangeOutcome"><code>GroupChangeOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>applied</code></td><td><code>applied</code></td></tr>
+<tr><td>2</td><td><code>unknown_lease</code></td><td><code>unknown_lease</code></td></tr>
+<tr><td>3</td><td><code>not_permitted</code></td><td><code>not_permitted</code></td></tr>
+<tr><td>4</td><td><code>other_pool</code></td><td><code>other_pool</code></td></tr>
+<tr><td>5</td><td><code>full</code></td><td><code>full</code></td></tr>
+<tr><td>6</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>7</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>8</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
 </tbody></table></div>
 <h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
 <div class="wrap"><table>

@@ -20,23 +20,24 @@
       <h1>Add one capability across operating systems, libraries, and services</h1>
       <p>Applications already use abstractions for files, windows, networks, and libraries. OA extends that idea to running capabilities such as downloads, model calls, logging, storage, configuration, and application tools. Choose the capability, add its client, run the OA service, and connect an available implementation.</p>
     </section>
-    <p class="status-note"><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">OpenAbstractions 0.8.0 release notes</a> list available packages, included features and installation verification. For source integrations, <a href="coverage.html">Language support</a> shows which modules each language can call and the platform each call was checked on.</p>
+    <p class="status-note"><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">OpenAbstractions 0.8.1 release notes</a> list available packages, included features and installation verification. For source integrations, <a href="coverage.html">Language support</a> shows which modules each language can call and the platform each call was checked on.</p>
     <nav class="reference-nav" aria-label="On this page"><a href="#install">Install OA</a><a href="#quickstart-title">Try a capability</a><a href="#ship">Ship OA with your app</a><a href="#comfyui-node">ComfyUI node</a><a href="#opencode-node">OpenCode</a><a href="#mcp">Connect an assistant</a><a href="reference.html#providers">Connect a provider</a><a href="threat-model.html">Security</a></nav>
 
     <h2 id="for-people">For people who use applications</h2>
     <h3 id="install">Install the shared runtime</h3>
-    <p><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">Install OpenAbstractions 0.8.0</a>. The release notes list each asset's contents and package verification, including Panel availability.</p>
-    <p class="status-note">Install app integrations from the Panel's Catalog; double-clicking their MSIs is not supported yet. Agent MCP connections after an upgrade from 0.4 are deferred to 0.8.1. Smart App Control can block the bundled llama.cpp engine and the official OpenCode installer. Read the <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">known issues</a> before upgrading.</p>
+    <p><a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">Install OpenAbstractions 0.8.1</a>. The release notes list each asset's contents and package verification, including Panel availability.</p>
+    <p class="status-note">Install app integrations from the Panel's Catalog. Smart App Control can block the bundled llama.cpp engine and the official OpenCode installer. Read the <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">known issues and upgrade checks</a> before upgrading.</p>
+    <p class="status-note">The <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.0">0.8.0 upgrade notes</a> recorded agent MCP connection problems after upgrading from 0.4. The 0.8.1 release notes describe its upgrade checks and remaining limits.</p>
     <div class="page-grid">
-      <article class="page-card" id="install-windows"><h3>Windows</h3><p>For OpenAbstractions 0.8.0, download <code>OpenAbstractions-Setup-0.8.0.exe</code> from the <a href="https://github.com/openabstractions/redist/releases/latest">release assets</a>, compare it with <code>SHA256SUMS</code> and run it. Setup installs the runtime and the Panel. The Panel's Apps Catalog installs OpenCode through its official installer and adds the OpenAbstractions integration to an existing ComfyUI. The x64 and ARM64 MSIs install the core runtime directly. They default to <em>Just me</em>. <em>Everyone</em> requires administrator access. Adding commands to PATH is optional.</p></article>
-      <article class="page-card" id="install-linux"><h3>Linux</h3><p>Download the amd64 or ARM64 archive from the <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release</a>, extract it and follow its <code>install.sh</code> instructions for the current user. See the release notes for installation verification and platform limits.</p></article>
-      <article class="page-card" id="install-macos"><h3>macOS</h3><p>Download the universal package from the <a href="https://github.com/openabstractions/redist/releases/latest">latest runtime release</a> when the release attaches one. Its notes identify the signing state, tested systems and installation checks.</p></article>
+      <article class="page-card" id="install-windows"><h3>Windows</h3><p>For OpenAbstractions 0.8.1, download <a href="https://github.com/openabstractions/redist/releases/download/v0.8.1/OpenAbstractions-Setup-0.8.1.exe"><code>OpenAbstractions-Setup-0.8.1.exe</code></a> from the <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">release assets</a>, compare it with <a href="https://github.com/openabstractions/redist/releases/download/v0.8.1/SHA256SUMS"><code>SHA256SUMS</code></a> and run it. Setup installs the runtime and the Panel. The Panel's Apps Catalog installs OpenCode through its official installer and adds the OpenAbstractions integration to an existing ComfyUI. The x64 and ARM64 MSIs install the core runtime directly. They default to <em>Just me</em>. <em>Everyone</em> requires administrator access. Adding commands to PATH is optional.</p></article>
+      <article class="page-card" id="install-linux"><h3>Linux</h3><p>Download the amd64 or ARM64 archive from the <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">0.8.1 release assets</a>, extract it and follow its <code>install.sh</code> instructions for the current user. See the release notes for installation verification and platform limits.</p></article>
+      <article class="page-card" id="install-macos"><h3>macOS</h3><p>Download the universal package from the <a href="https://github.com/openabstractions/redist/releases/tag/v0.8.1">0.8.1 release assets</a>. Its notes identify the signing outcome and installation checks.</p></article>
     </div>
-    <p>The release notes state each asset's signing outcome and the architectures its installation was tested on. Check the downloads against the release <code>SHA256SUMS</code> before installing:</p>
+    <p>The release notes state each asset's signing outcome and the architectures its installation was tested on. Check the downloads against the release <a href="https://github.com/openabstractions/redist/releases/download/v0.8.1/SHA256SUMS"><code>SHA256SUMS</code></a> before installing:</p>
     <pre><code>sha256sum -c --ignore-missing SHA256SUMS</code></pre>
-    <p>In PowerShell, hash Setup and find its line in <code>SHA256SUMS</code>:</p>
-    <pre><code>(Get-FileHash OpenAbstractions-Setup-0.8.0.exe -Algorithm SHA256).Hash.ToLower()
-Select-String OpenAbstractions-Setup-0.8.0.exe SHA256SUMS</code></pre>
+    <p>In PowerShell, hash Setup and find its line in <a href="https://github.com/openabstractions/redist/releases/download/v0.8.1/SHA256SUMS"><code>SHA256SUMS</code></a>:</p>
+    <pre><code>(Get-FileHash OpenAbstractions-Setup-0.8.1.exe -Algorithm SHA256).Hash.ToLower()
+Select-String -SimpleMatch OpenAbstractions-Setup-0.8.1.exe -Path SHA256SUMS</code></pre>
     <p>After installation, check the runtime from a terminal. If you left PATH unchanged, use the installed executable’s full path.</p>
     <pre><code>openabstractions status --json
 openabstractions probe --json</code></pre>
@@ -102,7 +103,7 @@ openabstractions probe --json</code></pre>
           <pre><code>mkdir my-app
 cd my-app
 go mod init example.com/my-app
-go get github.com/openabstractions/abstraction-logging/go@v0.8.0</code></pre></li>
+go get github.com/openabstractions/abstraction-logging/go@v0.8.1</code></pre></li>
         <li>Save this as <code>main.go</code>:
           <pre><code>package main
 
@@ -181,10 +182,10 @@ sink, err := facade.Discover().ResolveLog(
     <pre><code>Get-ItemProperty "HKLM:\Software\OpenAbstractions\Abstraction" | Select-Object version, ipc_library</code></pre>
     <pre><code>version ipc_library
 ------- -----------
-0.8.0   C:\Program Files\OpenAbstractions\tools\abstraction_ipc.dll</code></pre>
-    <p><strong>Check the version.</strong> Compare <code>version</code> with the lowest release your client modules need. For modules at <code>v0.8.0</code>, that is <code>0.8.0</code>. <code>openabstractions status --json</code> reports whether each capability resolves, and exits with 0 when all of them do.</p>
-    <p><strong>Run Setup.</strong> Bundle <code>OpenAbstractions-Setup-0.8.0.exe</code> or download it from the release, check its SHA-256, and run it from your installer. Setup accepts the standard WiX Burn switches: <code>/passive</code> shows progress only, <code>/quiet</code> shows no window, <code>/norestart</code> defers a restart, and <code>/log &lt;file&gt;</code> writes a log. Setup installs the runtime for the whole machine and asks for administrator approval once.</p>
-    <pre><code>OpenAbstractions-Setup-0.8.0.exe /passive /norestart /log oa-setup.log</code></pre>
+0.8.1   C:\Program Files\OpenAbstractions\tools\abstraction_ipc.dll</code></pre>
+    <p><strong>Check the version.</strong> Compare <code>version</code> with the lowest release your client modules need. Bundle runtime <code>0.8.1</code> with this release's client modules. <code>openabstractions status --json</code> reports whether each capability resolves, and exits with 0 when all of them do.</p>
+    <p><strong>Run Setup.</strong> Bundle <code>OpenAbstractions-Setup-0.8.1.exe</code> or download it from the release, check its SHA-256, and run it from your installer. Setup accepts the standard WiX Burn switches: <code>/passive</code> shows progress only, <code>/quiet</code> shows no window, <code>/norestart</code> defers a restart, and <code>/log &lt;file&gt;</code> writes a log. Setup installs the runtime for the whole machine and asks for administrator approval once.</p>
+    <pre><code>OpenAbstractions-Setup-0.8.1.exe /passive /norestart /log oa-setup.log</code></pre>
     <p><strong>When the person declines.</strong> Setup exits with a nonzero code and installs nothing. Let your app install and start anyway. Each <code>Resolve*</code> call then returns a resolution error, and your app shows its OA features as unavailable until the person runs Setup.</p>
     <h3 id="comfyui-node">ComfyUI: install the node</h3>
     <p>On Windows, the Panel's Apps Catalog installs the OpenAbstractions integration into a ComfyUI installation from ComfyUI's official source.</p>
@@ -196,7 +197,7 @@ requires-comfyui = ">=0.35.0"</code></pre>
     <p>If OA is not running, Manager keeps working as before and the node explains what is missing rather than failing silently.</p>
     <h3 id="opencode-node">OpenCode: one command</h3>
     <p>On Windows, the Panel's Apps Catalog installs or repairs OpenCode.</p>
-    <p>The integration ships <code>configure.js</code>, and the Catalog runs it for you. It reads the router's servable chat families through the runtime and writes or updates the <code>provider.&lt;id&gt;</code> block. If no default model is set, it also selects one of those families. Other configuration keys stay untouched, and running it again with nothing changed leaves the file unchanged. The installed copy is in <code>%LOCALAPPDATA%\Programs\OpenAbstractions\apps\opencode\plugin\0.8.0\</code>. The <a href="https://github.com/openabstractions/abstractions/tree/main/adopters/opencode">OpenCode adapter guide</a> lists its flags.</p>
+    <p>The integration ships <code>configure.js</code>, and the Catalog runs it for you. It reads the router's servable chat families through the runtime and writes or updates the <code>provider.&lt;id&gt;</code> block. If no default model is set, it also selects one of those families. Other configuration keys stay untouched, and running it again with nothing changed leaves the file unchanged. The installed copy is in <code>%LOCALAPPDATA%\Programs\OpenAbstractions\apps\opencode\plugin\0.8.1\</code>. The <a href="https://github.com/openabstractions/abstractions/tree/main/adopters/opencode">OpenCode adapter guide</a> lists its flags.</p>
     <h3 id="mcp">Connect an assistant through the MCP gateway</h3>
     <p><a href="applications.html">How application MCP works</a>: the developing application profile, shared state and action semantics, and current availability.</p>
     <p>The MCP gateway is a separate optional stdio program. When the selected asset includes it, an assistant launches it directly. The gateway source and guide describe its tools and permission model.</p>

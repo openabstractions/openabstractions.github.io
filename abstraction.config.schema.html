@@ -93,6 +93,12 @@
 <li>Argument 1: <code>string</code> <code>cursor</code> (required; length ..512 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
 <li>Argument 2: <code>i64</code> <code>wait_ms</code> (required; range 0..30000; refusal <code>bad_value</code>, including zero/false/empty)</li>
 </ul>
+<p>Observe the named keys alone. It answers when a named key&#39;s effective value, lock or pending state changes, or when wait_ms passes; a change to another key does not wake it. The snapshot holds the named keys alone and changed is a subset of names. Unchanged carries the current revision cursor, so the next call does not replay changes to other keys. The cursor is Observe&#39;s revision cursor, and each method accepts the other&#39;s. A runtime without this method answers unknown_method; the caller then uses Observe and filters on changed.</p>
+<h3><code>ObserveKeys</code></h3><p><code>request-response</code> <code>ConfigObservationV2</code> · readonly</p><ul>
+<li>Argument 1: <code>list&lt;string&gt;</code> <code>names</code> (required; length 1..64 entries; element [] length 1..64 UTF-8 bytes; element [] pattern ascii_name; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..512 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>wait_ms</code> (required; range 0..30000; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
@@ -110,7 +116,7 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>ApplyMode</code> <code>ConfigObservationOutcome</code> <code>IgnoredFieldReason</code> <code>KeyRefusalReason</code> <code>KeyState</code> <code>Location</code> <code>ObservationOutcomeV2</code> <code>ReadOutcome</code> <code>ReplaceOutcome</code> <code>UserReplaceOutcome</code> <code>ValueKind</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>built in</td><td><code>ApplyMode</code> <code>ConfigObservationOutcome</code> <code>IgnoredFieldReason</code> <code>KeyRefusalReason</code> <code>KeyState</code> <code>Location</code> <code>Mechanism</code> <code>ObservationOutcomeV2</code> <code>ReadOutcome</code> <code>ReplaceOutcome</code> <code>UserReplaceOutcome</code> <code>ValueKind</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
 <tr><td>declared below</td><td><code>ConfigSource</code> <code>KeyOrigin</code> <code>KeyProblem</code> <code>Origin</code> <code>Origins</code> <code>ReadResult</code> <code>Snapshot</code> <code>UserSettings</code> <code>UserSnapshot</code> <code>UserSnapshotV2</code> <code>Value</code> <code>ValueRange</code> <code>rights.RefusalDetail</code></td></tr>
 <tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;string&gt;</code></td></tr>
 <tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;ConfigSource&gt;</code> <code>list&lt;Entry&gt;</code> <code>list&lt;IgnoredField&gt;</code> <code>list&lt;KeyDescriptor&gt;</code> <code>list&lt;KeyProblem&gt;</code> <code>list&lt;KeyRefusal&gt;</code> <code>list&lt;Value&gt;</code></td></tr>
@@ -373,6 +379,7 @@
 <tr><td>7</td><td><code>refusal</code></td><td><code>rights.RefusalDetail</code></td><td>optional · omitted when absent</td><td>—</td></tr>
 <tr><td>8</td><td><code>age_ms</code></td><td><code>i64</code></td><td>optional · omitted when absent; range 0..9223372036854775807; refusal <code>bad_value</code></td><td>—</td></tr>
 <tr><td>9</td><td><code>cause</code></td><td><code>ConfigReason</code></td><td>optional · omitted when zero; length ..512 UTF-8 bytes; pattern no_control; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>10</td><td><code>changed</code></td><td><code>list&lt;string&gt;</code></td><td>optional · omitted when zero; length ..64 entries; element [] length 1..64 UTF-8 bytes; element [] pattern ascii_name; refusal <code>bad_value</code></td><td>—</td></tr>
 </tbody></table></div>
 <h3 id="struct-DescribeResult"><code>DescribeResult</code></h3>
 <p class="meta">unknown fields <code>grant</code> · compact value span at most 262144 bytes; raw value span at most 1048576 bytes</p>
@@ -382,6 +389,7 @@
 <tr><td>1</td><td><code>outcome</code></td><td><code>ReadOutcome</code></td><td>required</td><td>—</td></tr>
 <tr><td>2</td><td><code>descriptors</code></td><td><code>list&lt;KeyDescriptor&gt;</code></td><td>required; length ..64 entries; refusal <code>bad_value</code></td><td>—</td></tr>
 <tr><td>3</td><td><code>refusal</code></td><td><code>rights.RefusalDetail</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>4</td><td><code>mechanism</code></td><td><code>Mechanism</code></td><td>optional · omitted when absent</td><td>—</td></tr>
 </tbody></table></div>
 <h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
 <p>Enum fields carry JSON strings containing exact member wire spellings, never numeric IDs. Unknown names are preserved with grant and refused as bad_enum with refuse on read and write. Optional absent fields preserve presence separately from an empty string.</p>
@@ -507,6 +515,15 @@
 <tr><td>8</td><td><code>corrupt</code></td><td><code>corrupt</code></td></tr>
 <tr><td>9</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
 <tr><td>10</td><td><code>failed</code></td><td><code>failed</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-Mechanism"><code>Mechanism</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>native</code></td><td><code>native</code></td></tr>
+<tr><td>2</td><td><code>polled</code></td><td><code>polled</code></td></tr>
+<tr><td>3</td><td><code>none</code></td><td><code>none</code></td></tr>
 </tbody></table></div>
 <h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
 <div class="wrap"><table>

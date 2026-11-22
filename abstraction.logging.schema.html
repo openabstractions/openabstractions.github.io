@@ -13,7 +13,7 @@
 <h1>Schema</h1>
 <p class="lead">Use this reference to inspect fields, methods, accepted values and failure outcomes. For setup and working examples, start with the <a href="reference.html">API guide</a>.</p>
 <p>Definition: <code>abstraction.logging</code></p>
-<nav aria-label="Schema sections" class="meta"><a href="#service-Sink">Sink</a> · <a href="#service-HistoryReader">HistoryReader</a> · <a href="#service-HistoryObserver">HistoryObserver</a> · <a href="#service-ApplicationHistoryReader">ApplicationHistoryReader</a> · <a href="#service-ApplicationHistoryObserver">ApplicationHistoryObserver</a> · <a href="#service-SourceReader">SourceReader</a> · <a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#encoding">Encoding</a> · <a href="#refusals">Refusals</a></nav>
+<nav aria-label="Schema sections" class="meta"><a href="#service-Sink">Sink</a> · <a href="#service-CrashReporter">CrashReporter</a> · <a href="#service-HistoryReader">HistoryReader</a> · <a href="#service-HistoryObserver">HistoryObserver</a> · <a href="#service-ApplicationHistoryReader">ApplicationHistoryReader</a> · <a href="#service-ApplicationHistoryObserver">ApplicationHistoryObserver</a> · <a href="#service-SourceReader">SourceReader</a> · <a href="#service-Packager">Packager</a> · <a href="#service-ViewReader">ViewReader</a> · <a href="#types">Types</a> · <a href="#structs">Fields</a> · <a href="#enums">Enumerations</a> · <a href="#constants">Constants</a> · <a href="#encoding">Encoding</a> · <a href="#refusals">Refusals</a></nav>
 <h2 id="service-Sink">Service <a href="https://openabstractions.github.io/reference.html#concept-log.sink"><code>Sink</code></a> <span class="tag">[DEF-S1]</span></h2>
 <p><a href="https://openabstractions.github.io/reference.html#concept-log.sink">Sink</a>. A sink for structured log records across a service boundary.</p>
 <p>Wire identity: <code>abstraction.logging/sink@1</code></p>
@@ -22,6 +22,16 @@
 <p>Submit a log record. Completion confirms local transport submission only.</p>
 <h3><code>Write</code></h3><p><code>oneway</code> <code>void</code></p><ul>
 <li>Argument 1: <code>Record</code> <code>record</code> (required, including zero/false/empty)</li>
+</ul>
+<h2 id="service-CrashReporter">Service <code>CrashReporter</code> <span class="tag">[DEF-S1]</span></h2>
+<p>Crash reports a process sends about itself.</p>
+<p>Wire identity: <code>abstraction.logging/crash@1</code></p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Report the caller&#39;s own crash. The reply confirms the service received it; the crashing process then ends as its language would. The service stamps the time and the caller&#39;s proven identity, writes one record at ERROR+4 with the crash attributes and persists the caller&#39;s records from before it (LOG-S16, LOG-S18). A repeated report writes a second record.</p>
+<h3><code>Report</code></h3><p><code>request-response</code> <code>CrashOutcome</code> · no idempotency or replay guarantee <span class="tag">[DEF-S3]</span></p><ul>
+<li>Argument 1: <code>Crash</code> <code>crash</code> (required, including zero/false/empty)</li>
 </ul>
 <h2 id="service-HistoryReader">Service <code>HistoryReader</code> <span class="tag">[DEF-S1]</span></h2>
 <p>Authorized bounded access to retained logging history. Applications receive records and opaque cursors; history location and retention belong to the provider.</p>
@@ -75,6 +85,23 @@
 <li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
 <li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
 </ul>
+<p>Return what ReadAboutCaller returns after cursor, waiting up to wait_ms for a record when the cursor is at the end. The bounds, caller binding and policy are ReadAboutCaller&#39;s. An earlier reader@2 answers unknown_method.</p>
+<h3><code>ObserveAboutCaller</code></h3><p><code>request-response</code> <code>ApplicationLogPage</code> · readonly</p><ul>
+<li>Argument 1: <code>string</code> <code>since</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..131072 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+<li>Argument 5: <code>i64</code> <code>wait_ms</code> (required; range 0..30000; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
+<p>Read one or all emitting programs&#39; records from the runtime&#39;s memory rings (ruling A3, 2026-11-22), every level included. memory_only true returns only records the store kept in memory alone when it admitted them. Bounds are 1..256 returned records and 1..1048576 encoded Record bytes; a page also fits one default IPC frame and may stop before max_bytes. Empty cursor starts at the oldest record held; end fixes the current end. At an empty current end the call waits up to wait_ms (0..30000) for a new record, then reads once more. Admission is application-log@1 with its per-emitter blocks, as for Read. In addition, a proven program&#39;s one-app read of its own records needs no rule, except for a shared interpreter, and the person&#39;s own log viewer, which the runtime names and which holds the reader@1 whole-history permit, reads every application&#39;s records in memory. Out-of-range bounds return invalid with the cursor preserved. A provider without memory rings returns unsupported. An earlier reader@2 service answers unknown_method.</p>
+<h3><code>ReadMemory</code></h3><p><code>request-response</code> <code>ApplicationMemoryPage</code> · readonly</p><ul>
+<li>Argument 1: <code>ApplicationLogTarget</code> <code>target</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..131072 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_records</code> (required, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>max_bytes</code> (required, including zero/false/empty)</li>
+<li>Argument 5: <code>bool</code> <code>memory_only</code> (required, including zero/false/empty)</li>
+<li>Argument 6: <code>i64</code> <code>wait_ms</code> (required, including zero/false/empty)</li>
+</ul>
 <h2 id="service-ApplicationHistoryObserver">Service <code>ApplicationHistoryObserver</code> <span class="tag">[DEF-S1]</span></h2>
 <p></p>
 <p>Wire identity: <code>abstraction.logging/observer@2</code></p>
@@ -111,6 +138,43 @@
 <h3><code>StartAtEnd</code></h3><p><code>request-response</code> <code>SourcePage</code> · readonly</p><ul>
 <li>Argument 1: <code>string</code> <code>source_id</code> (required, including zero/false/empty)</li>
 </ul>
+<h2 id="service-Packager">Service <code>Packager</code> <span class="tag">[DEF-S1]</span></h2>
+<p>Debug packages of log records, prepared by the logging service.</p>
+<p>Wire identity: <code>abstraction.logging/package@1</code></p>
+<p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Prepare a debug package of the request&#39;s window. The service builds it in the background and returns its id at once. all_programs selects the programs the caller may read; a named program or source the caller may not read is listed in the manifest as refused, decided from rights alone, with no content.</p>
+<h3><code>Prepare</code></h3><p><code>request-response</code> <code>PackagePreparation</code> · no idempotency or replay guarantee <span class="tag">[DEF-S3]</span></p><ul>
+<li>Argument 1: <code>PackageRequest</code> <code>request</code> (required, including zero/false/empty)</li>
+</ul>
+<p>Read a prepared package from offset, at most package_chunk_bytes. While it is preparing, wait up to wait_ms (0..30000) for it, then answer once; preparing only when the wait expires. Only the program that prepared it, under the same account, reads it; any other caller gets unknown.</p>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>PackageChunk</code> · readonly</p><ul>
+<li>Argument 1: <code>string</code> <code>id</code> (required; length 1..64 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 2: <code>i64</code> <code>offset</code> (required, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>wait_ms</code> (required; range 0..30000; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
+<h2 id="service-ViewReader">Service <code>ViewReader</code> <span class="tag">[DEF-S1]</span></h2>
+<p>The unified view of OA records and native operating-system logs.</p>
+<p>Wire identity: <code>abstraction.logging/view@1</code></p>
+<p>Handler error codes, declared by <code>history_identity_error_codes</code>: <code>caller_unavailable</code>, <code>identity_required</code>, <code>wrong_user</code>. Generated bindings name each as a ServiceErrorCode member beside the dispatcher's own codes.</p>
+<p>Multiple services share this namespace. Generated ServiceName (Go) and service_name (C++/Python) validate the request envelope and version before returning its service identity for routing. Go ServiceMethod returns the service and method routing pair through the same strict decoder, exposing no arguments. The selected generated dispatcher validates the method and typed arguments; these selectors do not authorize callers or establish a handler outcome.</p>
+<p>Frames carry version, service, method and typed arguments. Transport owns framing, associated exchanges, deadlines and connections. Unknown version/service/method and malformed arguments are rejected before invoking a handler. One-way WriteFrame success means local submission, not remote acceptance or persistence.</p>
+<p>Request-response methods use ExchangeFrame. Replies carry version, service, method, ok and payload; success payload contains typed value (or an empty object for void). Error payload contains nonempty code and message, which may be empty. ServiceError preserves unknown codes. Unexpected handler failures become handler_error without private details; invalid results become invalid_result. Clients validate reply identity and result before exposing it. A malformed frame or transport failure remains a local error; the transport must associate each response with its exchange. C++ dispatchers are pure protocol bindings, not listening servers.</p>
+<p>Read the selection newest first, from until or the cursor toward since. Each row is admitted under its own right: an OA record as reader@2 admits it, a native row under source:&lt;id&gt;. Rights are decided again on every page. An empty cursor starts at until. A cursor sealed for another caller or selection is invalid; one that no longer resolves continues from its time boundary and names the sources in gaps.</p>
+<h3><code>Read</code></h3><p><code>request-response</code> <code>ViewPage</code> · readonly <span class="tag">[DEF-S3]</span></p><ul>
+<li>Argument 1: <code>ViewSelection</code> <code>selection</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..32768 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_rows</code> (required; range 1..256; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
+<p>Return rows after the cursor, oldest first, waiting up to wait_ms for one. An empty cursor starts at the current end. The continuation is follow. A position that no longer resolves continues from the current end and names the source in gaps.</p>
+<h3><code>Observe</code></h3><p><code>request-response</code> <code>ViewPage</code> · readonly</p><ul>
+<li>Argument 1: <code>ViewSelection</code> <code>selection</code> (required, including zero/false/empty)</li>
+<li>Argument 2: <code>string</code> <code>cursor</code> (required; length ..32768 UTF-8 bytes; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 3: <code>i64</code> <code>max_rows</code> (required; range 1..256; refusal <code>bad_value</code>, including zero/false/empty)</li>
+<li>Argument 4: <code>i64</code> <code>wait_ms</code> (required; range 0..30000; refusal <code>bad_value</code>, including zero/false/empty)</li>
+</ul>
 <h2 id="encoding">Encoding <span class="tag">[DEF-E1]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>setting</th><th>value</th><th>rule</th></tr></thead>
@@ -128,18 +192,21 @@
 <div class="wrap"><table>
 <thead><tr><th>kind</th><th>types</th></tr></thead>
 <tbody>
-<tr><td>built in</td><td><code>ApplicationLogSelection</code> <code>HistoryPageOutcome</code> <code>HistoryUsageOutcome</code> <code>PageOutcome</code> <code>SourceAvailability</code> <code>SourceCatalogOutcome</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
+<tr><td>built in</td><td><code>ApplicationLogSelection</code> <code>CrashKind</code> <code>HistoryPageOutcome</code> <code>HistoryUsageOutcome</code> <code>PackageItemState</code> <code>PackageOutcome</code> <code>PackageReadOutcome</code> <code>PageOutcome</code> <code>SourceAvailability</code> <code>SourceCatalogOutcome</code> <code>ViewOutcome</code> <code>ViewTier</code> <code>binary</code> <code>bool</code> <code>i64</code> <code>string</code></td></tr>
 <tr><td>declared below</td><td><code>HistoryUsage</code> <code>ProducerClaim</code> <code>Record</code></td></tr>
-<tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;SourceLimitation&gt;</code></td></tr>
-<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code> <code>list&lt;Record&gt;</code> <code>list&lt;SourceDescriptor&gt;</code> <code>list&lt;SourceRecord&gt;</code></td></tr>
+<tr><td>container <span class="tag">[DEF-T3]</span></td><td><code>list&lt;SourceLimitation&gt;</code> <code>list&lt;string&gt;</code></td></tr>
+<tr><td>repeated record <span class="tag">[DEF-A9]</span></td><td><code>list&lt;Attestation&gt;</code> <code>list&lt;PackageCount&gt;</code> <code>list&lt;PackageItem&gt;</code> <code>list&lt;PackageMember&gt;</code> <code>list&lt;Record&gt;</code> <code>list&lt;SourceDescriptor&gt;</code> <code>list&lt;SourceRecord&gt;</code> <code>list&lt;ViewRow&gt;</code></td></tr>
 <tr><td>string map <span class="tag">[DEF-A10]</span></td><td><code>map&lt;string,string&gt;</code></td></tr>
 </tbody></table></div>
 <h3 id="named-types">Named types <span class="tag">[DEF-T2]</span></h3>
 <p class="meta">One spelling is written <span class="tag">[DEF-G2]</span> and a wider set is read <span class="tag">[DEF-G1]</span>; the width between them is the interoperability guarantee.</p>
 <div class="wrap"><table>
-<thead><tr><th>name</th><th>is</th><th>written</th><th>read</th></tr></thead>
+<thead><tr><th>name</th><th>is</th><th>written</th><th>read</th><th>constraints</th></tr></thead>
 <tbody>
-<tr><td><code>timestamp</code></td><td><code>string</code></td><td><code>rfc3339-micros</code></td><td><code>rfc3339-wide</code></td></tr>
+<tr><td><code>timestamp</code></td><td><code>string</code></td><td><code>rfc3339-micros</code></td><td><code>rfc3339-wide</code></td><td><code></code></td></tr>
+<tr><td><code>PackageName</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..512 UTF-8 bytes</code></td></tr>
+<tr><td><code>PackageProgram</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..4096 UTF-8 bytes</code></td></tr>
+<tr><td><code>ViewProgram</code></td><td><code>string</code></td><td>—</td><td>—</td><td><code>length 1..1024 UTF-8 bytes</code></td></tr>
 </tbody></table></div>
 <h2 id="structs">Structs <span class="tag">[DEF-T1]</span></h2>
 <p class="meta">A field is required, or says when it is omitted <span class="tag">[DEF-A4]</span>. Each struct says on its own what it does with a field name it has never heard of <span class="tag">[DEF-A7]</span>. A wire name never moves; where a language must spell it differently the field says so <span class="tag">[DEF-A2]</span>.</p>
@@ -173,6 +240,18 @@
 <tr><td>5</td><td><code>identity</code></td><td><code>list&lt;Attestation&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 <tr><td>6</td><td><code>job</code></td><td><code>string</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 <tr><td>7</td><td><code>attrs</code></td><td><code>map&lt;string,string&gt;</code></td><td>optional · omitted when zero</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-Crash"><code>Crash</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>kind</code></td><td><code>CrashKind</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>stack</code></td><td><code>string</code></td><td>required; length ..262144 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>value</code></td><td><code>string</code></td><td>optional · omitted when zero; length ..16384 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>4</td><td><code>thread</code></td><td><code>string</code></td><td>optional · omitted when zero; length ..256 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>5</td><td><code>program</code></td><td><code>string</code></td><td>optional · omitted when zero; length ..256 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>6</td><td><code>time</code></td><td><code>timestamp</code></td><td>optional · omitted when zero</td><td>—</td></tr>
 </tbody></table></div>
 <h3 id="struct-Page"><code>Page</code></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
@@ -228,6 +307,17 @@
 <tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-ApplicationMemoryPage"><code>ApplicationMemoryPage</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>HistoryPageOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>records</code></td><td><code>list&lt;Record&gt;</code></td><td>required; length ..256 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required; length ..131072 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>missed</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
 <h3 id="struct-SourceDescriptor"><code>SourceDescriptor</code></h3>
 <p class="meta">unknown fields <code>refuse</code></p>
 <div class="wrap"><table>
@@ -277,9 +367,141 @@
 <tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required</td><td>—</td></tr>
 <tr><td>4</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
 </tbody></table></div>
+<h3 id="struct-ViewRow"><code>ViewRow</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>source</code></td><td><code>string</code></td><td>required; length 1..128 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>record</code></td><td><code>Record</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>producer</code></td><td><code>ProducerClaim</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>4</td><td><code>tier</code></td><td><code>ViewTier</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>program</code></td><td><code>string</code></td><td>optional · omitted when zero; length ..1024 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageRequest"><code>PackageRequest</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>programs</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..32 entries; element [] length 1..4096 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>all_programs</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>since</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>until</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>sources</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..8 entries; element [] length 1..512 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>6</td><td><code>private_values</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackagePreparation"><code>PackagePreparation</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>PackageOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>id</code></td><td><code>string</code></td><td>optional · omitted when absent; length ..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageChunk"><code>PackageChunk</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>PackageReadOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>offset</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>total</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>data</code></td><td><code>binary</code></td><td>required; length ..65536 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>5</td><td><code>eof</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageItem"><code>PackageItem</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>name</code></td><td><code>PackageProgram</code></td><td>required; length 1..4096 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>state</code></td><td><code>PackageItemState</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>count</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageCount"><code>PackageCount</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>kind</code></td><td><code>string</code></td><td>required; length 1..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>count</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageMember"><code>PackageMember</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>name</code></td><td><code>string</code></td><td>required; length 1..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>size</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>sha256</code></td><td><code>string</code></td><td>required; length 64..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-PackageManifest"><code>PackageManifest</code></h3>
+<p class="meta">unknown fields <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>format</code></td><td><code>string</code></td><td>required; length 1..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>version</code></td><td><code>i64</code></td><td>required</td><td>—</td></tr>
+<tr><td>3</td><td><code>since</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>until</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>5</td><td><code>prepared</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>6</td><td><code>runtime_version</code></td><td><code>string</code></td><td>required; length ..256 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>7</td><td><code>os</code></td><td><code>string</code></td><td>required; length ..64 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>8</td><td><code>programs</code></td><td><code>list&lt;PackageItem&gt;</code></td><td>required; length ..128 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>9</td><td><code>sources</code></td><td><code>list&lt;PackageItem&gt;</code></td><td>required; length ..8 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>10</td><td><code>counts</code></td><td><code>list&lt;PackageCount&gt;</code></td><td>required; length ..16 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>11</td><td><code>gaps</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..32 entries; element [] length 1..512 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>12</td><td><code>redactions</code></td><td><code>list&lt;PackageCount&gt;</code></td><td>required; length ..16 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>13</td><td><code>members</code></td><td><code>list&lt;PackageMember&gt;</code></td><td>required; length ..258 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ViewSelection"><code>ViewSelection</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>programs</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..64 entries; element [] length 1..1024 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>2</td><td><code>sources</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..8 entries; element [] length 1..512 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>include_oa</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>4</td><td><code>min_level</code></td><td><code>i64</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+<tr><td>5</td><td><code>text</code></td><td><code>string</code></td><td>optional · omitted when absent; length 1..256 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>6</td><td><code>since</code></td><td><code>timestamp</code></td><td>required</td><td>—</td></tr>
+<tr><td>7</td><td><code>until</code></td><td><code>timestamp</code></td><td>optional · omitted when absent</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="struct-ViewPage"><code>ViewPage</code></h3>
+<p class="meta">unknown fields <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>field</th><th>type</th><th>presence</th><th>named elsewhere</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>outcome</code></td><td><code>ViewOutcome</code></td><td>required</td><td>—</td></tr>
+<tr><td>2</td><td><code>rows</code></td><td><code>list&lt;ViewRow&gt;</code></td><td>required; length ..256 entries; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>3</td><td><code>next</code></td><td><code>string</code></td><td>required; length ..32768 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>4</td><td><code>follow</code></td><td><code>string</code></td><td>required; length ..32768 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>5</td><td><code>at_end</code></td><td><code>bool</code></td><td>required</td><td>—</td></tr>
+<tr><td>6</td><td><code>gaps</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..16 entries; element [] length 1..512 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+<tr><td>7</td><td><code>refused</code></td><td><code>list&lt;string&gt;</code></td><td>required; length ..72 entries; element [] length 1..1024 UTF-8 bytes; refusal <code>bad_value</code></td><td>—</td></tr>
+</tbody></table></div>
 <h2 id="enums">Enumerations <span class="tag">[DEF-T5]</span></h2>
 <p>Enum fields carry JSON strings containing exact member wire spellings, never numeric IDs. Unknown names are preserved with grant and refused as bad_enum with refuse on read and write. Optional absent fields preserve presence separately from an empty string.</p>
 <p class="meta">An enumeration is a closed vocabulary of wire names, and each one says on its own what a reader does with a member it has never heard of <span class="tag">[DEF-A5]</span>.</p>
+<h3 id="enum-CrashKind"><code>CrashKind</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>panic</code></td><td><code>panic</code></td></tr>
+<tr><td>2</td><td><code>exception</code></td><td><code>exception</code></td></tr>
+<tr><td>3</td><td><code>fatal</code></td><td><code>fatal</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-CrashOutcome"><code>CrashOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>recorded</code></td><td><code>recorded</code></td></tr>
+<tr><td>2</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>3</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+<tr><td>4</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+</tbody></table></div>
 <h3 id="enum-PageOutcome"><code>PageOutcome</code></h3>
 <p class="meta">a member this reader does not know is <code>refuse</code></p>
 <div class="wrap"><table>
@@ -361,6 +583,58 @@
 <tr><td>4</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
 <tr><td>5</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
 </tbody></table></div>
+<h3 id="enum-ViewTier"><code>ViewTier</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>memory</code></td><td><code>memory</code></td></tr>
+<tr><td>2</td><td><code>disk</code></td><td><code>disk</code></td></tr>
+<tr><td>3</td><td><code>native</code></td><td><code>native</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-PackageOutcome"><code>PackageOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>accepted</code></td><td><code>accepted</code></td></tr>
+<tr><td>2</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>3</td><td><code>busy</code></td><td><code>busy</code></td></tr>
+<tr><td>4</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>5</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-PackageReadOutcome"><code>PackageReadOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>data</code></td><td><code>data</code></td></tr>
+<tr><td>2</td><td><code>preparing</code></td><td><code>preparing</code></td></tr>
+<tr><td>3</td><td><code>failed</code></td><td><code>failed</code></td></tr>
+<tr><td>4</td><td><code>unknown</code></td><td><code>unknown</code></td></tr>
+<tr><td>5</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>6</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>7</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-PackageItemState"><code>PackageItemState</code></h3>
+<p class="meta">a member this reader does not know is <code>grant</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>included</code></td><td><code>included</code></td></tr>
+<tr><td>2</td><td><code>refused</code></td><td><code>refused</code></td></tr>
+<tr><td>3</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+</tbody></table></div>
+<h3 id="enum-ViewOutcome"><code>ViewOutcome</code></h3>
+<p class="meta">a member this reader does not know is <code>refuse</code></p>
+<div class="wrap"><table>
+<thead><tr><th>id</th><th>member</th><th>wire</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>page</code></td><td><code>page</code></td></tr>
+<tr><td>2</td><td><code>invalid</code></td><td><code>invalid</code></td></tr>
+<tr><td>3</td><td><code>unavailable</code></td><td><code>unavailable</code></td></tr>
+<tr><td>4</td><td><code>forbidden</code></td><td><code>forbidden</code></td></tr>
+</tbody></table></div>
 <h2 id="constants">Constants <span class="tag">[DEF-A6]</span></h2>
 <div class="wrap"><table>
 <thead><tr><th>name</th><th>type</th><th>value</th></tr></thead>
@@ -369,11 +643,30 @@
 <tr><td><code>default_initial_backoff_ms</code></td><td><code>i32</code></td><td><code>100</code></td></tr>
 <tr><td><code>default_max_backoff_ms</code></td><td><code>i32</code></td><td><code>5000</code></td></tr>
 <tr><td><code>default_write_timeout_ms</code></td><td><code>i32</code></td><td><code>5000</code></td></tr>
+<tr><td><code>default_close_timeout_ms</code></td><td><code>i32</code></td><td><code>5000</code></td></tr>
+<tr><td><code>max_message_bytes</code></td><td><code>i32</code></td><td><code>16384</code></td></tr>
+<tr><td><code>native_recheck_interval_ms</code></td><td><code>i32</code></td><td><code>30000</code></td></tr>
+<tr><td><code>history_max_records</code></td><td><code>i64</code></td><td><code>256</code></td></tr>
+<tr><td><code>history_max_bytes</code></td><td><code>i64</code></td><td><code>65536</code></td></tr>
+<tr><td><code>history_memory_max_bytes</code></td><td><code>i64</code></td><td><code>1048576</code></td></tr>
+<tr><td><code>history_max_wait_ms</code></td><td><code>i64</code></td><td><code>30000</code></td></tr>
 <tr><td><code>writer_backoff_jitter_percent</code></td><td><code>i32</code></td><td><code>20</code></td></tr>
 <tr><td><code>writer_gap_message</code></td><td><code>string</code></td><td><code>records dropped while the sink was unreachable</code></td></tr>
+<tr><td><code>level_debug</code></td><td><code>i64</code></td><td><code>-4</code></td></tr>
+<tr><td><code>level_info</code></td><td><code>i64</code></td><td><code>0</code></td></tr>
+<tr><td><code>level_warn</code></td><td><code>i64</code></td><td><code>4</code></td></tr>
+<tr><td><code>level_error</code></td><td><code>i64</code></td><td><code>8</code></td></tr>
+<tr><td><code>crash_level</code></td><td><code>i64</code></td><td><code>12</code></td></tr>
+<tr><td><code>crash_flush_timeout_ms</code></td><td><code>i32</code></td><td><code>2000</code></td></tr>
+<tr><td><code>crash_report_timeout_ms</code></td><td><code>i32</code></td><td><code>2000</code></td></tr>
 <tr><td><code>history_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user, policy_unavailable, forbidden</code></td></tr>
 <tr><td><code>history_cursor_words</code></td><td><code>list&lt;string&gt;</code></td><td><code>end</code></td></tr>
 <tr><td><code>history_identity_error_codes</code></td><td><code>list&lt;string&gt;</code></td><td><code>caller_unavailable, identity_required, wrong_user</code></td></tr>
+<tr><td><code>package_format</code></td><td><code>string</code></td><td><code>oa-debug-package</code></td></tr>
+<tr><td><code>package_format_version</code></td><td><code>i64</code></td><td><code>1</code></td></tr>
+<tr><td><code>package_chunk_bytes</code></td><td><code>i64</code></td><td><code>65536</code></td></tr>
+<tr><td><code>package_window_ms</code></td><td><code>i64</code></td><td><code>604800000</code></td></tr>
+<tr><td><code>package_kept_ms</code></td><td><code>i64</code></td><td><code>3600000</code></td></tr>
 </tbody></table></div>
 <h2 id="refusals">Refusal words <span class="tag">[DEF-R1]</span></h2>
 <div class="wrap"><table>
@@ -390,8 +683,9 @@
 <tr><td>9</td><td><code>missing_field</code></td><td><code>structure</code></td></tr>
 <tr><td>10</td><td><code>bad_schema</code></td><td><code>structure</code></td></tr>
 <tr><td>11</td><td><code>bad_enum</code></td><td><code>structure</code></td></tr>
-<tr><td>12</td><td><code>bad_value</code></td><td><code>structure</code></td></tr>
-<tr><td>13</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
+<tr><td>12</td><td><code>bad_binary</code></td><td><code>structure</code></td></tr>
+<tr><td>13</td><td><code>bad_value</code></td><td><code>structure</code></td></tr>
+<tr><td>14</td><td><code>trailing_bytes</code></td><td><code>document</code></td></tr>
 </tbody></table></div>
 
 <footer>
